@@ -9,7 +9,7 @@ package com.lougw.net;
  * </pre>
  */
 
-public interface HttpSenderCallbackInterface<T> {
+public interface ISenderCallback<T> {
 
     void onSuccess(T result);
 

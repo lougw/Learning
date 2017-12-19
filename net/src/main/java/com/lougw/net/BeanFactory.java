@@ -15,6 +15,8 @@ import java.util.Map;
  */
 
 public class BeanFactory {
+    public static final int GET = 0;
+    public static final int POST = 1;
     private static Map<String, Object> beanMap = new HashMap<String, Object>();
 
     @SuppressWarnings("unchecked")
@@ -46,7 +48,6 @@ public class BeanFactory {
 
     @SuppressWarnings("unchecked")
     private static <T> T getInterfaceInstance(Class<T> clazz, InvocationHandler handler) {
-
         return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class<?>[]{clazz}, handler);
     }
 

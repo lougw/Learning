@@ -37,22 +37,36 @@ public class HttpSenderProxy implements InvocationHandler {
         boolean isPostByJson = command.postByJson();
         boolean shouldCache = command.shouldCache();
         String cacheKey = command.cacheKey();
-//        Map<String, Object> postParams = null;
-//        if (httpMethod == Request.Method.GET || httpMethod == Request.Method.DELETE) {
-//            url = generateUrlNoEntry(url, url_br, method, args);
-//        } else {
-//            HashMap<String, Object> map = new HashMap<String, Object>();
-//            url = generateUrlHasEntry(url, url_br, method, args, map);
-//            postParams = map;
-//        }
-
+        Map<String, Object> postParams = null;
+        if (httpMethod == BeanFactory.GET) {
+            url = generateUrlNoEntry(url, url_br, method, args);
+        } else {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            url = generateUrlHasEntry(url, url_br, method, args, map);
+            postParams = map;
+        }
+        sendService(responseClz, httpMethod, url, postParams, getCallback(args), shouldCache, cacheKey);
         return null;
     }
 
 
     private void sendService(final Class responseClz, final int httpMethod, final String url, final Map<String, Object> postParams, final
-    HttpSenderCallback callBack, boolean shouldCache, boolean cacheKey) {
+    HttpSenderCallback callBack, boolean shouldCache, String cacheKey) {
 
+
+    }
+
+    public static HttpSenderCallback getCallback(Object[] args) {
+        HttpSenderCallback callback = null;
+        for (Object arg : args) {
+            if (arg instanceof HttpSenderCallback) {
+                if (callback != null) {
+                    throw new IllegalStateException("Only one DataEvent argument is allowed in Sender interface");
+                }
+                callback = (HttpSenderCallback) arg;
+            }
+        }
+        return callback;
     }
 
     private String generateUrlNoEntry(String url, String url_br, Method method, Object[] args) {

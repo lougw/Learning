@@ -1,10 +1,13 @@
 package com.lougw.net.anno;
 
+import com.lougw.net.BeanFactory;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
 
 /**
  * <pre>
@@ -25,7 +28,7 @@ public @interface HttpSenderCommand {
 
     String cacheKey();
 
-    int method();
+    int method() default BeanFactory.GET;
 
     Class responseBean();
 
