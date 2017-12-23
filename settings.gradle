@@ -1,1 +1,1 @@
-include ':app', ':net', ':imageloader', ':gliderelease', ':imageloaderrelease'
+include ':app', ':net'
