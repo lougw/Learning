@@ -3,12 +3,6 @@ package com.lougw.learning.utils;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.model.GlideUrl;
-
-import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -41,7 +35,7 @@ public class ImageLoader {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .build();
-        Glide.get(context).register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(builder));
+        //Glide.get(context).register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(builder));
     }
 
     public void display(String uri, ImageView view) {
@@ -49,8 +43,8 @@ public class ImageLoader {
     }
 
     public void display(String uri, ImageView view, final int defaultImage, boolean skip) {
-        Glide.with(UIUtils.getContext()).load(uri).asBitmap().dontAnimate().format(
-                DecodeFormat.PREFER_RGB_565).placeholder(defaultImage).error(defaultImage).skipMemoryCache(skip).into(view);
+//        Glide.with(UIUtils.getContext()).load(uri).asBitmap().dontAnimate().format(
+//                DecodeFormat.PREFER_RGB_565).placeholder(defaultImage).error(defaultImage).skipMemoryCache(skip).into(view);
     }
 }
 

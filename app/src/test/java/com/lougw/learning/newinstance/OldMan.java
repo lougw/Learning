@@ -1,7 +1,5 @@
 package com.lougw.learning.newinstance;
 
-import android.util.Log;
-
 /**
  * <pre>
  *     author : lougw

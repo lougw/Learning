@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ShimmerView">
+        <attr name="padding_vertical" format="dimension" />
+        <attr name="padding_horizontal" format="dimension" />
+        <attr name="shimmer_duration" format="integer" />
+        <attr name="shimmer_delay" format="integer" />
+        <attr name="shimmer_color" format="color" />
+    </declare-styleable>
+</resources>

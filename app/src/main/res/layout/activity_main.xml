@@ -16,6 +16,11 @@
             android:layout_height="wrap_content"
             android:text="网络" />
 
+        <Button
+            android:id="@+id/shimmer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="闪光" />
     </LinearLayout>
 
 

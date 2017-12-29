@@ -19,7 +19,8 @@
         <activity
             android:name=".net.NetActivity"
             android:label="@string/title_activity_net"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ShimmerActivity"></activity>
     </application>
 
 </manifest>
