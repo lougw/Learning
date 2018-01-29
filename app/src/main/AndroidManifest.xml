@@ -20,7 +20,8 @@
             android:name=".net.NetActivity"
             android:label="@string/title_activity_net"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ShimmerActivity"></activity>
+        <activity android:name=".ShimmerActivity" />
+        <activity android:name=".FullScreenActivity"></activity>
     </application>
 
 </manifest>

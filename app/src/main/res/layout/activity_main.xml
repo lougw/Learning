@@ -21,6 +21,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="闪光" />
+
+        <Button
+            android:id="@+id/full_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全屏测试" />
     </LinearLayout>
 
 

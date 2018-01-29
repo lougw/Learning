@@ -13,7 +13,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.net) Button btnNet;
+    @BindView(R.id.net)
+    Button btnNet;
 
 
     @Override
@@ -23,13 +24,16 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.net,R.id.shimmer})
+    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.shimmer) {
+        } else if (v.getId() == R.id.shimmer) {
             Intent intent = new Intent(this, ShimmerActivity.class);
+            startActivity(intent);
+        } else if (v.getId() == R.id.full_screen) {
+            Intent intent = new Intent(this, FullScreenActivity.class);
             startActivity(intent);
         }
 
