@@ -21,7 +21,8 @@
             android:label="@string/title_activity_net"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ShimmerActivity" />
-        <activity android:name=".FullScreenActivity"></activity>
+        <activity android:name=".FullScreenActivity" />
+        <activity android:name=".WebServerActivity"></activity>
     </application>
 
 </manifest>
