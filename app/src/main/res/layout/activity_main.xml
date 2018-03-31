@@ -37,7 +37,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="rxjava" />
-
+        <Button
+            android:id="@+id/andfix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AndFix" />
     </LinearLayout>
 
 

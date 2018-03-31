@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Log.d("Main1111111","onCreate");
+        Log.d("Main1111111", "onCreate");
     }
 
-    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server,R.id.rxjava})
+    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
@@ -42,8 +42,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (v.getId() == R.id.web_server) {
             Intent intent = new Intent(this, WebServerActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.rxjava) {
+        } else if (v.getId() == R.id.rxjava) {
             Intent intent = new Intent(this, RxActivity.class);
+            startActivity(intent);
+        } else if (v.getId() == R.id.andfix) {
+            Intent intent = new Intent(this, AndFixActivity.class);
             startActivity(intent);
         }
 
@@ -53,36 +56,36 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("Main1111111","onStart");
+        Log.d("Main1111111", "onStart");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("Main1111111","onStop");
+        Log.d("Main1111111", "onStop");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("Main1111111","onPause");
+        Log.d("Main1111111", "onPause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("Main1111111","onResume");
+        Log.d("Main1111111", "onResume");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d("Main1111111","onRestart");
+        Log.d("Main1111111", "onRestart");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("Main1111111","onDestroy");
+        Log.d("Main1111111", "onDestroy");
     }
 }
