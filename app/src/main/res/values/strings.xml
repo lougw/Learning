@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AndroidLearning</string>
     <string name="title_activity_net">NetActivity</string>
+    <string name="title_activity_ok_http">OkHttpActivity</string>
 </resources>

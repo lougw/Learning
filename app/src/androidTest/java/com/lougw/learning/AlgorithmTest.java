@@ -17,6 +17,7 @@ public class AlgorithmTest {
         SelectionSort selection = new SelectionSort();
         selection.sort1();
         selection.sort2();
+
     }
 
 
