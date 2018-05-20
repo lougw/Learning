@@ -15,6 +15,7 @@ import butterknife.OnClick;
 public class AndFixActivity extends AppCompatActivity {
     String mPatchDir;
 
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,7 @@ public class AndFixActivity extends AppCompatActivity {
     @OnClick({R.id.btn_bug, R.id.btn_fix})
     public void Click(View v) {
         if (v.getId() == R.id.btn_bug) {
-            String log ="success";
+            String log ="success1";
             Log.d("AndFixActivity", log);
 
         } else if (v.getId() == R.id.btn_fix) {
