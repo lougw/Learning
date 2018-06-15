@@ -1,6 +1,6 @@
 package com.lougw.net.anno;
 
-import com.lougw.net.BeanFactory;
+import com.lougw.net.RequestMethod;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,15 +18,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface HttpSenderCommand {
+
     String url();
 
-    String url_br();
+    String api();
 
-    boolean shouldCache() default false;
-
-    String cacheKey();
-
-    int method() default BeanFactory.GET;
+    int method() default RequestMethod.GET;
 
     Class responseBean();
 

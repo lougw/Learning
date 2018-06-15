@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.lougw.learning.R;
+import com.lougw.net.ErrorResponseModel;
+import com.lougw.net.HttpSenderCallback;
 
 public class NetActivity extends AppCompatActivity {
 
@@ -26,6 +28,17 @@ public class NetActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        RequestHelper.getSender().test(new HttpSenderCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                super.onSuccess(result);
+            }
+
+            @Override
+            public void onFail(ErrorResponseModel error) {
+                super.onFail(error);
+            }
+        }, "");
     }
 
 }
