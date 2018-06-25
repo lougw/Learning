@@ -9,7 +9,7 @@ package com.lougw.net;
  * </pre>
  */
 
-public class ErrorResponseModel {
+public class ResponseModel {
     public static final int NetworkError = 0x10;
     public static final int NoConnectionError = 0x11;
     public static final int ServerError = 0x12;

@@ -79,10 +79,12 @@ public class HttpSenderProxy implements InvocationHandler {
             @Override
             public void onFailure(Call call, final IOException e) {
                 if (callBack != null) {
+
+
                     Observable.empty().observeOn(AndroidSchedulers.mainThread()).doOnComplete(new Action() {
                         @Override
                         public void run() throws Exception {
-                            final ErrorResponseModel model = new ErrorResponseModel();
+                            final ResponseModel model = new ResponseModel();
                             model.message = e.toString();
                             callBack.onFail(model);
                         }
@@ -106,7 +108,7 @@ public class HttpSenderProxy implements InvocationHandler {
                             }).subscribe();
 
 
-                        } else {
+                        } else  {
 
                         }
                     }
@@ -115,7 +117,7 @@ public class HttpSenderProxy implements InvocationHandler {
                     Observable.empty().observeOn(AndroidSchedulers.mainThread()).doOnComplete(new Action() {
                         @Override
                         public void run() throws Exception {
-                            final ErrorResponseModel model = new ErrorResponseModel();
+                            final ResponseModel model = new ResponseModel();
                             if (response != null) {
                                 model.message = response.message();
                                 model.code = response.code();

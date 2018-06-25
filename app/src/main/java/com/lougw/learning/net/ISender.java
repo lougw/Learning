@@ -7,7 +7,7 @@ import com.lougw.net.anno.HttpSenderCommand;
 
 public interface ISender {
 
-    @HttpSenderCommand(url = "", api = "/topic/getTopicSet", responseBean = String.class)
+    @HttpSenderCommand(url = "http://featuremix-qa.live.ksmobile.net", api = "/topic/getTopicSet", responseBean = NewProfileMessage.class)
     void test(HttpSenderCallback callback,
               @HttpProtocolParam(fieldName = "test") String test);
 

@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.lougw.learning.utils.AndFixPathManager;
+import com.lougw.learning.utils.Installation;
 
 /**
  * Created by lougw on 18-3-16.
@@ -17,6 +18,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Installation.id(this);
         initAndFix();
     }
 

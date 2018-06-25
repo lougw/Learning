@@ -13,5 +13,5 @@ public interface ISenderCallback<T> {
 
     void onSuccess(T result);
 
-    void onFail(ErrorResponseModel error);
+    void onFail(ResponseModel error);
 }

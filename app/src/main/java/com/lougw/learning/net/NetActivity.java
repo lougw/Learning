@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.lougw.learning.R;
-import com.lougw.net.ErrorResponseModel;
+import com.lougw.net.ResponseModel;
 import com.lougw.net.HttpSenderCallback;
 
 public class NetActivity extends AppCompatActivity {
@@ -35,7 +35,7 @@ public class NetActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFail(ErrorResponseModel error) {
+            public void onFail(ResponseModel error) {
                 super.onFail(error);
             }
         }, "");

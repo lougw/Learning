@@ -14,7 +14,7 @@ public class HttpSenderCallback<T> implements ISenderCallback<T> {
 
     }
 
-    public void onFail(ErrorResponseModel error) {
+    public void onFail(ResponseModel error) {
 
     }
 }
