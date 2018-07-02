@@ -16,17 +16,9 @@ import java.util.Map;
 
 public class BeanFactory {
 
-    private static Map<String, Object> beanMap = new HashMap<String, Object>();
-
     @SuppressWarnings("unchecked")
     public static <T> T getInstance4Interface(Class<T> interClazz, InvocationHandler handler) {
-        String key = interClazz.getName();
-        if (beanMap.containsKey(key)) {
-            return (T) beanMap.get(key);
-        }
-        T bean = getInterfaceInstance(interClazz, handler);
-        beanMap.put(key, bean);
-        return bean;
+        return getInterfaceInstance(interClazz, handler);
     }
 
     @SuppressWarnings("unchecked")
