@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lougw.downloader.DownloadInfo;
-import com.lougw.learning.utils.adapter.BaseRecyclerAdapter;
 import com.lougw.learning.utils.adapter.BaseRecyclerViewHolder;
 
 public class DownloadHolder extends BaseRecyclerViewHolder<DownloadInfo> {

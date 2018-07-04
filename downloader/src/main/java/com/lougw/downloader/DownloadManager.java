@@ -261,7 +261,7 @@ public class DownloadManager {
             request.setDownloadStatus(DownloadStatus.STATUS_PAUSE);
             mDownloadIml.update(request);
         }
-        mDownloadThreadPool.getDownloadRequestInPool().remove(request);
+        mDownloadThreadPool.onDequeue(request);
     }
 
     /**
@@ -277,7 +277,7 @@ public class DownloadManager {
             request.setDownloadStatus(DownloadStatus.STATUS_PAUSE);
             mDownloadIml.update(request);
         }
-        mDownloadThreadPool.getDownloadRequestInPool().remove(request);
+        mDownloadThreadPool.onDequeue(request);
     }
 
     /**
@@ -294,14 +294,14 @@ public class DownloadManager {
     public void deleteTask(DownloadRequest request) {
         pause(request.getDownLoadItem());
         request.setDownloadStatus(DownloadStatus.STATUS_DELETE);
-        mDownloadThreadPool.getDownloadRequestInPool().remove(request);
+        mDownloadThreadPool.onDequeue(request);
         mDownloadIml.delete(request);
     }
 
     public void delete(DownloadRequest request) {
         pause(request.getDownLoadItem());
         request.setDownloadStatus(DownloadStatus.STATUS_DELETE);
-        mDownloadThreadPool.getDownloadRequestInPool().remove(request);
+        mDownloadThreadPool.onDequeue(request);
         mDownloadIml.delete(request);
         try {
             File file = new File(request.getDestUri());
@@ -329,7 +329,7 @@ public class DownloadManager {
     }
 
     public void deleteRequest(DownloadRequest request) {
-        mDownloadThreadPool.getDownloadRequestInPool().remove(request);
+        mDownloadThreadPool.onDequeue(request);
     }
 
     /**
@@ -354,7 +354,7 @@ public class DownloadManager {
                         File file = new File(r.getDestUri());
                         if (null == file || !file.exists()) {
                             r.setDownloadStatus(DownloadStatus.STATUS_DELETE);
-                            mDownloadThreadPool.getDownloadRequestInPool().remove(r);
+                            mDownloadThreadPool.onDequeue(r);
                             mDownloadIml.delete(r);
                             return getDownloadRequest(model, downLoadUrl);
                         }
@@ -374,7 +374,7 @@ public class DownloadManager {
                         File file = new File(rInPool.getDestUri());
                         if (null == file || !file.exists()) {
                             rInPool.setDownloadStatus(DownloadStatus.STATUS_DELETE);
-                            mDownloadThreadPool.getDownloadRequestInPool().remove(rInPool);
+                            mDownloadThreadPool.onDequeue(rInPool);
                             mDownloadIml.delete(rInPool);
                             return getDownloadRequest(model, downLoadUrl);
                         }

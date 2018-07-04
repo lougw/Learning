@@ -19,9 +19,7 @@ package com.lougw.downloader;
 import android.content.Context;
 import android.text.TextUtils;
 
-
 import com.lougw.downloader.db.DownloadDataBase;
-import com.lougw.downloader.utils.DLogUtil;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -50,6 +48,26 @@ class DownloadThreadPool {
         mDownloadRequests = new CopyOnWriteArrayList<DownloadRequest>();
     }
 
+
+    synchronized boolean enqueue(DownloadRequest request) {
+        if (request == null || TextUtils.isEmpty(request.getGuid())) {
+            return false;
+        }
+
+        if (!isInQueue(request)) {
+            request.setDownloadStatus(DownloadStatus.STATUS_IDLE);
+            mThreadPool.execute(new DownloadMonitor(request, downLoadDataBase));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void onDequeue(DownloadRequest request) {
+        mDownloadRequests.remove(request);
+
+    }
+
     private boolean isInQueue(DownloadRequest request) {
         String newGuid = request.getGuid();
         for (DownloadRequest tmpRequest : mDownloadRequests) {
@@ -61,34 +79,6 @@ class DownloadThreadPool {
             }
         }
         return false;
-    }
-
-
-    synchronized boolean enqueue(DownloadRequest request) {
-        if (request == null || TextUtils.isEmpty(request.getGuid())) {
-            return false;
-        }
-
-        if (!isInQueue(request)) {
-            DLogUtil.v(
-                    TAG,
-                    "DownloadThreadPool enqueue() request="
-                            + request.toString());
-            request.setDownloadStatus(DownloadStatus.STATUS_IDLE);
-            DownloadMonitor downloader = DownloadMonitor
-                    .create(request).setDownloadDatabase(
-                            downLoadDataBase);
-            mDownloadRequests.add(request);
-            mThreadPool.execute(downloader);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void onDequeue(DownloadRequest request) {
-        mDownloadRequests.remove(request);
-
     }
 
     public void setDownLoadDatabase(DownloadDataBase downLoadDataBase) {

@@ -15,7 +15,6 @@ import java.io.File;
 public class DownloadMonitor implements Runnable {
     private static final String TAG = DownloadMonitor.class.getSimpleName();
     private static final long REFRESH_TIME = 1000;
-    private static DownloadMonitor httpDownloader;
     private DownloadThread thread;
     private DownloadStatus status;
     private volatile long downloadSize;
@@ -24,34 +23,23 @@ public class DownloadMonitor implements Runnable {
     private DownloadRequest mDownloadRequest;
     private DownloadDataBase downloadDataBase;
 
-    private DownloadMonitor(DownloadRequest request) {
-        mDownloadRequest = request;
+    public DownloadMonitor(DownloadRequest request, DownloadDataBase downloadDataBase) {
+        this.mDownloadRequest = request;
+        this.downloadDataBase = downloadDataBase;
         downloadSize = mDownloadRequest.getDownloadSize();
         mSrcUri = request.getSrcUri();
     }
 
-    public static DownloadMonitor create(DownloadRequest request) {
-        httpDownloader = new DownloadMonitor(request);
-        return httpDownloader;
-    }
-
-    public DownloadMonitor setDownloadDatabase(DownloadDataBase downloadDataBase) {
-        this.downloadDataBase = downloadDataBase;
-        return httpDownloader;
-    }
-
     public void doDownload() {
         DLogUtil.i(TAG, getStatus().toString() + "----do download---"
-                + mDownloadRequest.getDownLoadItem().getGuid());
+                + mDownloadRequest.getGuid());
         if (getStatus() == DownloadStatus.STATUS_IDLE) {
             mDownloadRequest.setDownloadStatus(DownloadStatus.STATUS_START);
-            // LogUtil.e("CAQ", "doDownload  " + mDownloadRequest.getSrcUri() +
-            // " start");
             updateRequest(mDownloadRequest);
             thread = new DownloadThread(this, mDownloadRequest, 0);
             thread.start();
             long lastDownloadSize = 0;
-            long downloadLength = 0;
+            long downloadLength;
             while (true) {
                 sleep(REFRESH_TIME);
                 status = getStatus();
@@ -80,10 +68,6 @@ public class DownloadMonitor implements Runnable {
                     }
                     mDownloadRequest.setDownloadStatus(status);
                     downloadDataBase.progress(mDownloadRequest);
-                    if (mDownloadRequest.getTotalSize() > 0) {
-                        Log.d(TAG, "progress :" + mDownloadRequest.getDownloadSize() / mDownloadRequest.getTotalSize());
-                    }
-
                 }
                 lastDownloadSize = downloadSize;
                 checkThread();

@@ -41,7 +41,7 @@ public class DownloadActivity extends AppCompatActivity implements BaseRecyclerA
         };
         mBaseAdapter.setNormalItem(false);
         mRecyclerView.setAdapter(mBaseAdapter);
-        DownloadInfo info = new DownloadInfo.Builder().Url("https://download.virtualbox.org/virtualbox/5.2.14/virtualbox-5.2_5.2.14-123301~Ubuntu~bionic_amd64.deb").FileName("aaa").build();
+        DownloadInfo info = new DownloadInfo.Builder().Url("https://download.virtualbox.org/virtualbox/5.2.14/virtualbox-5.2_5.2.14-123301~Ubuntu~bionic_amd64.deb").fileName("aaa").build();
         urls.add(info);
         mBaseAdapter.replaceAll(urls);
     }
