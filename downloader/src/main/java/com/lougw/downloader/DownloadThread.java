@@ -1,28 +1,11 @@
-/*******************************************************************************
- * Copyright 2011-2013
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *******************************************************************************/
-
 package com.lougw.downloader;
 
-import android.os.StatFs;
 import android.text.TextUtils;
 
 import com.lougw.downloader.utils.DLogUtil;
+import com.lougw.downloader.utils.DToastUtil;
 import com.lougw.downloader.utils.DownloadUtils;
 import com.lougw.downloader.utils.NetWorkUtil;
-import com.lougw.downloader.utils.DToastUtil;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -52,25 +35,6 @@ import javax.net.ssl.SSLPeerUnverifiedException;
  */
 @SuppressWarnings("deprecation")
 public class DownloadThread extends Thread {
-    /**
-     * the max amount of space allowed to be taken up by the downloads data dir
-     */
-    private static final long sMaxdownloadDataDirSize =
-            50 * 1024 * 1024;
-    // private static final long sMaxdownloadDataDirSize =
-    // Resources.getSystem().getInteger(R.integer.config_downloadDataDirSize) *
-    // 1024 * 1024;
-    /**
-     * threshold (in bytes) beyond which the low space warning kicks in and
-     * attempt is made to purge some downloaded files to make space
-     */
-    public static final long sDownloadDataDirLowSpaceThreshold =
-            5 * sMaxdownloadDataDirSize;
-    // private static final long sDownloadDataDirLowSpaceThreshold =
-    // Resources.getSystem().getInteger(
-    // R.integer.config_downloadDataDirLowSpaceThreshold)
-    // * sMaxdownloadDataDirSize / 100;
-
     /* 下载地址 */
     private String downUrl;
     private String destPath;
@@ -112,25 +76,16 @@ public class DownloadThread extends Thread {
                           int tid) {
         this.request = request;
         this.downUrl = request.getSrcUri();
-        location = downUrl;
+        this.location = downUrl;
         this.downloader = downloader;
         this.threadId = tid;
         this.downLength = request.getDownloadSize();
-        destPath = request.getDestUri();
+        this.destPath = request.getDestUri();
     }
 
     @Override
     public void run() {
         doDownload();
-    }
-
-    private long getAvailableBytesInFileSystemAtGivenRoot(File root) {
-        StatFs stat = new StatFs(root.getPath());
-        // put a bit of margin (in case creating the file grows the system by a
-        // few blocks)
-        long availableBlocks = (long) stat.getAvailableBlocks() - 4;
-        long size = stat.getBlockSize() * availableBlocks;
-        return size;
     }
 
     private void showToast() {
@@ -139,10 +94,6 @@ public class DownloadThread extends Thread {
 
     private void doDownload() {
         boolean lowMemToastDisplayed = false;
-        DLogUtil.e("@" + downloader.hashCode() + " THREAD #" + threadId,
-                "THREAD #" + threadId + "正在执行...");
-
-        // LogUtil.log( "doDownload  " + request.getSrcUri() + " downloading");
 
         // 如果当前线程没有结束并且下载任务也没有被取消则下载
         if (!downloader.isCancel()) {
@@ -182,7 +133,7 @@ public class DownloadThread extends Thread {
                 byte[] buffer = new byte[8192];
                 threadfile = new RandomAccessFile(file, "rwd");
                 threadfile.seek(startPos);
-                int length = -1;
+                int length;
                 while ((length = inStream.read(buffer)) != -1) {
                     if (DownloadUtils.isMemoryLow()) {
                         if (!lowMemToastDisplayed) {
@@ -195,18 +146,7 @@ public class DownloadThread extends Thread {
                         break;
                     }
 
-                    if (NetWorkUtil.hasNetwork(Downloader.getInstance().getContext())) {
-
-                        if (SettingUtil.getDownloadInWifi(Downloader.getInstance().getContext())
-                                && !NetWorkUtil.isWifiConnected(Downloader.getInstance().getContext())
-                                && NetWorkUtil.isMobileConnected(Downloader.getInstance().getContext())
-                                && !request.getDownLoadItem().isMonetCanBeDownloaded()) {
-                            stopDownload();
-                            DLogUtil.log("doDownload  is hasNetwork");
-                            break;
-                        }
-
-                    } else {
+                    if (!NetWorkUtil.hasNetwork(Downloader.getInstance().getContext())) {
                         DToastUtil.showMessage(R.string.download_no_network);
                         downloader.setStatus(DownloadStatus.STATUS_PAUSE);
                         downloader.setReDownload();

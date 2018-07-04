@@ -132,14 +132,14 @@ public class DownloadManager {
             throw new IllegalStateException(
                     "Can not create singlton object Duplicate");
         }
-        mDownloadThreadPool = new DownloadThreadPool(maxThread, context);
+        mDownloadThreadPool = new DownloadThreadPool(context, maxThread);
         mDownloadIml = new DownloadDataBaseIml(context);
         mDownloadThreadPool.setDownLoadDatabase(mDownloadIml);
         setDownLoadListener(new DownloadCallBack(context));
     }
 
     private DownloadManager(Builder builder) {
-        mDownloadThreadPool = new DownloadThreadPool(Config.POOL_SIZE, context);
+        mDownloadThreadPool = new DownloadThreadPool(context, Config.POOL_SIZE);
         mDownloadIml = new DownloadDataBaseIml(builder.mContext);
         mDownloadThreadPool.setDownLoadDatabase(mDownloadIml);
         setDownLoadListener(new DownloadCallBack(builder.mContext));

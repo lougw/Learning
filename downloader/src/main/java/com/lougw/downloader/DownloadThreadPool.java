@@ -17,6 +17,7 @@
 package com.lougw.downloader;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 
 import com.lougw.downloader.db.DownloadDataBase;
@@ -27,48 +28,47 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * 下载线程管理
+ */
 class DownloadThreadPool {
     private final static String TAG = DownloadThreadPool.class.getSimpleName();
-    private int mCorePoolSize = 2;
+    private int mPoolSize = 2;
     private ExecutorService mThreadPool;
     private Context mContext;
     private DownloadDataBase downLoadDataBase;
     private CopyOnWriteArrayList<DownloadRequest> mDownloadRequests;
 
     DownloadThreadPool(Context context) {
-        this(2, context);
+        this(context, 2);
     }
 
-    DownloadThreadPool(int corePoolSize, Context context) {
-        mCorePoolSize = corePoolSize;
-        mThreadPool = Executors.newFixedThreadPool(mCorePoolSize);
+    DownloadThreadPool(Context context, int poolSize) {
+        mPoolSize = poolSize;
+        mThreadPool = Executors.newFixedThreadPool(mPoolSize);
         mContext = context;
         mDownloadRequests = new CopyOnWriteArrayList<DownloadRequest>();
     }
 
     private boolean isInQueue(DownloadRequest request) {
-        boolean result = false;
-        if (null == request)
-            return result;
-        String srcUri = null;
-        String srcUriNew = request.getSrcUri();
-        if (null == srcUriNew)
-            return result;
-        DownloadRequest tmpRequest = null;
-        for (int i = 0; i < mDownloadRequests.size(); i++) {
-            tmpRequest = mDownloadRequests.get(i);
-            if (null == tmpRequest)
+        String newGuid = request.getGuid();
+        for (DownloadRequest tmpRequest : mDownloadRequests) {
+            if (null == tmpRequest) {
                 continue;
-            srcUri = tmpRequest.getSrcUri();
-            if (null != srcUri && srcUri.equalsIgnoreCase(srcUriNew)) {
-                result = true;
-                break;
+            }
+            if (newGuid.equalsIgnoreCase(tmpRequest.getGuid())) {
+                return true;
             }
         }
-        return result;
+        return false;
     }
 
+
     synchronized boolean enqueue(DownloadRequest request) {
+        if (request == null || TextUtils.isEmpty(request.getGuid())) {
+            return false;
+        }
+
         if (!isInQueue(request)) {
             DLogUtil.v(
                     TAG,
@@ -76,7 +76,7 @@ class DownloadThreadPool {
                             + request.toString());
             request.setDownloadStatus(DownloadStatus.STATUS_IDLE);
             DownloadMonitor downloader = DownloadMonitor
-                    .create(mContext, request).setDownloadDatabase(
+                    .create(request).setDownloadDatabase(
                             downLoadDataBase);
             mDownloadRequests.add(request);
             mThreadPool.execute(downloader);
@@ -84,6 +84,11 @@ class DownloadThreadPool {
         } else {
             return false;
         }
+    }
+
+    public void onDequeue(DownloadRequest request) {
+        mDownloadRequests.remove(request);
+
     }
 
     public void setDownLoadDatabase(DownloadDataBase downLoadDataBase) {

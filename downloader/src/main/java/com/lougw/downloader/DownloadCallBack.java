@@ -1,4 +1,3 @@
-
 package com.lougw.downloader;
 
 import android.content.Context;

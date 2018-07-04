@@ -1,22 +1,5 @@
-/*******************************************************************************
- * Copyright 2011-2013
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *******************************************************************************/
-
 package com.lougw.downloader;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.lougw.downloader.db.DownloadDataBase;
@@ -31,6 +14,7 @@ import java.io.File;
  */
 public class DownloadMonitor implements Runnable {
     private static final String TAG = DownloadMonitor.class.getSimpleName();
+    private static final long REFRESH_TIME = 1000;
     private static DownloadMonitor httpDownloader;
     private DownloadThread thread;
     private DownloadStatus status;
@@ -40,14 +24,14 @@ public class DownloadMonitor implements Runnable {
     private DownloadRequest mDownloadRequest;
     private DownloadDataBase downloadDataBase;
 
-    private DownloadMonitor(Context context, DownloadRequest request) {
+    private DownloadMonitor(DownloadRequest request) {
         mDownloadRequest = request;
         downloadSize = mDownloadRequest.getDownloadSize();
         mSrcUri = request.getSrcUri();
     }
 
-    public static DownloadMonitor create(Context context, DownloadRequest request) {
-        httpDownloader = new DownloadMonitor(context, request);
+    public static DownloadMonitor create( DownloadRequest request) {
+        httpDownloader = new DownloadMonitor(request);
         return httpDownloader;
     }
 
@@ -69,7 +53,7 @@ public class DownloadMonitor implements Runnable {
             long lastDownloadSize = 0;
             long downloadLength = 0;
             while (true) {
-                sleep(1000);
+                sleep(REFRESH_TIME);
                 status = getStatus();
                 DLogUtil.i(TAG, status.toString() + "----request name---"
                         + mDownloadRequest.getDownLoadItem().getGuid());
@@ -96,8 +80,8 @@ public class DownloadMonitor implements Runnable {
                     }
                     mDownloadRequest.setDownloadStatus(status);
                     downloadDataBase.progress(mDownloadRequest);
-                    if(mDownloadRequest.getTotalSize()>0){
-                        Log.d(TAG,"progress :"+mDownloadRequest.getDownloadSize() /mDownloadRequest.getTotalSize());
+                    if (mDownloadRequest.getTotalSize() > 0) {
+                        Log.d(TAG, "progress :" + mDownloadRequest.getDownloadSize() / mDownloadRequest.getTotalSize());
                     }
 
                 }
