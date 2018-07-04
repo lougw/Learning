@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 
+import com.lougw.downloader.Downloader;
 import com.lougw.learning.utils.AndFixPathManager;
 import com.lougw.learning.utils.Installation;
 
@@ -20,6 +21,7 @@ public class MyApplication extends Application {
         super.onCreate();
         Installation.id(this);
         initAndFix();
+        Downloader.getInstance().Init(this);
     }
 
     @Override

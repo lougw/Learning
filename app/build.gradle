@@ -70,8 +70,8 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     compile 'com.alipay.euler:andfix:0.5.0@aar'
     compile 'com.android.support:support-v4:25.3.1'
-
-    compile ("com.google.android.gms:play-services-gcm:10.0.1") {
+    compile('com.google.android.gms:play-services-gcm:10.0.1') {
         force = true;
     }
+    compile project(':Downloader')
 }

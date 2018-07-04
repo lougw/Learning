@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Main1111111", "onCreate");
     }
 
-    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid})
+    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }else if (v.getId() == R.id.guid) {
             Intent intent = new Intent(this, GUIDActivity.class);
+            startActivity(intent);
+        }else if (v.getId() == R.id.download) {
+            Intent intent = new Intent(this, DownloadActivity.class);
             startActivity(intent);
         }
 

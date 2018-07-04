@@ -2,4 +2,5 @@
 <resources>
     <item name="fullscreen_id" type="id" />
     <item name="tiny_id" type="id" />
+    <item name="base_adapter_position" type="id" />
 </resources>
