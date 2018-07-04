@@ -45,13 +45,13 @@ public class DownloadThread extends Thread {
     private int threadId = -1;
 
     /* 已经下载的长度 */
-    private long downLength;
+    private volatile long downLength;
 
     /* 下载线程是否完成了应该下载的文件 长度 */
     private boolean finish = false;
 
     /* 下载线程状态标记 */
-    private Status state = Status.RUNING;
+    private Status state = Status.RUNNING;
 
     /**
      * @see
@@ -67,6 +67,10 @@ public class DownloadThread extends Thread {
     private boolean isError = false;
     private String location;
     private HttpClient httpClient;
+    /**
+     * 下载失败错误码
+     */
+    private int mErrorCode = ErrorCode.NORMAL;
 
     /**
      * @param downloader <a>HttpDownloader</a>
@@ -97,7 +101,7 @@ public class DownloadThread extends Thread {
 
         // 如果当前线程没有结束并且下载任务也没有被取消则下载
         if (!downloader.isCancel()) {
-            RandomAccessFile threadfile = null;
+            RandomAccessFile threadFile = null;
             InputStream inStream = null;
             try {
                 startPos += downLength;
@@ -125,26 +129,15 @@ public class DownloadThread extends Thread {
                 // 设置线程下载的开始位置，应该为初始下载位置startPos + 已下载长度downLength
                 HttpEntity entry = response.getEntity();
                 long contentLength = entry.getContentLength();
-                DLogUtil.e("THREAD", "" + contentLength);
-                if (downloader.getDownloadRequest().getTotalSize() == 0) {
-                    downloader.getDownloadRequest().setTotalSize(contentLength);
+                if (request.getTotalSize() == 0) {
+                    request.setTotalSize(contentLength);
                 }
                 inStream = entry.getContent();
                 byte[] buffer = new byte[8192];
-                threadfile = new RandomAccessFile(file, "rwd");
-                threadfile.seek(startPos);
+                threadFile = new RandomAccessFile(file, "rwd");
+                threadFile.seek(startPos);
                 int length;
                 while ((length = inStream.read(buffer)) != -1) {
-                    if (DownloadUtils.isMemoryLow()) {
-                        if (!lowMemToastDisplayed) {
-                            showToast();
-                            lowMemToastDisplayed = true;
-                        }
-                        downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                        stopDownload();
-                        // LogUtil.log( "doDownload  isMemoryLow");
-                        break;
-                    }
 
                     if (!NetWorkUtil.hasNetwork(Downloader.getInstance().getContext())) {
                         DToastUtil.showMessage(R.string.download_no_network);
@@ -163,7 +156,7 @@ public class DownloadThread extends Thread {
                         stopDownload();
                         break;
                     }
-                    threadfile.write(buffer, 0, length);
+                    threadFile.write(buffer, 0, length);
                     downLength += length;
                     downloader.append(length);
                 }
@@ -171,11 +164,9 @@ public class DownloadThread extends Thread {
                 e.printStackTrace();
                 downloader.setStatus(DownloadStatus.STATUS_ERROR);
                 isError = true;
-                // LogUtil.log( "doDownload:  " + " ProtocolException");
             } catch (FileNotFoundException e) {
                 downloader.setStatus(DownloadStatus.STATUS_ERROR);
                 isError = true;
-                // LogUtil.log( "doDownload:  " + " FileNotFoundException");
             } catch (IOException e) {
                 if (e instanceof SocketException || e instanceof UnknownHostException
                         || e instanceof SocketTimeoutException
@@ -196,7 +187,6 @@ public class DownloadThread extends Thread {
                         isError = true;
                     }
                 }
-                // LogUtil.log( "doDownload:  " + " IOException");
 
             } catch (Exception e) {
                 if (DownloadUtils.isMemoryLow()) {
@@ -210,8 +200,8 @@ public class DownloadThread extends Thread {
                 DLogUtil.log("doDownload:  " + " Exception" + e.toString());
             } finally {
                 try {
-                    if (threadfile != null) {
-                        threadfile.close();
+                    if (threadFile != null) {
+                        threadFile.close();
                     }
                     if (inStream != null) {
                         inStream.close();
@@ -233,27 +223,12 @@ public class DownloadThread extends Thread {
                             downloader.setStatus(DownloadStatus.STATUS_ERROR);
                         }
                         e.printStackTrace();
-                        // LogUtil.log( "doDownload:  " + " finally Exception");
                     }
                 }
 
                 if (downLength >= downloader.getDownloadRequest().getTotalSize()) {
-                    DLogUtil.e("@" + downloader.hashCode() + " THREAD #"
-                            + threadId, "THREAD #" + threadId + " 下载完成 "
-                            + "downLength" + downLength);
                     finish = true;
-                    if (downLength == 0 && DownloadUtils.isMemoryLow()) {
-                        if (!lowMemToastDisplayed) {
-                            showToast();
-                            lowMemToastDisplayed = true;
-                        }
-                        downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                    }
                 } else {
-                    DLogUtil.e("@" + downloader.hashCode() + " THREAD #"
-                            + threadId, "THREAD #" + threadId
-                            + " 没有下载完成   ---- 继续下载" + "downLength" + downLength);
-                    // doDownload();
                     if (DownloadUtils.isMemoryLow()) {
                         if (!lowMemToastDisplayed) {
                             showToast();
@@ -288,8 +263,6 @@ public class DownloadThread extends Thread {
             if (response.getEntity() != null && response.getEntity().getContentType() != null &&
                     response.getEntity().getContentType().getValue() != null) {
                 String value = response.getEntity().getContentType().getValue();
-                // String value =
-                // response.getEntity().getContentType().getValue();
                 if (value.contains("text/xml") || value.contains("text/html")) {
                     return null;
                 }
@@ -333,15 +306,6 @@ public class DownloadThread extends Thread {
     }
 
     /**
-     * 已经下载的内容大小
-     *
-     * @return 如果返回值为-1,代表下载失败
-     */
-    public long getDownLength() {
-        return downLength;
-    }
-
-    /**
      * 下载线程是否发生错误
      *
      * @return
@@ -355,7 +319,7 @@ public class DownloadThread extends Thread {
     }
 
     public enum Status {
-        RUNING, FINISH
+        RUNNING, FINISH
     }
 
 }
