@@ -73,5 +73,5 @@ dependencies {
     compile('com.google.android.gms:play-services-gcm:10.0.1') {
         force = true;
     }
-    compile project(':Downloader')
+    compile project(':downloader')
 }

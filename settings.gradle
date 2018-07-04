@@ -1,1 +1,1 @@
-include ':app', ':net', ':jettyserver',':Downloader'
+include ':app', ':net', ':jettyserver',':downloader'
