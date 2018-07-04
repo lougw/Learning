@@ -395,7 +395,7 @@ public class DownloadManager {
 
     public DownloadRequest getDownloadRequest(BaseModel model, String downLoadUrl) {
         String desPath = DownloadUtils.getFileName(model);
-        DownLoadItem downLoadItem = new DownLoadItem(model.getGuid(), model.getSrcType(), model.getDownLoadUrl(), model.getRemarks(), model.isMonetCanBeDownloaded(), model.isRecoveryNetworkAutoDownload());
+        DownloadInfo downLoadItem = new DownloadInfo(model.getGuid(), model.getSrcType(), model.getDownLoadUrl(), model.getRemarks(), model.isMonetCanBeDownloaded(), model.isRecoveryNetworkAutoDownload());
         if (DownloadUtils.isFileExists(desPath)) {
             DownloadRequest request = new DownloadRequest(downLoadUrl, desPath,
                     downLoadItem);

@@ -35,5 +35,5 @@ public enum DownloadStatus {
     /**
      * 下载任务被删除
      */
-    STATUS_DELETE;
+    STATUS_DELETE
 }

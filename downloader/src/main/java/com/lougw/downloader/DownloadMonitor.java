@@ -30,7 +30,7 @@ public class DownloadMonitor implements Runnable {
         mSrcUri = request.getSrcUri();
     }
 
-    public static DownloadMonitor create( DownloadRequest request) {
+    public static DownloadMonitor create(DownloadRequest request) {
         httpDownloader = new DownloadMonitor(request);
         return httpDownloader;
     }

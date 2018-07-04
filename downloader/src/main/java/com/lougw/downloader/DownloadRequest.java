@@ -22,7 +22,7 @@ public class DownloadRequest implements Serializable {
     private long mDownloadSize = 0;
     private long mSpeed = 0;
     private DownloadStatus mDownloadStatus = DownloadStatus.STATUS_IDLE;
-    private DownLoadItem downLoadItem;
+    private DownloadInfo downLoadItem;
     private String mGuid;
 
     /**
@@ -31,7 +31,7 @@ public class DownloadRequest implements Serializable {
      * @param srcUri  下载地址
      * @param destUrl 存储路径
      */
-    public DownloadRequest(String srcUri, String destUrl, DownLoadItem item) {
+    public DownloadRequest(String srcUri, String destUrl, DownloadInfo item) {
         mSrcUri = srcUri;
         mDestUri = destUrl;
         downLoadItem = item;
@@ -85,8 +85,8 @@ public class DownloadRequest implements Serializable {
         boolean reservedField05 = cursor.getInt(cursor
                 .getColumnIndex(DownloadColumns.RESERVED_FIELD_05)) == 0 ? false
                 : true;
-        downLoadItem = new DownLoadItem(mGuid, mSrcType, createTime, updateTime,mSrcUri, remarks, isMobileCanDownload, recoveryNetworkAutoDownload);
-downLoadItem.setFileName(fileName);
+        downLoadItem = new DownloadInfo(mGuid, mSrcType, createTime, updateTime, mSrcUri, remarks, isMobileCanDownload, recoveryNetworkAutoDownload);
+        downLoadItem.setFileName(fileName);
     }
 
     /**
@@ -186,7 +186,7 @@ downLoadItem.setFileName(fileName);
     }
 
 
-    synchronized public DownLoadItem getDownLoadItem() {
+    synchronized public DownloadInfo getDownLoadItem() {
         return downLoadItem;
     }
 

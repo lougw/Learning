@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 
-
 public class DownloadCallBack implements DownloadListener {
 
     public static final String DOWNLOAD_REQUEST = "DOWNLOAD_REQUEST";

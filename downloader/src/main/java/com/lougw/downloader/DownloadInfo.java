@@ -2,54 +2,89 @@ package com.lougw.downloader;
 
 import com.lougw.downloader.utils.MD5Util;
 
-public class DownloadInfo extends BaseModel {
+import java.io.Serializable;
 
-    public String Url;
+/**
+ * @Title:下载的内容
+ */
+public class DownloadInfo extends BaseModel implements Serializable {
+    private static final long serialVersionUID = 1L;
+    public String guid;
+    private long srcType;
+    public long createTime;
+    public long updateTime;
+    private String downLoadUrl;
+    public String fileName;
+    public String remarks;
+    private boolean monetCanBeDownloaded;
+    private boolean recoveryNetworkAutoDownload;
+    private String reservedField01;
+    private String reservedField02;
+    private String reservedField03;
+    private long reservedField04;
+    private boolean reservedField05;
 
-    public String Guid;
+    public DownloadInfo() {
 
-    public String FileName;
+    }
 
-    public long SrcType;
+    public DownloadInfo(String guid, long srcType, long createTime, long updateTime, String downLoadUrl, String remarks, boolean monetCanBeDownloaded, boolean recoveryNetworkAutoDownload) {
+        this.guid = guid;
+        this.srcType = srcType;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.downLoadUrl = downLoadUrl;
+        this.remarks = remarks;
+        this.monetCanBeDownloaded = monetCanBeDownloaded;
+        this.recoveryNetworkAutoDownload = recoveryNetworkAutoDownload;
+    }
 
-    public long CreateTime;
-
-    public long UpdateTime;
-
-    public String Remarks;
+    public DownloadInfo(String guid, long srcType, String downLoadUrl, String remarks, boolean monetCanBeDownloaded, boolean recoveryNetworkAutoDownload) {
+        this.guid = guid;
+        this.srcType = srcType;
+        this.downLoadUrl = downLoadUrl;
+        this.remarks = remarks;
+        this.monetCanBeDownloaded = monetCanBeDownloaded;
+        this.recoveryNetworkAutoDownload = recoveryNetworkAutoDownload;
+    }
 
     public DownloadInfo(Builder builder) {
-        Url = builder.Url;
-        Guid = builder.Guid;
-        FileName = builder.FileName;
+        this.guid = builder.guid;
+        this.downLoadUrl = builder.downLoadUrl;
+        this.fileName = builder.fileName;
+        this.remarks = builder.remarks;
     }
 
     public static class Builder {
-        private String Url;
-
-        private String Guid;
-
-        private String FileName;
-
-        private long SrcType;
-
-        private long CreateTime;
-
-        private long UpdateTime;
-
-        private String Remarks;
+        private String guid;
+        private long srcType;
+        private String downLoadUrl;
+        private String fileName;
+        private String remarks;
+        private boolean monetCanBeDownloaded;
+        private boolean recoveryNetworkAutoDownload;
+        private String reservedField01;
+        private String reservedField02;
+        private String reservedField03;
+        private long reservedField04;
+        private boolean reservedField05;
 
         public Builder() {
         }
 
         public Builder Url(String Url) {
-            this.Url = Url;
-            Guid = MD5Util.encodeMD5(Url);
+            this.downLoadUrl = Url;
+            guid = MD5Util.encodeMD5(Url);
             return this;
         }
 
-        public Builder FileName(String fileName) {
-            this.FileName = fileName;
+        public Builder fileName(String fileName) {
+            this.fileName = fileName;
+            return this;
+        }
+
+        public Builder remarks(String fileName) {
+            this.fileName = fileName;
             return this;
         }
 
@@ -58,50 +93,116 @@ public class DownloadInfo extends BaseModel {
         }
     }
 
-    @Override
-    public String getDownLoadUrl() {
-        return Url;
-    }
 
-    @Override
     public String getGuid() {
-        return Guid;
+        return guid;
     }
 
-    @Override
-    public String getFileName() {
-        return FileName;
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
-    @Override
     public long getSrcType() {
-        return 0;
+        return srcType;
     }
 
-    @Override
+    public void setSrcType(long srcType) {
+        this.srcType = srcType;
+    }
+
     public long getCreateTime() {
-        return 0;
+        return createTime;
     }
 
-    @Override
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
     public long getUpdateTime() {
-        return 0;
+        return updateTime;
     }
 
-    @Override
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
+    }
+
     public String getRemarks() {
-        return Remarks;
+        return remarks;
     }
 
-    @Override
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     public boolean isMonetCanBeDownloaded() {
-        return false;
+        return monetCanBeDownloaded;
     }
 
-    @Override
+    public void setMonetCanBeDownloaded(boolean monetCanBeDownloaded) {
+        this.monetCanBeDownloaded = monetCanBeDownloaded;
+    }
+
     public boolean isRecoveryNetworkAutoDownload() {
-        return false;
+        return recoveryNetworkAutoDownload;
     }
 
+    public void setRecoveryNetworkAutoDownload(boolean recoveryNetworkAutoDownload) {
+        this.recoveryNetworkAutoDownload = recoveryNetworkAutoDownload;
+    }
 
+    public String getReservedField01() {
+        return reservedField01;
+    }
+
+    public void setReservedField01(String reservedField01) {
+        this.reservedField01 = reservedField01;
+    }
+
+    public String getReservedField02() {
+        return reservedField02;
+    }
+
+    public void setReservedField02(String reservedField02) {
+        this.reservedField02 = reservedField02;
+    }
+
+    public String getReservedField03() {
+        return reservedField03;
+    }
+
+    public void setReservedField03(String reservedField03) {
+        this.reservedField03 = reservedField03;
+    }
+
+    public long getReservedField04() {
+        return reservedField04;
+    }
+
+    public void setReservedField04(long reservedField04) {
+        this.reservedField04 = reservedField04;
+    }
+
+    public boolean isReservedField05() {
+        return reservedField05;
+    }
+
+    public void setReservedField05(boolean reservedField05) {
+        this.reservedField05 = reservedField05;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getDownLoadUrl() {
+        return downLoadUrl;
+    }
+
+    public void setDownLoadUrl(String downLoadUrl) {
+        this.downLoadUrl = downLoadUrl;
+    }
 }

@@ -5,10 +5,8 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
 
-
 import com.lougw.downloader.BaseModel;
-import com.lougw.downloader.DownLoadType;
-import com.lougw.downloader.DownloadThread;
+import com.lougw.downloader.DownloadType;
 import com.lougw.downloader.Downloader;
 
 import java.io.File;
@@ -21,27 +19,19 @@ public class DownloadUtils {
     public static final String VIDEOS_CACHE_DIRECTORY = "/Downloader/Videos/";
     public static final String SUFFIX = ".temp";
 
+    private static final long sMaxdownloadDataDirSize =
+            50 * 1024 * 1024;
+    public static final long sDownloadDataDirLowSpaceThreshold =
+            5 * sMaxdownloadDataDirSize;
+
+
     public static boolean isMemoryLow() {
-        // is there enough space in the file system of the given param 'root'.
         long bytesAvailable = getAvailableBytesInFileSystemAtGivenRoot(new File(
-                getDownLoadFileHome(DownLoadType.OTHER)));
-        if (bytesAvailable < DownloadThread.sDownloadDataDirLowSpaceThreshold) {
-            /*
-             * filesystem's available space is below threshold for low space
-             * warning. threshold typically is 10% of download data dir space
-             * quota. try to cleanup and see if the low space situation goes
-             * away.
-             */
+                getDownLoadFileHome(DownloadType.OTHER)));
+        if (bytesAvailable < sDownloadDataDirLowSpaceThreshold) {
             bytesAvailable = getAvailableBytesInFileSystemAtGivenRoot(new File(
-                    getDownLoadFileHome(DownLoadType.OTHER)));
-            if (bytesAvailable < DownloadThread.sDownloadDataDirLowSpaceThreshold) {
-                /*
-                 * available space is still below the threshold limit. If this
-                 * is system cache dir, print a warning. otherwise, don't allow
-                 * downloading until more space is available because
-                 * downloadmanager shouldn't end up taking those last few MB of
-                 * space left on the filesystem.
-                 */
+                    getDownLoadFileHome(DownloadType.OTHER)));
+            if (bytesAvailable < sDownloadDataDirLowSpaceThreshold) {
                 return true;
             }
         }
@@ -83,9 +73,9 @@ public class DownloadUtils {
     public static String getDownLoadFileHome(int fileType) {
         String path = null;
         try {
-            if (DownLoadType.VIDEOS == fileType) {
+            if (DownloadType.VIDEOS == fileType) {
                 path = getPath(VIDEOS_CACHE_DIRECTORY);
-            } else if (DownLoadType.OTHER == fileType) {
+            } else if (DownloadType.OTHER == fileType) {
                 path = getPath(CACHE_DIRECTORY_ROOT);
             }
             File file = new File(path);
@@ -105,7 +95,7 @@ public class DownloadUtils {
      * @Description:根据下载的数据来获取本地存储文件名（全路径）
      */
     public static String getFileName(BaseModel model) {
-        return getDownLoadFileHome(DownLoadType.VIDEOS) + model.getFileName();
+        return getDownLoadFileHome(DownloadType.VIDEOS) + model.getFileName();
     }
 
     public static String getFileName(int type, String fileName) {
