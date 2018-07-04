@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lougw.downloader.DownloadInfo;
+import com.lougw.downloader.Downloader;
 import com.lougw.learning.utils.adapter.BaseRecyclerAdapter;
 import com.lougw.learning.utils.adapter.BaseRecyclerViewHolder;
 
@@ -29,9 +30,14 @@ public class DownloadActivity extends AppCompatActivity implements BaseRecyclerA
 
             @Override
             public BaseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
                 return new DownloadHolder(mLayoutInflater.inflate(R.layout.item_download_view, parent, false), mContext);
             }
 
+            @Override
+            public int getItemViewType(int position) {
+                return super.getItemViewType(position);
+            }
         };
         mBaseAdapter.setNormalItem(false);
         mRecyclerView.setAdapter(mBaseAdapter);

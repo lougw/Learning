@@ -1,10 +1,15 @@
-package com.lougw.downloader;
+package com.lougw.downloader.utils;
 
 import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
 
+
+import com.lougw.downloader.BaseModel;
+import com.lougw.downloader.DownLoadType;
+import com.lougw.downloader.DownloadThread;
+import com.lougw.downloader.Downloader;
 
 import java.io.File;
 

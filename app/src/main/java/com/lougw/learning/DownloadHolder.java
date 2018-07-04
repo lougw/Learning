@@ -21,6 +21,7 @@ public class DownloadHolder extends BaseRecyclerViewHolder<DownloadInfo> {
 
     @Override
     public void refreshView(int position) {
+        DownloadInfo info=  getData();
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

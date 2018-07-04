@@ -4,7 +4,6 @@ package com.lougw.downloader;
 import android.content.Context;
 import android.content.Intent;
 
-import com.lougw.downloader.service.DownloadService;
 
 
 public class DownloadCallBack implements DownloadListener {
@@ -65,11 +64,6 @@ public class DownloadCallBack implements DownloadListener {
                 DownloadStateBroadcastConfig.ON_COMPLETE);
         intent.putExtra(DOWNLOAD_REQUEST, request);
         mContext.sendBroadcast(intent);
-        Intent install = new Intent(mContext, DownloadService.class);
-        install.putExtra(DownloadService.DOWNLOAD_REQUEST, request);
-        install.putExtra(DownloadService.OP_STATUS,
-                DownloadService.OP_STATUS_COMPLETE);
-        mContext.startService(install);
     }
 
     @Override

@@ -16,12 +16,11 @@
 
 package com.lougw.downloader;
 
-import android.content.Intent;
 import android.os.StatFs;
 import android.text.TextUtils;
 
-import com.lougw.downloader.service.DownloadService;
 import com.lougw.downloader.utils.DLogUtil;
+import com.lougw.downloader.utils.DownloadUtils;
 import com.lougw.downloader.utils.NetWorkUtil;
 import com.lougw.downloader.utils.DToastUtil;
 
@@ -202,15 +201,6 @@ public class DownloadThread extends Thread {
                                 && !NetWorkUtil.isWifiConnected(Downloader.getInstance().getContext())
                                 && NetWorkUtil.isMobileConnected(Downloader.getInstance().getContext())
                                 && !request.getDownLoadItem().isMonetCanBeDownloaded()) {
-                            Intent intent = new Intent(Downloader.getInstance().getContext(),
-                                    DownloadService.class);
-                            intent.putExtra(DownloadService.DOWNLOAD_REQUEST,
-                                    request);
-                            intent.putExtra(DownloadService.OP_STATUS,
-                                    DownloadService.OP_STATUS_DOWNLOAD_WIFI_LIMIT);
-                            Downloader.getInstance().getContext().startService(intent);
-                            downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                            downloader.setReDownload();
                             stopDownload();
                             DLogUtil.log("doDownload  is hasNetwork");
                             break;

@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.lougw.downloader.DownloadUtils;
 import com.lougw.downloader.Downloader;
 
 /**

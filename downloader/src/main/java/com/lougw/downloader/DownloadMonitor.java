@@ -21,6 +21,7 @@ import android.util.Log;
 
 import com.lougw.downloader.db.DownloadDataBase;
 import com.lougw.downloader.utils.DLogUtil;
+import com.lougw.downloader.utils.DownloadUtils;
 
 import java.io.File;
 
@@ -95,7 +96,10 @@ public class DownloadMonitor implements Runnable {
                     }
                     mDownloadRequest.setDownloadStatus(status);
                     downloadDataBase.progress(mDownloadRequest);
-                    Log.d(TAG,"progress :"+mDownloadRequest.getDownloadSize() /mDownloadRequest.getTotalSize());
+                    if(mDownloadRequest.getTotalSize()>0){
+                        Log.d(TAG,"progress :"+mDownloadRequest.getDownloadSize() /mDownloadRequest.getTotalSize());
+                    }
+
                 }
                 lastDownloadSize = downloadSize;
                 checkThread();

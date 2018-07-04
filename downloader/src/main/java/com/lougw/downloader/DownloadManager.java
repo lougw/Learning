@@ -18,16 +18,14 @@ package com.lougw.downloader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import com.lougw.downloader.db.DownloadColumns;
 import com.lougw.downloader.db.DownloadDataBaseIml;
-import com.lougw.downloader.service.DownloadService;
 import com.lougw.downloader.utils.DLogUtil;
 import com.lougw.downloader.utils.DToastUtil;
+import com.lougw.downloader.utils.DownloadUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -247,12 +245,7 @@ public class DownloadManager {
      */
     public void downLoad(BaseModel model) {
         DownloadRequest request = getRequestByBaseModel(model);
-        Intent intent = new Intent(context, DownloadService.class);
-        intent.putExtra(DownloadService.DOWNLOAD_REQUEST, request);
-        intent.putExtra(DownloadService.OP_STATUS,
-                DownloadService.OP_STATUS_START);
-        context.startService(intent);
-
+        enqueue(request);
     }
 
     /**
