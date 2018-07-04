@@ -1,10 +1,12 @@
 package com.lougw.learning;
 
+import android.Manifest;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,41 +34,54 @@ public class GUIDActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guid);
 
-        String iid = InstanceID.getInstance(this).getId();
-        String uniqueID = UUID.randomUUID().toString();
-        //359866f5-4e6f-45b5-aeea-113903d4307b
-        //dkOKX8HLvVM
-        Log.d("GUID123"," iid : "+iid+ "  uniqueID : "+uniqueID);
-        final String sn =  android.os.Build.SERIAL;
-        Log.d("GUID123"," sn : "+sn);
+        try{
 
-        Log.d("GUID123"," getMacAddr : "+getMacAddress(this));
+            int has = PermissionChecker.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        AdvertisingIdClient.Info info= AdvertisingIdClient.getAdvertisingIdInfo(GUIDActivity.this);
-
-                    Log.d("GUID123"," info.getId() : "+info.getId());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                }
-            }).start();
-        String mac = null;
-        final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifiManager != null) {
-            final WifiInfo info = wifiManager.getConnectionInfo();
-            if (info != null) {
-                mac = info.getMacAddress();
-                Log.d("GUID123"," mac : "+mac);
-            }
+            int has1 = PermissionChecker.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+        String aa="";
+
+//        String iid = InstanceID.getInstance(this).getId();
+//        String uniqueID = UUID.randomUUID().toString();
+//        //359866f5-4e6f-45b5-aeea-113903d4307b
+//        //dkOKX8HLvVM
+//        Log.d("GUID123"," iid : "+iid+ "  uniqueID : "+uniqueID);
+//        final String sn =  android.os.Build.SERIAL;
+//        Log.d("GUID123"," sn : "+sn);
+//
+//        Log.d("GUID123"," getMacAddr : "+getMacAddress(this));
+//
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        AdvertisingIdClient.Info info= AdvertisingIdClient.getAdvertisingIdInfo(GUIDActivity.this);
+//
+//                    Log.d("GUID123"," info.getId() : "+info.getId());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (GooglePlayServicesNotAvailableException e) {
+//                    e.printStackTrace();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                }
+//            }).start();
+//        String mac = null;
+//        final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        if (wifiManager != null) {
+//            final WifiInfo info = wifiManager.getConnectionInfo();
+//            if (info != null) {
+//                mac = info.getMacAddress();
+//                Log.d("GUID123"," mac : "+mac);
+//            }
+//        }
 
 
 
