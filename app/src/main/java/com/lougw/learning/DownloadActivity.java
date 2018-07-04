@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lougw.downloader.DownloadInfo;
-import com.lougw.downloader.Downloader;
 import com.lougw.learning.utils.adapter.BaseRecyclerAdapter;
 import com.lougw.learning.utils.adapter.BaseRecyclerViewHolder;
 

@@ -1,12 +1,9 @@
 package com.lougw.learning.app;
 
-import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.support.multidex.MultiDex;
 
-import com.lougw.downloader.Downloader;
 import com.lougw.learning.utils.AndFixPathManager;
 import com.lougw.learning.utils.Installation;
 
