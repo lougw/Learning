@@ -42,7 +42,7 @@ public class DownloadCallBack implements DownloadListener {
 
     @Override
     public void onError(DownloadRequest request) {
-        Downloader.getInstance().getDownloadManager().deleteRequest(request);
+        Downloader.getInstance().deleteRequest(request);
         DownloadRequestManager.getInstance().add(request);
         DownloadRequestManager.getInstance().notifyDownloadProgressed(request);
         intent.setAction(DownloadStateBroadcastConfig.ACTION);
@@ -54,7 +54,7 @@ public class DownloadCallBack implements DownloadListener {
 
     @Override
     public void onComplete(DownloadRequest request) {
-        Downloader.getInstance().getDownloadManager().deleteRequest(request);
+        Downloader.getInstance().deleteRequest(request);
         DownloadRequestManager.getInstance().add(request);
         DownloadRequestManager.getInstance().notifyDownloadProgressed(request);
         intent.setAction(DownloadStateBroadcastConfig.ACTION);
@@ -66,7 +66,7 @@ public class DownloadCallBack implements DownloadListener {
 
     @Override
     public void onPause(DownloadRequest request) {
-        Downloader.getInstance().getDownloadManager().deleteRequest(request);
+        Downloader.getInstance().deleteRequest(request);
         DownloadRequestManager.getInstance().add(request);
         DownloadRequestManager.getInstance().notifyDownloadProgressed(request);
         intent.setAction(DownloadStateBroadcastConfig.ACTION);

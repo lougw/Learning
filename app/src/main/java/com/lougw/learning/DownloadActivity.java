@@ -54,9 +54,9 @@ public class DownloadActivity extends AppCompatActivity implements BaseRecyclerA
     @Override
     public void onViewClick(RecyclerView.ViewHolder viewHolder, View view, DownloadInfo o, int position) {
         if(view.getId()==R.id.download){
-            Downloader.getInstance().getDownloadManager().downLoad(o);
+            Downloader.getInstance().downLoad(o);
         }else{
-            Downloader.getInstance().getDownloadManager().pause(o);
+            Downloader.getInstance().pause(o);
         }
 
 

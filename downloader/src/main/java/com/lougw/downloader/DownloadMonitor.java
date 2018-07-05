@@ -173,8 +173,8 @@ public class DownloadMonitor implements Runnable {
             return true;
         }
         if (downloadSize > mDownloadRequest.getTotalSize()) {
-            Downloader.getInstance().getDownloadManager().delete(mDownloadRequest);
-            Downloader.getInstance().getDownloadManager().downLoad(
+            Downloader.getInstance().delete(mDownloadRequest);
+            Downloader.getInstance().downLoad(
                     mDownloadRequest.getDownLoadItem());
         }
         return false;

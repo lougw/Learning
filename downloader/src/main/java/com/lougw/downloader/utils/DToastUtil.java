@@ -6,8 +6,6 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.lougw.downloader.Downloader;
-
 /**
  * 管理toast的类，整个app用该类来显示toast
  */

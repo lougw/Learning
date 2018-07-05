@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DownloadRequestManager {
 
-    private DownloadManager downloadManager = Downloader.getInstance().getDownloadManager();
+    private Downloader downloadManager = Downloader.getInstance().getDownloadManager();
 
     private static class DownloadRequestManagerInstance {
         private static final DownloadRequestManager instance = new DownloadRequestManager();
