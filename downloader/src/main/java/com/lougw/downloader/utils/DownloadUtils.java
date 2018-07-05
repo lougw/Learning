@@ -1,11 +1,10 @@
 package com.lougw.downloader.utils;
 
-import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
 
-import com.lougw.downloader.BaseModel;
+import com.lougw.downloader.DownloadInfo;
 import com.lougw.downloader.DownloadType;
 import com.lougw.downloader.Downloader;
 
@@ -94,7 +93,7 @@ public class DownloadUtils {
     /**
      * @Description:根据下载的数据来获取本地存储文件名（全路径）
      */
-    public static String getFileName(BaseModel model) {
+    public static String getFileName(DownloadInfo model) {
         return getDownLoadFileHome(DownloadType.VIDEOS) + model.getFileName();
     }
 
@@ -132,7 +131,7 @@ public class DownloadUtils {
         return TextUtils.isEmpty(filePath) ? null : new File(filePath);
     }
 
-    public static boolean getDownloadInWifi(Context context) {
-        return true;
+    public static String getGuid(String srcUri) {
+        return MD5Util.encodeMD5(srcUri);
     }
 }

@@ -16,6 +16,7 @@ public class DownloadRequest implements Serializable {
     private static final long serialVersionUID = 1L;
     // 如果 mId == -1 表示该下载任务是一个新建的下载任务并且需要被插入到数据库中以作为下载记录
     private long mId = -1;
+    private String mGuid;
     private String mSrcUri;
     private String mDestUri;
     private long mTotalSize = 0;
@@ -23,7 +24,7 @@ public class DownloadRequest implements Serializable {
     private long mSpeed = 0;
     private DownloadStatus mDownloadStatus = DownloadStatus.STATUS_IDLE;
     private DownloadInfo downLoadItem;
-    private String mGuid;
+
 
     /**
      * 通过下载地址和文件的保存路径构造一个下载任务模型
@@ -68,9 +69,6 @@ public class DownloadRequest implements Serializable {
                 .getColumnIndex(DownloadColumns.FILE_NAME));
         String remarks = cursor.getString(cursor
                 .getColumnIndex(DownloadColumns.REMARKS));
-        boolean isMobileCanDownload = cursor.getInt(cursor
-                .getColumnIndex(DownloadColumns.MONET_CAN_BE_DOWNLOADED)) == 0 ? false
-                : true;
         boolean recoveryNetworkAutoDownload = cursor.getInt(cursor
                 .getColumnIndex(DownloadColumns.RECOVERY_NETWORK_AUTO_DOWNLOAD)) == 0 ? false
                 : true;
@@ -85,8 +83,8 @@ public class DownloadRequest implements Serializable {
         boolean reservedField05 = cursor.getInt(cursor
                 .getColumnIndex(DownloadColumns.RESERVED_FIELD_05)) == 0 ? false
                 : true;
-        downLoadItem = new DownloadInfo(mGuid, mSrcType, createTime, updateTime, mSrcUri, remarks, isMobileCanDownload, recoveryNetworkAutoDownload);
-        downLoadItem.setFileName(fileName);
+        downLoadItem = new DownloadInfo.Builder().Guid(mGuid).srcType(mSrcType).createTime(createTime).updateTime(updateTime).Url(mSrcUri).fileName(fileName).remarks(remarks).
+                recoveryNetworkAutoDownload(recoveryNetworkAutoDownload).reservedField01(reservedField01).reservedField02(reservedField02).reservedField03(reservedField03).reservedField04(reservedField04).reservedField05(reservedField05).build();
     }
 
     /**
@@ -109,7 +107,6 @@ public class DownloadRequest implements Serializable {
         value.put(DownloadColumns.CREATE_TIME, downLoadItem.getCreateTime());
         value.put(DownloadColumns.REMARKS, downLoadItem.getRemarks());
         value.put(DownloadColumns.FILE_NAME, downLoadItem.getFileName());
-        value.put(DownloadColumns.MONET_CAN_BE_DOWNLOADED, downLoadItem.isMonetCanBeDownloaded());
         value.put(DownloadColumns.RECOVERY_NETWORK_AUTO_DOWNLOAD, downLoadItem.isRecoveryNetworkAutoDownload());
         value.put(DownloadColumns.RESERVED_FIELD_01, downLoadItem.getReservedField01());
         value.put(DownloadColumns.RESERVED_FIELD_02, downLoadItem.getReservedField02());

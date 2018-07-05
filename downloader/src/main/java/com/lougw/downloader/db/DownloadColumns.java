@@ -52,10 +52,6 @@ public final class DownloadColumns implements BaseColumns {
      */
     public static final String REMARKS = "remarks";
     /**
-     * 移动网络 下可以下载
-     */
-    public static final String MONET_CAN_BE_DOWNLOADED = "monet_can_be_downloaded";
-    /**
      * 断网wifi恢复后是否会自动下载
      */
     public static final String RECOVERY_NETWORK_AUTO_DOWNLOAD = "recovery_network_auto_download";

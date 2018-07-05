@@ -54,7 +54,6 @@ public class DownloadDBHelper extends SQLiteOpenHelper {
                 .append(DownloadColumns.CREATE_TIME).append(" Long,")
                 .append(DownloadColumns.UPDATE_TIME).append(" Long,")
                 .append(DownloadColumns.REMARKS).append(" TEXT,")
-                .append(DownloadColumns.MONET_CAN_BE_DOWNLOADED).append(" BOOL,")
                 .append(DownloadColumns.RECOVERY_NETWORK_AUTO_DOWNLOAD).append(" BOOL,")
                 .append(DownloadColumns.RESERVED_FIELD_01).append(" TEXT,")
                 .append(DownloadColumns.RESERVED_FIELD_02).append(" TEXT,")

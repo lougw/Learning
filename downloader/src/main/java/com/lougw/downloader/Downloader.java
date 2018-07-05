@@ -115,19 +115,19 @@ public class Downloader implements IDownloader {
 
 
     /**
-     * @param model 下载的对象
+     * @param info 下载的对象
      * @Description:下载任务
      */
-    public void downLoad(BaseModel model) {
-        DownloadRequest request = getRequestDownloadInfo(model);
+    public void downLoad(DownloadInfo info) {
+        DownloadRequest request = getRequestDownloadInfo(info);
         enqueue(request);
     }
 
     /**
      * @Description:暂停
      */
-    public void pause(BaseModel model) {
-        DownloadRequest request = getRequestDownloadInfo(model);
+    public void pause(DownloadInfo info) {
+        DownloadRequest request = getRequestDownloadInfo(info);
         DownloadStatus status = request.getDownloadStatus();
         if (status.equals(DownloadStatus.STATUS_IDLE)
                 || status.equals(DownloadStatus.STATUS_START)
@@ -143,7 +143,6 @@ public class Downloader implements IDownloader {
      * @Description:暂停
      */
     public void pause(DownloadRequest request) {
-
         DownloadStatus status = request.getDownloadStatus();
         if (status.equals(DownloadStatus.STATUS_IDLE)
                 || status.equals(DownloadStatus.STATUS_START)
@@ -208,11 +207,11 @@ public class Downloader implements IDownloader {
     }
 
 
-    public DownloadRequest getRequestDownloadInfo(BaseModel model) {
-        if (model == null) {
+    public DownloadRequest getRequestDownloadInfo(DownloadInfo info) {
+        if (info == null) {
             return null;
         }
-        String guid = model.getGuid();
+        String guid = info.getGuid();
         DownloadRequest request = getRequestByGuid(guid);
         if (request != null) {
             if (request.getDownloadStatus() == DownloadStatus.STATUS_COMPLETE) {
@@ -231,18 +230,17 @@ public class Downloader implements IDownloader {
             }
         }
 
-        String desPath = DownloadUtils.getFileName(model);
-        String downLoadUrl = model.getDownLoadUrl();
-        DownloadInfo downLoadItem = new DownloadInfo(model.getGuid(), model.getSrcType(), model.getDownLoadUrl(), model.getRemarks(), model.isMonetCanBeDownloaded(), model.isRecoveryNetworkAutoDownload());
+        String desPath = DownloadUtils.getFileName(info);
+        String downLoadUrl = info.getDownLoadUrl();
         if (DownloadUtils.isFileExists(desPath)) {
             request = new DownloadRequest(downLoadUrl, desPath,
-                    downLoadItem);
+                    info);
             request.setDownloadStatus(DownloadStatus.STATUS_COMPLETE);
             return request;
         } else {
             desPath = desPath + DownloadUtils.SUFFIX;
             request = new DownloadRequest(downLoadUrl, desPath,
-                    downLoadItem);
+                    info);
             request.setDownloadStatus(DownloadStatus.STATUS_NORMAL);
             return request;
         }

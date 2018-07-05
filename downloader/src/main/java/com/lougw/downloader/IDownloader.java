@@ -3,9 +3,9 @@ package com.lougw.downloader;
 interface IDownloader {
     void enqueue(DownloadRequest request);
 
-    void downLoad(BaseModel model);
+    void downLoad(DownloadInfo model);
 
-    void pause(BaseModel model);
+    void pause(DownloadInfo model);
 
     void resume(DownloadRequest request);
 

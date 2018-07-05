@@ -1,7 +1,5 @@
 package com.lougw.downloader;
 
-import android.util.Log;
-
 import com.lougw.downloader.db.DownloadDataBase;
 import com.lougw.downloader.utils.DLogUtil;
 import com.lougw.downloader.utils.DownloadUtils;

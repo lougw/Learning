@@ -1,14 +1,11 @@
 package com.lougw.downloader;
 
-import com.lougw.downloader.utils.MD5Util;
-
-import java.io.Serializable;
+import com.lougw.downloader.utils.DownloadUtils;
 
 /**
  * @Title:下载的内容
  */
-public class DownloadInfo extends BaseModel implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class DownloadInfo {
     public String guid;
     private long srcType;
     public long createTime;
@@ -16,7 +13,6 @@ public class DownloadInfo extends BaseModel implements Serializable {
     private String downLoadUrl;
     public String fileName;
     public String remarks;
-    private boolean monetCanBeDownloaded;
     private boolean recoveryNetworkAutoDownload;
     private String reservedField01;
     private String reservedField02;
@@ -24,35 +20,21 @@ public class DownloadInfo extends BaseModel implements Serializable {
     private long reservedField04;
     private boolean reservedField05;
 
-    public DownloadInfo() {
-
-    }
-
-    public DownloadInfo(String guid, long srcType, long createTime, long updateTime, String downLoadUrl, String remarks, boolean monetCanBeDownloaded, boolean recoveryNetworkAutoDownload) {
-        this.guid = guid;
-        this.srcType = srcType;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.downLoadUrl = downLoadUrl;
-        this.remarks = remarks;
-        this.monetCanBeDownloaded = monetCanBeDownloaded;
-        this.recoveryNetworkAutoDownload = recoveryNetworkAutoDownload;
-    }
-
-    public DownloadInfo(String guid, long srcType, String downLoadUrl, String remarks, boolean monetCanBeDownloaded, boolean recoveryNetworkAutoDownload) {
-        this.guid = guid;
-        this.srcType = srcType;
-        this.downLoadUrl = downLoadUrl;
-        this.remarks = remarks;
-        this.monetCanBeDownloaded = monetCanBeDownloaded;
-        this.recoveryNetworkAutoDownload = recoveryNetworkAutoDownload;
-    }
-
     public DownloadInfo(Builder builder) {
         this.guid = builder.guid;
+        this.srcType = builder.srcType;
+        this.createTime = builder.createTime;
+        this.updateTime = builder.updateTime;
         this.downLoadUrl = builder.downLoadUrl;
         this.fileName = builder.fileName;
         this.remarks = builder.remarks;
+        this.recoveryNetworkAutoDownload = builder.recoveryNetworkAutoDownload;
+        this.reservedField01 = builder.reservedField01;
+        this.reservedField02 = builder.reservedField02;
+        this.reservedField03 = builder.reservedField03;
+        this.reservedField04 = builder.reservedField04;
+        this.reservedField05 = builder.reservedField05;
+
     }
 
     public static class Builder {
@@ -61,7 +43,8 @@ public class DownloadInfo extends BaseModel implements Serializable {
         private String downLoadUrl;
         private String fileName;
         private String remarks;
-        private boolean monetCanBeDownloaded;
+        public long createTime;
+        public long updateTime;
         private boolean recoveryNetworkAutoDownload;
         private String reservedField01;
         private String reservedField02;
@@ -72,9 +55,14 @@ public class DownloadInfo extends BaseModel implements Serializable {
         public Builder() {
         }
 
-        public Builder Url(String Url) {
-            this.downLoadUrl = Url;
-            guid = MD5Util.encodeMD5(Url);
+        public Builder Url(String url) {
+            this.downLoadUrl = url;
+            this.guid = DownloadUtils.getGuid(url);
+            return this;
+        }
+
+        public Builder Guid(String guid) {
+            this.guid = guid;
             return this;
         }
 
@@ -83,8 +71,59 @@ public class DownloadInfo extends BaseModel implements Serializable {
             return this;
         }
 
-        public Builder remarks(String fileName) {
-            this.fileName = fileName;
+        public Builder remarks(String remarks) {
+            this.remarks = remarks;
+            return this;
+        }
+
+        public Builder srcType(long srcType) {
+            this.srcType = srcType;
+            return this;
+        }
+
+
+        public Builder createTime(long createTime) {
+            this.createTime = createTime;
+            return this;
+        }
+
+
+        public Builder updateTime(long updateTime) {
+            this.updateTime = updateTime;
+            return this;
+        }
+
+
+        public Builder recoveryNetworkAutoDownload(boolean recoveryNetworkAutoDownload) {
+            this.recoveryNetworkAutoDownload = recoveryNetworkAutoDownload;
+            return this;
+        }
+
+
+        public Builder reservedField01(String reservedField01) {
+            this.reservedField01 = reservedField01;
+            return this;
+        }
+
+
+        public Builder reservedField02(String reservedField02) {
+            this.reservedField02 = reservedField02;
+            return this;
+        }
+
+
+        public Builder reservedField03(String reservedField03) {
+            this.reservedField03 = reservedField03;
+            return this;
+        }
+
+        public Builder reservedField04(long reservedField04) {
+            this.reservedField04 = reservedField04;
+            return this;
+        }
+
+        public Builder reservedField05(boolean reservedField05) {
+            this.reservedField05 = reservedField05;
             return this;
         }
 
@@ -132,14 +171,6 @@ public class DownloadInfo extends BaseModel implements Serializable {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
-    }
-
-    public boolean isMonetCanBeDownloaded() {
-        return monetCanBeDownloaded;
-    }
-
-    public void setMonetCanBeDownloaded(boolean monetCanBeDownloaded) {
-        this.monetCanBeDownloaded = monetCanBeDownloaded;
     }
 
     public boolean isRecoveryNetworkAutoDownload() {
