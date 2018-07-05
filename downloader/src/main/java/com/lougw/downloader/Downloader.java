@@ -1,19 +1,3 @@
-/*******************************************************************************
- * Copyright 2011-2013
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *******************************************************************************/
-
 package com.lougw.downloader;
 
 import android.annotation.SuppressLint;
@@ -31,27 +15,22 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 单例模式的下载管理器类
- * <p/>
- * <strong>注意：只支持HTTP/HTTPS协议的下载</strong>
- * <p/>
- * 所有的下载任务在一个线程池中. 当第一次创建该类对象是需要设置线程池核心线程数, 默认的线程数为2
- * <p/>
- * 下载历史将会被记录作为将来查询使用
- */
-public class Downloader {
+public class Downloader implements IDownloader {
     private static final String TAG = Downloader.class.getSimpleName();
-    private DownloadThreadPool mDownloadThreadPool;
+    private static DownloadThreadPool mDownloadThreadPool;
     private static DownloadDataBaseIml mDownloadIml;
     private static Context mContext;
-
+    private List<DownloadObserver> mObservers = new ArrayList<DownloadObserver>();
 
     private static class DownloaderHolder {
         private static final Downloader instance = new Downloader();
     }
 
     private Downloader() {
+    }
+
+    public static Downloader getInstance() {
+        return DownloaderHolder.instance;
     }
 
     public void init(Context context, DownloadBuilder builder) {
@@ -62,32 +41,52 @@ public class Downloader {
         setDownLoadListener(new DownloadCallBack(context));
 
     }
+
+
+    /**
+     * 注册观察者
+     */
+    public void registerObserver(DownloadObserver observer) {
+        synchronized (mObservers) {
+            if (!mObservers.contains(observer)) {
+                mObservers.add(observer);
+            }
+        }
+    }
+
+    /**
+     * 反注册观察者
+     */
+    public void unRegisterObserver(DownloadObserver observer) {
+        synchronized (mObservers) {
+            if (mObservers.contains(observer)) {
+                mObservers.remove(observer);
+            }
+        }
+    }
+
+
+    /**
+     * 当下载进度发送改变的时候回调
+     */
+    public void notifyDownloadStateChanged(final DownloadRequest request) {
+        synchronized (mObservers) {
+            for (DownloadObserver observer : mObservers) {
+                observer.onDownloadStateChanged(request);
+            }
+        }
+    }
+
+
     public Context getContext() {
         return mContext;
     }
 
-    public static Downloader getInstance() {
-        return DownloaderHolder.instance;
-    }
 
     public void setDownLoadListener(DownloadListener listener) {
         mDownloadIml.setDownloadListener(listener);
     }
 
-    /**
-     * 查询下载任务的历史记录 参数请说明
-     * {@linkplain SQLiteDatabase#query(String, String[], String, String[], String, String, String)}
-     *
-     * @param selection     A filter declaring which rows to return, formatted as an SQL
-     *                      Where clause, passing null will return all rows.
-     * @param selectionArgs You may include ?s in selection, which will be replace by the
-     *                      values from this parameters, in the order that they appear in
-     *                      the selection. The values will be bound as Strings
-     * @param orderBy       How to order the rows, formatted as and SQL ORDER BY clause.
-     *                      Passing null will use the default sort order, which may be
-     *                      unordered.
-     * @return The result set according to selection.
-     */
     public synchronized List<DownloadRequest> query(String selection,
                                                     String[] selectionArgs, String orderBy) {
         Cursor cursor = null;
@@ -96,16 +95,18 @@ public class Downloader {
                     orderBy);
             return getDownLoadRequests(cursor);
         } catch (RuntimeException e) {
-            if (null != cursor)
-                cursor.close();
-            cursor = null;
             return new ArrayList<DownloadRequest>();
         } finally {
-            if (null != cursor) {
-                // Log.e("CAQ","Close");
-                cursor.close();
+            try {
+                if (null != cursor) {
+                    cursor.close();
+                    cursor = null;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            cursor = null;
+
         }
     }
 
@@ -169,7 +170,7 @@ public class Downloader {
      * @Description:下载任务
      */
     public void downLoad(BaseModel model) {
-        DownloadRequest request = getRequestByBaseModel(model);
+        DownloadRequest request = getRequestDownloadInfo(model);
         enqueue(request);
     }
 
@@ -177,7 +178,7 @@ public class Downloader {
      * @Description:暂停
      */
     public void pause(BaseModel model) {
-        DownloadRequest request = getRequestByBaseModel(model);
+        DownloadRequest request = getRequestDownloadInfo(model);
         DownloadStatus status = request.getDownloadStatus();
         if (status.equals(DownloadStatus.STATUS_IDLE)
                 || status.equals(DownloadStatus.STATUS_START)
@@ -257,85 +258,54 @@ public class Downloader {
         mDownloadThreadPool.onDequeue(request);
     }
 
-    /**
-     * @param model 下载对象
-     * @Description:通过一个apk 对象得到一个下载的实例
-     */
-    public DownloadRequest getRequestByBaseModel(BaseModel model) {
-        String downLoadUrl = model.getDownLoadUrl();
-        List<DownloadRequest> requests = query("src_url=?",
-                new String[]{
-                        downLoadUrl
-                }, null);
-        if (requests != null && requests.size() != 0) {
-            DownloadRequest r = requests.get(0);
-            /* 在线程池中的任务 */
-            DownloadRequest rInPool = mDownloadThreadPool.getDownloadRequest(r
-                    .getId());
-            // 如果下载任务不再线程中，返回从数据库中取的线程，并将正在下载和等待的下载状态置为暂停
-            if (rInPool == null) {
-                if (r.getDownloadStatus() == DownloadStatus.STATUS_COMPLETE) {
-                    try {
-                        File file = new File(r.getDestUri());
-                        if (null == file || !file.exists()) {
-                            r.setDownloadStatus(DownloadStatus.STATUS_DELETE);
-                            mDownloadThreadPool.onDequeue(r);
-                            mDownloadIml.delete(r);
-                            return getDownloadRequest(model, downLoadUrl);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (r.getDownloadStatus() == DownloadStatus.STATUS_START ||
-                        r.getDownloadStatus() == DownloadStatus.STATUS_DOWNLOADING
-                        || r.getDownloadStatus() == DownloadStatus.STATUS_IDLE) {
-                    r.setDownloadStatus(DownloadStatus.STATUS_PAUSE);
-                }
-                return r;
-            } else {
-                if (rInPool.getDownloadStatus() == DownloadStatus.STATUS_COMPLETE) {
-                    try {
-                        File file = new File(rInPool.getDestUri());
-                        if (null == file || !file.exists()) {
-                            rInPool.setDownloadStatus(DownloadStatus.STATUS_DELETE);
-                            mDownloadThreadPool.onDequeue(rInPool);
-                            mDownloadIml.delete(rInPool);
-                            return getDownloadRequest(model, downLoadUrl);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
 
-                if (rInPool.getDownloadStatus() == DownloadStatus.STATUS_ERROR) {
-                    rInPool.setDownloadStatus(DownloadStatus.STATUS_NORMAL);
+    public DownloadRequest getRequestDownloadInfo(BaseModel model) {
+        if (model == null) {
+            return null;
+        }
+        String guid = model.getGuid();
+        DownloadRequest request = getRequestByGuid(guid);
+        if (request != null) {
+            if (request.getDownloadStatus() == DownloadStatus.STATUS_COMPLETE) {
+                try {
+                    File file = new File(request.getDestUri());
+                    if (null == file || !file.exists()) {
+                        request.setDownloadStatus(DownloadStatus.STATUS_DELETE);
+                        mDownloadThreadPool.onDequeue(request);
+                        mDownloadIml.delete(request);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                return rInPool;
+            } else if (request.getDownloadStatus() == DownloadStatus.STATUS_ERROR) {
+                request.setDownloadStatus(DownloadStatus.STATUS_NORMAL);
             }
         }
-        return getDownloadRequest(model, downLoadUrl);
-    }
 
-    public DownloadRequest getDownloadRequest(BaseModel model, String downLoadUrl) {
         String desPath = DownloadUtils.getFileName(model);
+        String downLoadUrl = model.getDownLoadUrl();
         DownloadInfo downLoadItem = new DownloadInfo(model.getGuid(), model.getSrcType(), model.getDownLoadUrl(), model.getRemarks(), model.isMonetCanBeDownloaded(), model.isRecoveryNetworkAutoDownload());
         if (DownloadUtils.isFileExists(desPath)) {
-            DownloadRequest request = new DownloadRequest(downLoadUrl, desPath,
+            request = new DownloadRequest(downLoadUrl, desPath,
                     downLoadItem);
             request.setDownloadStatus(DownloadStatus.STATUS_COMPLETE);
             return request;
         } else {
             desPath = desPath + DownloadUtils.SUFFIX;
-            DownloadRequest request = new DownloadRequest(downLoadUrl, desPath,
+            request = new DownloadRequest(downLoadUrl, desPath,
                     downLoadItem);
             request.setDownloadStatus(DownloadStatus.STATUS_NORMAL);
             return request;
         }
     }
 
+
     public DownloadRequest getRequestByGuid(String guid) {
+
+        DownloadRequest request = mDownloadThreadPool.getRequestByGuid(guid);
+        if (request != null) {
+            return request;
+        }
         String selection = DownloadColumns.GUID + "='" + guid + "'";
         List<DownloadRequest> requests = query(selection, null, null);
         if (requests != null && requests.size() != 0) {
@@ -343,6 +313,7 @@ public class Downloader {
         }
         return null;
     }
+
 
     /**
      * @Description:查询下载完成的列表
@@ -370,43 +341,6 @@ public class Downloader {
      */
     public synchronized List<DownloadRequest> queryAllDownLoads() {
         return query(null, null, null);
-    }
-
-
-    private List<DownloadObserver> mObservers = new ArrayList<DownloadObserver>();
-
-    /**
-     * 注册观察者
-     */
-    public void registerObserver(DownloadObserver observer) {
-        synchronized (mObservers) {
-            if (!mObservers.contains(observer)) {
-                mObservers.add(observer);
-            }
-        }
-    }
-
-    /**
-     * 反注册观察者
-     */
-    public void unRegisterObserver(DownloadObserver observer) {
-        synchronized (mObservers) {
-            if (mObservers.contains(observer)) {
-                mObservers.remove(observer);
-            }
-        }
-    }
-
-
-    /**
-     * 当下载进度发送改变的时候回调
-     */
-    public void notifyDownloadStateChanged(final DownloadRequest request) {
-        synchronized (mObservers) {
-            for (DownloadObserver observer : mObservers) {
-                observer.onDownloadStateChanged(request);
-            }
-        }
     }
 
 

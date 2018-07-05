@@ -65,7 +65,6 @@ class DownloadThreadPool {
 
     public void onDequeue(DownloadRequest request) {
         mDownloadRequests.remove(request);
-
     }
 
     private boolean isInQueue(DownloadRequest request) {
@@ -110,4 +109,15 @@ class DownloadThreadPool {
         return null;
     }
 
+    synchronized DownloadRequest getRequestByGuid(String guid) {
+        if (TextUtils.isEmpty(guid)) {
+            return null;
+        }
+        for (DownloadRequest request : mDownloadRequests) {
+            if (guid.equals(request.getGuid())) {
+                return request;
+            }
+        }
+        return null;
+    }
 }
