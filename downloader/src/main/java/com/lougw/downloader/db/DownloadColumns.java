@@ -28,6 +28,10 @@ public final class DownloadColumns implements BaseColumns {
      */
     public static final String FILE_NAME = "file_name";
     /**
+     * 下载文件路径
+     */
+    public static final String LOCAL_DIR = "local_dir";
+    /**
      * 文件总大小
      */
     public static final String TOTAL_SIZE = "total_size";

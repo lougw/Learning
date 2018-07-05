@@ -48,6 +48,7 @@ public class DownloadDBHelper extends SQLiteOpenHelper {
                 .append(DownloadColumns.SRC_URI).append(" TEXT,")
                 .append(DownloadColumns.DEST_URI).append(" TEXT,")
                 .append(DownloadColumns.FILE_NAME).append(" TEXT,")
+                .append(DownloadColumns.LOCAL_DIR).append(" TEXT,")
                 .append(DownloadColumns.TOTAL_SIZE).append(" TEXT,")
                 .append(DownloadColumns.DOWNLOAD_SIZE).append(" TEXT,")
                 .append(DownloadColumns.DOWNLOAD_STATUS).append(" TEXT,")

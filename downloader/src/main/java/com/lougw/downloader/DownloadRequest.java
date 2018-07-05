@@ -67,6 +67,8 @@ public class DownloadRequest implements Serializable {
                 .getColumnIndex(DownloadColumns.UPDATE_TIME));
         String fileName = cursor.getString(cursor
                 .getColumnIndex(DownloadColumns.FILE_NAME));
+        String localDir = cursor.getString(cursor
+                .getColumnIndex(DownloadColumns.LOCAL_DIR));
         String remarks = cursor.getString(cursor
                 .getColumnIndex(DownloadColumns.REMARKS));
         boolean recoveryNetworkAutoDownload = cursor.getInt(cursor
@@ -83,7 +85,7 @@ public class DownloadRequest implements Serializable {
         boolean reservedField05 = cursor.getInt(cursor
                 .getColumnIndex(DownloadColumns.RESERVED_FIELD_05)) == 0 ? false
                 : true;
-        downLoadItem = new DownloadInfo.Builder().Guid(mGuid).srcType(mSrcType).createTime(createTime).updateTime(updateTime).Url(mSrcUri).fileName(fileName).remarks(remarks).
+        downLoadItem = new DownloadInfo.Builder().Guid(mGuid).srcType(mSrcType).createTime(createTime).updateTime(updateTime).Url(mSrcUri).fileName(fileName).localDir(localDir).remarks(remarks).
                 recoveryNetworkAutoDownload(recoveryNetworkAutoDownload).reservedField01(reservedField01).reservedField02(reservedField02).reservedField03(reservedField03).reservedField04(reservedField04).reservedField05(reservedField05).build();
     }
 
@@ -107,6 +109,7 @@ public class DownloadRequest implements Serializable {
         value.put(DownloadColumns.CREATE_TIME, downLoadItem.getCreateTime());
         value.put(DownloadColumns.REMARKS, downLoadItem.getRemarks());
         value.put(DownloadColumns.FILE_NAME, downLoadItem.getFileName());
+        value.put(DownloadColumns.LOCAL_DIR, downLoadItem.getLocalDir());
         value.put(DownloadColumns.RECOVERY_NETWORK_AUTO_DOWNLOAD, downLoadItem.isRecoveryNetworkAutoDownload());
         value.put(DownloadColumns.RESERVED_FIELD_01, downLoadItem.getReservedField01());
         value.put(DownloadColumns.RESERVED_FIELD_02, downLoadItem.getReservedField02());

@@ -6,13 +6,14 @@ import com.lougw.downloader.utils.DownloadUtils;
  * @Title:下载的内容
  */
 public class DownloadInfo {
-    public String guid;
+    private String guid;
     private long srcType;
-    public long createTime;
-    public long updateTime;
+    private long createTime;
+    private long updateTime;
     private String downLoadUrl;
-    public String fileName;
-    public String remarks;
+    private String fileName;
+    private String localDir;
+    private String remarks;
     private boolean recoveryNetworkAutoDownload;
     private String reservedField01;
     private String reservedField02;
@@ -27,6 +28,7 @@ public class DownloadInfo {
         this.updateTime = builder.updateTime;
         this.downLoadUrl = builder.downLoadUrl;
         this.fileName = builder.fileName;
+        this.localDir = builder.localDir;
         this.remarks = builder.remarks;
         this.recoveryNetworkAutoDownload = builder.recoveryNetworkAutoDownload;
         this.reservedField01 = builder.reservedField01;
@@ -42,9 +44,10 @@ public class DownloadInfo {
         private long srcType;
         private String downLoadUrl;
         private String fileName;
+        private String localDir;
         private String remarks;
-        public long createTime;
-        public long updateTime;
+        private long createTime;
+        private long updateTime;
         private boolean recoveryNetworkAutoDownload;
         private String reservedField01;
         private String reservedField02;
@@ -68,6 +71,11 @@ public class DownloadInfo {
 
         public Builder fileName(String fileName) {
             this.fileName = fileName;
+            return this;
+        }
+
+        public Builder localDir(String localDir) {
+            this.localDir = localDir;
             return this;
         }
 
@@ -223,6 +231,14 @@ public class DownloadInfo {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public String getLocalDir() {
+        return localDir;
+    }
+
+    public void setLocalDir(String localDir) {
+        this.localDir = localDir;
     }
 
     public void setFileName(String fileName) {
