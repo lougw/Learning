@@ -32,11 +32,11 @@ public class DownloadRequest implements Serializable {
      * @param srcUri  下载地址
      * @param destUrl 存储路径
      */
-    public DownloadRequest(String srcUri, String destUrl, DownloadInfo item) {
+    public DownloadRequest(String srcUri, String destUrl, DownloadInfo info) {
         mSrcUri = srcUri;
         mDestUri = destUrl;
-        downLoadItem = item;
-        mGuid = item.getGuid();
+        downLoadItem = info;
+        mGuid = info.getGuid();
     }
 
     /**

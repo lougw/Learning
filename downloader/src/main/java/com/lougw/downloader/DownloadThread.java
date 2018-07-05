@@ -41,43 +41,28 @@ public class DownloadThread extends Thread {
     private String destPath;
     /* 下载开始位置 */
     private long startPos;
-    /* 线程ID */
-    private int threadId = -1;
     /* 已经下载的长度 */
     private volatile long downLength;
-    /* 下载线程是否完成了应该下载的文件 长度 */
+    /* 下载线程是否完成了应该下载的文件长度 */
     private boolean finish = false;
     /* 下载线程状态标记 */
     private Status state = Status.RUNNING;
     private DownloadMonitor downloader;
     private DownloadRequest request;
-
-    /**
-     * 下载线程是否出错
-     *
-     * @note 下载线程完成了下载但是在关闭流的时候出错，不属于下载出错
-     */
+    /*下载线程是否出错 下载线程完成了下载但是在关闭流的时候出错，不属于下载出错*/
     private boolean isError = false;
     private String location;
     private HttpClient httpClient;
-    /**
-     * 下载失败错误码
-     */
+    /*下载失败错误码*/
     private int mErrorCode = ErrorCode.NORMAL;
 
     boolean lowMemToastDisplayed = false;
 
-    /**
-     * @param downloader <a>HttpDownloader</a>
-     * @param tid        线程ID
-     */
-    public DownloadThread(DownloadMonitor downloader, DownloadRequest request,
-                          int tid) {
+    public DownloadThread(DownloadMonitor downloader, DownloadRequest request) {
         this.request = request;
         this.downUrl = request.getSrcUri();
         this.location = downUrl;
         this.downloader = downloader;
-        this.threadId = tid;
         this.downLength = request.getDownloadSize();
         this.destPath = request.getDestUri();
     }

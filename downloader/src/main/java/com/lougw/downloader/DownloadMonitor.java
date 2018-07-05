@@ -33,7 +33,7 @@ public class DownloadMonitor implements Runnable {
         if (getStatus() == DownloadStatus.STATUS_IDLE) {
             mDownloadRequest.setDownloadStatus(DownloadStatus.STATUS_START);
             updateRequest(mDownloadRequest);
-            thread = new DownloadThread(this, mDownloadRequest, 0);
+            thread = new DownloadThread(this, mDownloadRequest);
             thread.start();
             long lastDownloadSize = 0;
             long downloadLength;
@@ -193,7 +193,7 @@ public class DownloadMonitor implements Runnable {
     private void checkThread() {
         if (!thread.isFinish() && !thread.isError()
                 && thread.getStatus() == DownloadThread.Status.FINISH) {
-            thread = new DownloadThread(this, mDownloadRequest, 1);
+            thread = new DownloadThread(this, mDownloadRequest);
             thread.start();
         }
     }
