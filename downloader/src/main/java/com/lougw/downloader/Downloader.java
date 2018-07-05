@@ -36,7 +36,7 @@ public class Downloader implements IDownloader {
         mDownloadThreadPool = new DownloadThreadPool(context, builder.poolSize);
         mDownloadIml = new DownloadDataBaseIml(context);
         mDownloadThreadPool.setDownLoadDatabase(mDownloadIml);
-        setDownLoadListener(new DownloadCallBack(context));
+        setDownLoadListener(new DownloadCallBack());
 
     }
 

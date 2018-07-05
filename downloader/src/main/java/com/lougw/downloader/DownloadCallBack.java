@@ -1,36 +1,26 @@
 package com.lougw.downloader;
 
-import android.content.Context;
-import android.content.Intent;
-
-
 public class DownloadCallBack implements DownloadListener {
-
-    public static final String DOWNLOAD_REQUEST = "DOWNLOAD_REQUEST";
-    private Intent intent = new Intent();
-    private Context mContext;
-
-    public DownloadCallBack(Context context) {
-        mContext = context;
-    }
 
     @Override
     public void onEnqueue(DownloadRequest request) {
         Downloader.getInstance().notifyDownloadStateChanged(request);
-//        intent.setAction(DownloadStateBroadcastConfig.ACTION);
-//        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
-//                DownloadStateBroadcastConfig.ON_ENQUEUE);
-//        intent.putExtra(DOWNLOAD_REQUEST, request);
-//        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(Config.ACTION);
+//        intent.putExtra(Config.ACTION_MEAN,
+//                Config.ON_ENQUEUE);
+//        intent.putExtra(Config.DOWNLOAD_REQUEST, request);
+//        Downloader.getInstance().getContext().sendBroadcast(intent);
     }
 
     @Override
     public void onStart(DownloadRequest request) {
-//        intent.setAction(DownloadStateBroadcastConfig.ACTION);
-//        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
-//                DownloadStateBroadcastConfig.ON_START);
-//        intent.putExtra(DOWNLOAD_REQUEST, request);
-//        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(Config.ACTION);
+//        intent.putExtra(Config.ACTION_MEAN,
+//                Config.ON_START);
+//        intent.putExtra(Config.DOWNLOAD_REQUEST, request);
+//        Downloader.getInstance().getContext().sendBroadcast(intent);
     }
 
     @Override
@@ -41,51 +31,57 @@ public class DownloadCallBack implements DownloadListener {
     public void onError(DownloadRequest request) {
         Downloader.getInstance().deleteRequest(request);
         Downloader.getInstance().notifyDownloadStateChanged(request);
-        intent.setAction(DownloadStateBroadcastConfig.ACTION);
-        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
-                DownloadStateBroadcastConfig.ON_ERROR);
-        intent.putExtra(DOWNLOAD_REQUEST, request);
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(Config.ACTION);
+//        intent.putExtra(Config.ACTION_MEAN,
+//                Config.ON_ERROR);
+//        intent.putExtra(Config.DOWNLOAD_REQUEST, request);
+//        Downloader.getInstance().getContext().sendBroadcast(intent);
     }
 
     @Override
     public void onComplete(DownloadRequest request) {
         Downloader.getInstance().deleteRequest(request);
         Downloader.getInstance().notifyDownloadStateChanged(request);
-        intent.setAction(DownloadStateBroadcastConfig.ACTION);
-        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
-                DownloadStateBroadcastConfig.ON_COMPLETE);
-        intent.putExtra(DOWNLOAD_REQUEST, request);
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(Config.ACTION);
+//        intent.putExtra(Config.ACTION_MEAN,
+//                Config.ON_COMPLETE);
+//        intent.putExtra(Config.DOWNLOAD_REQUEST, request);
+//        Downloader.getInstance().getContext().sendBroadcast(intent);
     }
 
     @Override
     public void onPause(DownloadRequest request) {
         Downloader.getInstance().deleteRequest(request);
         Downloader.getInstance().notifyDownloadStateChanged(request);
-        intent.setAction(DownloadStateBroadcastConfig.ACTION);
-        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
-                DownloadStateBroadcastConfig.ON_PAUSED);
-        intent.putExtra(DOWNLOAD_REQUEST, request);
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(Config.ACTION);
+//        intent.putExtra(Config.ACTION_MEAN,
+//                Config.ON_PAUSED);
+//        intent.putExtra(Config.DOWNLOAD_REQUEST, request);
+//        Downloader.getInstance().getContext().sendBroadcast(intent);
     }
 
     @Override
     public void onDequeue(DownloadRequest request) {
-        intent.setAction(DownloadStateBroadcastConfig.ACTION);
-        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
-                DownloadStateBroadcastConfig.ON_DEQUEUE);
-        intent.putExtra(DOWNLOAD_REQUEST, request);
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(Config.ACTION);
+//        intent.putExtra(Config.ACTION_MEAN,
+//                Config.ON_DEQUEUE);
+//        intent.putExtra(Config.DOWNLOAD_REQUEST, request);
+//        Downloader.getInstance().getContext().sendBroadcast(intent);
     }
 
     @Override
     public void onProgress(DownloadRequest request) {
-//        intent.setAction(DownloadStateBroadcastConfig.ACTION);
-//        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
-//                DownloadStateBroadcastConfig.ON_PROGRESS);
-//        intent.putExtra(DOWNLOAD_REQUEST, request);
-//        mContext.sendBroadcast(intent);
         Downloader.getInstance().notifyDownloadStateChanged(request);
+//        Intent intent = new Intent();
+//        intent.setAction(Config.ACTION);
+//        intent.putExtra(Config.ACTION_MEAN,
+//                Config.ON_PROGRESS);
+//        intent.putExtra(Config.DOWNLOAD_REQUEST, request);
+//        Downloader.getInstance().getContext().sendBroadcast(intent);
+
     }
 }
