@@ -371,4 +371,43 @@ public class Downloader {
     public synchronized List<DownloadRequest> queryAllDownLoads() {
         return query(null, null, null);
     }
+
+
+    private List<DownloadObserver> mObservers = new ArrayList<DownloadObserver>();
+
+    /**
+     * 注册观察者
+     */
+    public void registerObserver(DownloadObserver observer) {
+        synchronized (mObservers) {
+            if (!mObservers.contains(observer)) {
+                mObservers.add(observer);
+            }
+        }
+    }
+
+    /**
+     * 反注册观察者
+     */
+    public void unRegisterObserver(DownloadObserver observer) {
+        synchronized (mObservers) {
+            if (mObservers.contains(observer)) {
+                mObservers.remove(observer);
+            }
+        }
+    }
+
+
+    /**
+     * 当下载进度发送改变的时候回调
+     */
+    public void notifyDownloadStateChanged(final DownloadRequest request) {
+        synchronized (mObservers) {
+            for (DownloadObserver observer : mObservers) {
+                observer.onDownloadStateChanged(request);
+            }
+        }
+    }
+
+
 }

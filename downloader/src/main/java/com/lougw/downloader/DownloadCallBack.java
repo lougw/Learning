@@ -16,8 +16,7 @@ public class DownloadCallBack implements DownloadListener {
 
     @Override
     public void onEnqueue(DownloadRequest request) {
-        DownloadRequestManager.getInstance().add(request);
-        DownloadRequestManager.getInstance().notifyDownloadProgressed(request);
+        Downloader.getInstance().notifyDownloadStateChanged(request);
 //        intent.setAction(DownloadStateBroadcastConfig.ACTION);
 //        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
 //                DownloadStateBroadcastConfig.ON_ENQUEUE);
@@ -27,7 +26,6 @@ public class DownloadCallBack implements DownloadListener {
 
     @Override
     public void onStart(DownloadRequest request) {
-        DownloadRequestManager.getInstance().add(request);
 //        intent.setAction(DownloadStateBroadcastConfig.ACTION);
 //        intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
 //                DownloadStateBroadcastConfig.ON_START);
@@ -37,14 +35,12 @@ public class DownloadCallBack implements DownloadListener {
 
     @Override
     public void onDownloading(DownloadRequest request) {
-        DownloadRequestManager.getInstance().add(request);
     }
 
     @Override
     public void onError(DownloadRequest request) {
         Downloader.getInstance().deleteRequest(request);
-        DownloadRequestManager.getInstance().add(request);
-        DownloadRequestManager.getInstance().notifyDownloadProgressed(request);
+        Downloader.getInstance().notifyDownloadStateChanged(request);
         intent.setAction(DownloadStateBroadcastConfig.ACTION);
         intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
                 DownloadStateBroadcastConfig.ON_ERROR);
@@ -55,8 +51,7 @@ public class DownloadCallBack implements DownloadListener {
     @Override
     public void onComplete(DownloadRequest request) {
         Downloader.getInstance().deleteRequest(request);
-        DownloadRequestManager.getInstance().add(request);
-        DownloadRequestManager.getInstance().notifyDownloadProgressed(request);
+        Downloader.getInstance().notifyDownloadStateChanged(request);
         intent.setAction(DownloadStateBroadcastConfig.ACTION);
         intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
                 DownloadStateBroadcastConfig.ON_COMPLETE);
@@ -67,8 +62,7 @@ public class DownloadCallBack implements DownloadListener {
     @Override
     public void onPause(DownloadRequest request) {
         Downloader.getInstance().deleteRequest(request);
-        DownloadRequestManager.getInstance().add(request);
-        DownloadRequestManager.getInstance().notifyDownloadProgressed(request);
+        Downloader.getInstance().notifyDownloadStateChanged(request);
         intent.setAction(DownloadStateBroadcastConfig.ACTION);
         intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
                 DownloadStateBroadcastConfig.ON_PAUSED);
@@ -78,7 +72,6 @@ public class DownloadCallBack implements DownloadListener {
 
     @Override
     public void onDequeue(DownloadRequest request) {
-        DownloadRequestManager.getInstance().remove(request);
         intent.setAction(DownloadStateBroadcastConfig.ACTION);
         intent.putExtra(DownloadStateBroadcastConfig.ACTION_MEAN,
                 DownloadStateBroadcastConfig.ON_DEQUEUE);
@@ -93,7 +86,6 @@ public class DownloadCallBack implements DownloadListener {
 //                DownloadStateBroadcastConfig.ON_PROGRESS);
 //        intent.putExtra(DOWNLOAD_REQUEST, request);
 //        mContext.sendBroadcast(intent);
-        DownloadRequestManager.getInstance().add(request);
-        DownloadRequestManager.getInstance().notifyDownloadProgressed(request);
+        Downloader.getInstance().notifyDownloadStateChanged(request);
     }
 }
