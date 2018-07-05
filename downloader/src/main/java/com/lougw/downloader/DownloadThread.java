@@ -139,13 +139,6 @@ public class DownloadThread extends Thread {
                 int length;
                 while ((length = inStream.read(buffer)) != -1) {
 
-                    if (!NetWorkUtil.hasNetwork(Downloader.getInstance().getContext())) {
-                        DToastUtil.showMessage(R.string.download_no_network);
-                        downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                        downloader.setReDownload();
-                        stopDownload();
-                        break;
-                    }
 
                     DownloadStatus status = downloader.getStatus();
                     if (DownloadStatus.STATUS_PAUSE == status
@@ -168,6 +161,14 @@ public class DownloadThread extends Thread {
                 downloader.setStatus(DownloadStatus.STATUS_ERROR);
                 isError = true;
             } catch (IOException e) {
+                if (!NetWorkUtil.hasNetwork(Downloader.getInstance().getContext())) {
+                    DToastUtil.showMessage(R.string.download_no_network);
+                    downloader.setStatus(DownloadStatus.STATUS_PAUSE);
+                    downloader.setReDownload();
+                    stopDownload();
+                    return;
+                }
+
                 if (e instanceof SocketException || e instanceof UnknownHostException
                         || e instanceof SocketTimeoutException
                         || e instanceof SSLPeerUnverifiedException
