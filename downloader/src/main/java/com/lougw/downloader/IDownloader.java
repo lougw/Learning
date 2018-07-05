@@ -11,5 +11,7 @@ interface IDownloader {
 
     void deleteTask(DownloadRequest request);
 
+    DownloadRequest getRequestDownloadInfo(DownloadInfo info);
+
     void clear();
 }

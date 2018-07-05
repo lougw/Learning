@@ -206,7 +206,7 @@ public class Downloader implements IDownloader {
         mDownloadThreadPool.onDequeue(request);
     }
 
-
+    @Override
     public DownloadRequest getRequestDownloadInfo(DownloadInfo info) {
         if (info == null) {
             return null;

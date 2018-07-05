@@ -16,7 +16,6 @@ public class DownloadMonitor implements Runnable {
     private DownloadThread thread;
     private DownloadStatus status;
     private volatile long downloadSize;
-    private boolean isCancel;
     private String mSrcUri;
     private DownloadRequest mDownloadRequest;
     private DownloadDataBase downloadDataBase;
@@ -135,15 +134,6 @@ public class DownloadMonitor implements Runnable {
             updateRequest(mDownloadRequest);
         }
 
-    }
-
-    /**
-     * 是否取消下载
-     *
-     * @return
-     */
-    public boolean isCancel() {
-        return isCancel;
     }
 
     /**

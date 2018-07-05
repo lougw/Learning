@@ -37,25 +37,18 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 public class DownloadThread extends Thread {
     /* 下载地址 */
     private String downUrl;
+    /*下载文件存放地址*/
     private String destPath;
-
     /* 下载开始位置 */
     private long startPos;
     /* 线程ID */
     private int threadId = -1;
-
     /* 已经下载的长度 */
     private volatile long downLength;
-
     /* 下载线程是否完成了应该下载的文件 长度 */
     private boolean finish = false;
-
     /* 下载线程状态标记 */
     private Status state = Status.RUNNING;
-
-    /**
-     * @see
-     */
     private DownloadMonitor downloader;
     private DownloadRequest request;
 
@@ -71,6 +64,8 @@ public class DownloadThread extends Thread {
      * 下载失败错误码
      */
     private int mErrorCode = ErrorCode.NORMAL;
+
+    boolean lowMemToastDisplayed = false;
 
     /**
      * @param downloader <a>HttpDownloader</a>
@@ -93,161 +88,144 @@ public class DownloadThread extends Thread {
     }
 
     private void showToast() {
-        DToastUtil.showMessage(R.string.download_no_space);
+        if (!lowMemToastDisplayed) {
+            DToastUtil.showMessage(R.string.download_no_space);
+            lowMemToastDisplayed = true;
+        }
+
     }
 
     private void doDownload() {
-        boolean lowMemToastDisplayed = false;
 
-        // 如果当前线程没有结束并且下载任务也没有被取消则下载
-        if (!downloader.isCancel()) {
-            RandomAccessFile threadFile = null;
-            InputStream inStream = null;
-            try {
-                startPos += downLength;
-                DLogUtil.e("THREAD", "" + startPos);
+        RandomAccessFile threadFile = null;
+        InputStream inStream = null;
+        try {
+            startPos += downLength;
+            DLogUtil.e("THREAD", "" + startPos);
 
-                DownloadUtils.getDownLoadFileHome();
-                if (DownloadUtils.isMemoryLow()) {
-                    if (!lowMemToastDisplayed) {
-                        showToast();
-                        lowMemToastDisplayed = true;
-                    }
-                    downloader.setStatus(DownloadStatus.STATUS_PAUSE);
+            DownloadUtils.getDownLoadFileHome();
+            if (DownloadUtils.isMemoryLow()) {
+                showToast();
+                downloader.setStatus(DownloadStatus.STATUS_PAUSE);
+                stopDownload();
+                return;
+            }
+
+            HttpResponse response = httpGetRedirect(downUrl);
+            if (response == null || TextUtils.isEmpty(location)) {
+                downloader.setStatus(DownloadStatus.STATUS_ERROR);
+                isError = true;
+                return;
+            }
+
+            File file = new File(destPath);
+            // 设置线程下载的开始位置，应该为初始下载位置startPos + 已下载长度downLength
+            HttpEntity entry = response.getEntity();
+            long contentLength = entry.getContentLength();
+            if (request.getTotalSize() == 0) {
+                request.setTotalSize(contentLength);
+            }
+            inStream = entry.getContent();
+            byte[] buffer = new byte[8192];
+            threadFile = new RandomAccessFile(file, "rwd");
+            threadFile.seek(startPos);
+            int length;
+            while ((length = inStream.read(buffer)) != -1) {
+
+
+                DownloadStatus status = downloader.getStatus();
+                if (DownloadStatus.STATUS_PAUSE == status
+                        || DownloadStatus.STATUS_ERROR == status
+                        || DownloadStatus.STATUS_COMPLETE == status
+                        || DownloadStatus.STATUS_DELETE == status
+                        || state == Status.FINISH) {
                     stopDownload();
-                    return;
+                    break;
                 }
+                threadFile.write(buffer, 0, length);
+                downLength += length;
+                downloader.append(length);
+            }
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            downloader.setStatus(DownloadStatus.STATUS_ERROR);
+            isError = true;
+        } catch (FileNotFoundException e) {
+            downloader.setStatus(DownloadStatus.STATUS_ERROR);
+            isError = true;
+        } catch (IOException e) {
+            if (!NetWorkUtil.hasNetwork(Downloader.getInstance().getContext())) {
+                DToastUtil.showMessage(R.string.download_no_network);
+                downloader.setStatus(DownloadStatus.STATUS_PAUSE);
+                downloader.setReDownload();
+                stopDownload();
+                return;
+            }
 
-                HttpResponse response = httpGetRedirect(downUrl);
-                if (response == null || TextUtils.isEmpty(location)) {
+            if (e instanceof SocketException || e instanceof UnknownHostException
+                    || e instanceof SocketTimeoutException
+                    || e instanceof SSLPeerUnverifiedException
+                    || e instanceof org.apache.http.conn.ConnectTimeoutException) {
+                downloader.setStatus(DownloadStatus.STATUS_PAUSE);
+                isError = false;
+                downloader.setReDownload();
+            } else {
+                if (DownloadUtils.isMemoryLow()) {
+                    showToast();
+                    downloader.setStatus(DownloadStatus.STATUS_PAUSE);
+                } else {
                     downloader.setStatus(DownloadStatus.STATUS_ERROR);
                     isError = true;
-                    return;
                 }
+            }
 
-                File file = new File(destPath);
-                // 设置线程下载的开始位置，应该为初始下载位置startPos + 已下载长度downLength
-                HttpEntity entry = response.getEntity();
-                long contentLength = entry.getContentLength();
-                if (request.getTotalSize() == 0) {
-                    request.setTotalSize(contentLength);
+        } catch (Exception e) {
+            if (DownloadUtils.isMemoryLow()) {
+                showToast();
+            }
+            downloader.setStatus(DownloadStatus.STATUS_ERROR);
+            isError = true;
+            DLogUtil.log("doDownload:  " + " Exception" + e.toString());
+        } finally {
+            try {
+                if (threadFile != null) {
+                    threadFile.close();
                 }
-                inStream = entry.getContent();
-                byte[] buffer = new byte[8192];
-                threadFile = new RandomAccessFile(file, "rwd");
-                threadFile.seek(startPos);
-                int length;
-                while ((length = inStream.read(buffer)) != -1) {
-
-
-                    DownloadStatus status = downloader.getStatus();
-                    if (DownloadStatus.STATUS_PAUSE == status
-                            || DownloadStatus.STATUS_ERROR == status
-                            || DownloadStatus.STATUS_COMPLETE == status
-                            || DownloadStatus.STATUS_DELETE == status
-                            || state == Status.FINISH) {
-                        stopDownload();
-                        break;
-                    }
-                    threadFile.write(buffer, 0, length);
-                    downLength += length;
-                    downloader.append(length);
+                if (inStream != null) {
+                    inStream.close();
                 }
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-                downloader.setStatus(DownloadStatus.STATUS_ERROR);
-                isError = true;
-            } catch (FileNotFoundException e) {
-                downloader.setStatus(DownloadStatus.STATUS_ERROR);
-                isError = true;
             } catch (IOException e) {
-                if (!NetWorkUtil.hasNetwork(Downloader.getInstance().getContext())) {
-                    DToastUtil.showMessage(R.string.download_no_network);
-                    downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                    downloader.setReDownload();
-                    stopDownload();
-                    return;
-                }
-
                 if (e instanceof SocketException || e instanceof UnknownHostException
                         || e instanceof SocketTimeoutException
                         || e instanceof SSLPeerUnverifiedException
                         || e instanceof org.apache.http.conn.ConnectTimeoutException) {
-                    downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                    isError = false;
-                    downloader.setReDownload();
+                    if (downloader.getStatus() != DownloadStatus.STATUS_DELETE) {
+                        downloader.setStatus(DownloadStatus.STATUS_PAUSE);
+                    }
                 } else {
                     if (DownloadUtils.isMemoryLow()) {
-                        if (!lowMemToastDisplayed) {
-                            showToast();
-                            lowMemToastDisplayed = true;
-                        }
-                        downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                    } else {
+                        showToast();
+                        downloader.setStatus(DownloadStatus.STATUS_ERROR);
+                    }
+                    e.printStackTrace();
+                }
+            }
+
+            if (downLength >= downloader.getDownloadRequest().getTotalSize()) {
+                finish = true;
+            } else {
+                if (DownloadUtils.isMemoryLow()) {
+                    showToast();
+                    downloader.setStatus(DownloadStatus.STATUS_PAUSE);
+                } else {
+                    if (DownloadStatus.STATUS_START == downloader.getStatus()) {
                         downloader.setStatus(DownloadStatus.STATUS_ERROR);
                         isError = true;
                     }
                 }
-
-            } catch (Exception e) {
-                if (DownloadUtils.isMemoryLow()) {
-                    if (!lowMemToastDisplayed) {
-                        showToast();
-                        lowMemToastDisplayed = true;
-                    }
-                }
-                downloader.setStatus(DownloadStatus.STATUS_ERROR);
-                isError = true;
-                DLogUtil.log("doDownload:  " + " Exception" + e.toString());
-            } finally {
-                try {
-                    if (threadFile != null) {
-                        threadFile.close();
-                    }
-                    if (inStream != null) {
-                        inStream.close();
-                    }
-                } catch (IOException e) {
-                    if (e instanceof SocketException || e instanceof UnknownHostException
-                            || e instanceof SocketTimeoutException
-                            || e instanceof SSLPeerUnverifiedException
-                            || e instanceof org.apache.http.conn.ConnectTimeoutException) {
-                        if (downloader.getStatus() != DownloadStatus.STATUS_DELETE) {
-                            downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                        }
-                    } else {
-                        if (DownloadUtils.isMemoryLow()) {
-                            if (!lowMemToastDisplayed) {
-                                showToast();
-                                lowMemToastDisplayed = true;
-                            }
-                            downloader.setStatus(DownloadStatus.STATUS_ERROR);
-                        }
-                        e.printStackTrace();
-                    }
-                }
-
-                if (downLength >= downloader.getDownloadRequest().getTotalSize()) {
-                    finish = true;
-                } else {
-                    if (DownloadUtils.isMemoryLow()) {
-                        if (!lowMemToastDisplayed) {
-                            showToast();
-                            lowMemToastDisplayed = true;
-                        }
-                        downloader.setStatus(DownloadStatus.STATUS_PAUSE);
-                    } else {
-                        if (DownloadStatus.STATUS_START == downloader.getStatus()) {
-                            downloader.setStatus(DownloadStatus.STATUS_ERROR);
-                            isError = true;
-                        }
-                    }
-                    DLogUtil.log("doDownload:  " + " finish but size is < total size");
-                }
-                state = Status.FINISH;
+                DLogUtil.log("doDownload:  " + " finish but size is < total size");
             }
-        } else {
-            DLogUtil.log("doDownload  downloader cancel");
+            state = Status.FINISH;
         }
     }
 
