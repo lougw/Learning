@@ -4,17 +4,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lougw.downloader.DownloadInfo;
+import com.lougw.downloader.DownloadObserver;
+import com.lougw.downloader.DownloadRequest;
 import com.lougw.downloader.Downloader;
 import com.lougw.learning.utils.adapter.BaseRecyclerAdapter;
 import com.lougw.learning.utils.adapter.BaseRecyclerViewHolder;
 
 import java.util.ArrayList;
 
-public class DownloadActivity extends AppCompatActivity implements BaseRecyclerAdapter.OnItemClickListener<DownloadInfo> {
+public class DownloadActivity extends AppCompatActivity implements BaseRecyclerAdapter.OnItemClickListener<DownloadInfo>, DownloadObserver {
     RecyclerView mRecyclerView;
     BaseRecyclerAdapter mBaseAdapter;
     ArrayList<DownloadInfo> urls = new ArrayList<>();
@@ -33,17 +36,13 @@ public class DownloadActivity extends AppCompatActivity implements BaseRecyclerA
 
                 return new DownloadHolder(mLayoutInflater.inflate(R.layout.item_download_view, parent, false), mContext);
             }
-
-            @Override
-            public int getItemViewType(int position) {
-                return super.getItemViewType(position);
-            }
         };
         mBaseAdapter.setNormalItem(false);
         mRecyclerView.setAdapter(mBaseAdapter);
         DownloadInfo info = new DownloadInfo.Builder().Url("https://download.virtualbox.org/virtualbox/5.2.14/virtualbox-5.2_5.2.14-123301~Ubuntu~bionic_amd64.deb").fileName("aaa").build();
         urls.add(info);
         mBaseAdapter.replaceAll(urls);
+        Downloader.getInstance().registerObserver(this);
     }
 
     @Override
@@ -53,10 +52,25 @@ public class DownloadActivity extends AppCompatActivity implements BaseRecyclerA
 
     @Override
     public void onViewClick(RecyclerView.ViewHolder viewHolder, View view, DownloadInfo o, int position) {
-        if(view.getId()==R.id.download){
+        if (view.getId() == R.id.download) {
             Downloader.getInstance().downLoad(o);
-        }else{
+        } else {
             Downloader.getInstance().pause(o);
+        }
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Downloader.getInstance().unRegisterObserver(this);
+    }
+
+    @Override
+    public void onDownloadStateChanged(DownloadRequest request) {
+        if (request != null) {
+            Log.d("DownloadActivity", "speed : " + request.getSpeed() + " progress : " + request.getProgress());
         }
 
 
