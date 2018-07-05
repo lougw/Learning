@@ -3,11 +3,9 @@ package com.lougw.downloader;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.lougw.downloader.db.DownloadColumns;
 import com.lougw.downloader.db.DownloadDataBaseIml;
-import com.lougw.downloader.utils.DLogUtil;
 import com.lougw.downloader.utils.DToastUtil;
 import com.lougw.downloader.utils.DownloadUtils;
 
@@ -20,7 +18,7 @@ public class Downloader implements IDownloader {
     private static DownloadThreadPool mDownloadThreadPool;
     private static DownloadDataBaseIml mDownloadIml;
     private static Context mContext;
-    private List<DownloadObserver> mObservers = new ArrayList<DownloadObserver>();
+    private ArrayList<DownloadObserver> mObservers = new ArrayList<>();
 
     private static class DownloaderHolder {
         private static final Downloader instance = new Downloader();
@@ -87,54 +85,6 @@ public class Downloader implements IDownloader {
         mDownloadIml.setDownloadListener(listener);
     }
 
-    public synchronized List<DownloadRequest> query(String selection,
-                                                    String[] selectionArgs, String orderBy) {
-        Cursor cursor = null;
-        try {
-            cursor = mDownloadIml.query(null, selection, selectionArgs,
-                    orderBy);
-            return getDownLoadRequests(cursor);
-        } catch (RuntimeException e) {
-            return new ArrayList<DownloadRequest>();
-        } finally {
-            try {
-                if (null != cursor) {
-                    cursor.close();
-                    cursor = null;
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    private List<DownloadRequest> getDownLoadRequests(Cursor cursor) {
-        List<DownloadRequest> resultList = new ArrayList<DownloadRequest>();
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                long id = cursor.getLong(cursor
-                        .getColumnIndex(DownloadColumns._ID));
-                DownloadRequest executingRequest = mDownloadThreadPool
-                        .getDownloadRequest(id);
-                if (executingRequest != null) {
-                    DLogUtil.v(TAG, "query executingRequest != null");
-                    resultList.add(executingRequest);
-                } else {
-                    DLogUtil.v(TAG, " query executingRequest == null");
-                    DownloadRequest request = new DownloadRequest(cursor);
-                    if (request.getDownloadStatus() == DownloadStatus.STATUS_START
-                            || request.getDownloadStatus() == DownloadStatus.STATUS_DOWNLOADING
-                            || request.getDownloadStatus() == DownloadStatus.STATUS_IDLE) {
-                        request.setDownloadStatus(DownloadStatus.STATUS_PAUSE);
-                    }
-                    resultList.add(request);
-                }
-            } while (cursor.moveToNext());
-        }
-        return resultList;
-    }
 
     /**
      * 提交一个任务到线程池的任务队列 如果线程池中有空闲线程它将会立即开始任务
@@ -156,7 +106,6 @@ public class Downloader implements IDownloader {
             } else {
                 mDownloadIml.update(request);
             }
-            DLogUtil.v(TAG, "enqueue()  " + request.toString());
         } else {
             if (DownloadUtils.isMemoryLow()) {
                 DToastUtil.showMessage(R.string.download_no_space);
@@ -244,7 +193,7 @@ public class Downloader implements IDownloader {
      * @Description:清除所有任务
      */
     public void clear() {
-        List<DownloadRequest> requests = query(null, null, null);
+        ArrayList<DownloadRequest> requests = query(null, null, null);
         delete(requests);
     }
 
@@ -307,7 +256,7 @@ public class Downloader implements IDownloader {
             return request;
         }
         String selection = DownloadColumns.GUID + "='" + guid + "'";
-        List<DownloadRequest> requests = query(selection, null, null);
+        ArrayList<DownloadRequest> requests = query(selection, null, null);
         if (requests != null && requests.size() != 0) {
             return requests.get(0);
         }
@@ -318,7 +267,7 @@ public class Downloader implements IDownloader {
     /**
      * @Description:查询下载完成的列表
      */
-    public List<DownloadRequest> queryDownLoaded() {
+    public ArrayList<DownloadRequest> queryDownLoaded() {
         String selection = DownloadColumns.DOWNLOAD_STATUS + "='"
                 + DownloadStatus.STATUS_COMPLETE + "'";
         return query(selection, null, null);
@@ -339,9 +288,55 @@ public class Downloader implements IDownloader {
     /**
      * @Description:查询正在下载的列表
      */
-    public synchronized List<DownloadRequest> queryAllDownLoads() {
+    public synchronized ArrayList<DownloadRequest> queryAllDownLoads() {
         return query(null, null, null);
     }
 
 
+    private ArrayList<DownloadRequest> getDownLoadRequests(Cursor cursor) {
+        ArrayList<DownloadRequest> resultList = new ArrayList<>();
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                long id = cursor.getLong(cursor
+                        .getColumnIndex(DownloadColumns._ID));
+                DownloadRequest executingRequest = mDownloadThreadPool
+                        .getDownloadRequest(id);
+                if (executingRequest != null) {
+                    resultList.add(executingRequest);
+                } else {
+                    DownloadRequest request = new DownloadRequest(cursor);
+                    if (request.getDownloadStatus() == DownloadStatus.STATUS_START
+                            || request.getDownloadStatus() == DownloadStatus.STATUS_DOWNLOADING
+                            || request.getDownloadStatus() == DownloadStatus.STATUS_IDLE) {
+                        request.setDownloadStatus(DownloadStatus.STATUS_PAUSE);
+                    }
+                    resultList.add(request);
+                }
+            } while (cursor.moveToNext());
+        }
+        return resultList;
+    }
+
+
+    public synchronized ArrayList<DownloadRequest> query(String selection,
+                                                         String[] selectionArgs, String orderBy) {
+        Cursor cursor = null;
+        try {
+            cursor = mDownloadIml.query(null, selection, selectionArgs,
+                    orderBy);
+            return getDownLoadRequests(cursor);
+        } catch (RuntimeException e) {
+            return new ArrayList<DownloadRequest>();
+        } finally {
+            try {
+                if (null != cursor) {
+                    cursor.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 }
