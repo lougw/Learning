@@ -179,7 +179,7 @@ public class DownloadMonitor implements Runnable {
         return true;
     }
 
-    public String getDownloadSrcUri() {
+    public String getSrcUri() {
         return mSrcUri;
     }
 

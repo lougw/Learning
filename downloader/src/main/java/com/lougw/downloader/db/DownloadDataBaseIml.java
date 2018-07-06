@@ -95,24 +95,24 @@ public class DownloadDataBaseIml implements DownloadDataBase {
 
     @Override
     public long insert(DownloadRequest request) {
-        long lresult = 0;
+        long insertResult = 0;
         ContentValues values = request.toContentValues();
         mDownloadListener.onEnqueue(request);
 
         synchronized (mObjLock) {
             newDB = getDb();
             try {
-                lresult = newDB.insert(DownloadDBHelper.TABLE_NAME, null, values);
+                insertResult = newDB.insert(DownloadDBHelper.TABLE_NAME, null, values);
             } catch (SQLiteDiskIOException e) {
                 reOpenDb();
                 newDB = getDb();
                 incrementTryCount();
                 if (checkTryCountValid())
-                    lresult = insert(request);
+                    insertResult = insert(request);
             }
         }
 
-        return lresult;
+        return insertResult;
 
     }
 
@@ -178,15 +178,15 @@ public class DownloadDataBaseIml implements DownloadDataBase {
 
     @Override
     public void delete(DownloadRequest request) {
-        int delresult = 0;
-        delresult = deleteEx(request);
-        if (delresult > 0)
+        int delResult = 0;
+        delResult = deleteEx(request);
+        if (delResult > 0)
             mDownloadListener.onDequeue(request);
         return;
     }
 
     public int deleteEx(DownloadRequest request) {
-        int delresult = 0;
+        int delResult = 0;
         String[] whereArgs = {
                 "" + request.getId()
         };
@@ -195,7 +195,7 @@ public class DownloadDataBaseIml implements DownloadDataBase {
         synchronized (mObjLock) {
             newDB = getDb();
             try {
-                delresult = newDB.delete(DownloadDBHelper.TABLE_NAME, where, whereArgs);
+                delResult = newDB.delete(DownloadDBHelper.TABLE_NAME, where, whereArgs);
             } catch (SQLiteDiskIOException e) {
                 reOpenDb();
                 newDB = getDb();
@@ -204,7 +204,7 @@ public class DownloadDataBaseIml implements DownloadDataBase {
                     deleteEx(request);
             }
         }
-        return delresult;
+        return delResult;
     }
 
     public Cursor query(String[] projection, String selection,
