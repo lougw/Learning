@@ -55,27 +55,15 @@ public class DownloadInfo {
         private long reservedField04;
         private boolean reservedField05;
 
-        public Builder() {
-        }
-
-        public Builder Url(String url) {
+        public Builder(String url, String fileName, String localDir) {
             this.downLoadUrl = url;
             this.guid = DownloadUtils.getGuid(url);
-            return this;
+            this.fileName = fileName;
+            this.localDir = localDir;
         }
 
         public Builder Guid(String guid) {
             this.guid = guid;
-            return this;
-        }
-
-        public Builder fileName(String fileName) {
-            this.fileName = fileName;
-            return this;
-        }
-
-        public Builder localDir(String localDir) {
-            this.localDir = localDir;
             return this;
         }
 
@@ -140,7 +128,6 @@ public class DownloadInfo {
         }
     }
 
-
     public String getGuid() {
         return guid;
     }
@@ -171,6 +158,30 @@ public class DownloadInfo {
 
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDownLoadUrl() {
+        return downLoadUrl;
+    }
+
+    public void setDownLoadUrl(String downLoadUrl) {
+        this.downLoadUrl = downLoadUrl;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getLocalDir() {
+        return localDir;
+    }
+
+    public void setLocalDir(String localDir) {
+        this.localDir = localDir;
     }
 
     public String getRemarks() {
@@ -229,27 +240,5 @@ public class DownloadInfo {
         this.reservedField05 = reservedField05;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
 
-    public String getLocalDir() {
-        return localDir;
-    }
-
-    public void setLocalDir(String localDir) {
-        this.localDir = localDir;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getDownLoadUrl() {
-        return downLoadUrl;
-    }
-
-    public void setDownLoadUrl(String downLoadUrl) {
-        this.downLoadUrl = downLoadUrl;
-    }
 }

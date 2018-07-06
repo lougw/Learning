@@ -85,7 +85,7 @@ public class DownloadRequest implements Serializable {
         boolean reservedField05 = cursor.getInt(cursor
                 .getColumnIndex(DownloadColumns.RESERVED_FIELD_05)) == 0 ? false
                 : true;
-        downLoadItem = new DownloadInfo.Builder().Guid(mGuid).srcType(mSrcType).createTime(createTime).updateTime(updateTime).Url(mSrcUri).fileName(fileName).localDir(localDir).remarks(remarks).
+        downLoadItem = new DownloadInfo.Builder(mSrcUri, fileName, localDir).Guid(mGuid).srcType(mSrcType).createTime(createTime).updateTime(updateTime).remarks(remarks).
                 recoveryNetworkAutoDownload(recoveryNetworkAutoDownload).reservedField01(reservedField01).reservedField02(reservedField02).reservedField03(reservedField03).reservedField04(reservedField04).reservedField05(reservedField05).build();
     }
 

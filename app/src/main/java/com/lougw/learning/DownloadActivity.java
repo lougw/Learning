@@ -12,6 +12,7 @@ import com.lougw.downloader.DownloadInfo;
 import com.lougw.downloader.DownloadObserver;
 import com.lougw.downloader.DownloadRequest;
 import com.lougw.downloader.Downloader;
+import com.lougw.downloader.utils.DownloadUtils;
 import com.lougw.learning.utils.adapter.BaseRecyclerAdapter;
 import com.lougw.learning.utils.adapter.BaseRecyclerViewHolder;
 
@@ -39,7 +40,7 @@ public class DownloadActivity extends AppCompatActivity implements BaseRecyclerA
         };
         mBaseAdapter.setNormalItem(false);
         mRecyclerView.setAdapter(mBaseAdapter);
-        DownloadInfo info = new DownloadInfo.Builder().Url("https://download.virtualbox.org/virtualbox/5.2.14/virtualbox-5.2_5.2.14-123301~Ubuntu~bionic_amd64.deb").fileName("aaa").build();
+        DownloadInfo info = new DownloadInfo.Builder("https://github.com/Bilibili/ijkplayer/archive/k0.8.8.zip", "k0.8.8.zip", DownloadUtils.getDownLoadFileHome()).build();
         urls.add(info);
         mBaseAdapter.replaceAll(urls);
         Downloader.getInstance().registerObserver(this);

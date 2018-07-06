@@ -230,7 +230,7 @@ public class Downloader implements IDownloader {
             }
         }
 
-        String desPath = DownloadUtils.getFileName(info);
+        String desPath = DownloadUtils.getFileName(info.getLocalDir(), info.getFileName());
         String downLoadUrl = info.getDownLoadUrl();
         if (DownloadUtils.isFileExists(desPath)) {
             request = new DownloadRequest(downLoadUrl, desPath,
