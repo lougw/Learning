@@ -90,14 +90,23 @@ public class Downloader implements IDownloader {
 
 
     /**
+     * @param info 下载的对象
+     * @Description:下载任务
+     */
+    @Override
+    public void download(DownloadInfo info) {
+        DownloadRequest request = getRequestDownloadInfo(info);
+        if (request != null) {
+            enqueue(request);
+        }
+    }
+
+    /**
      * 提交一个任务到线程池的任务队列 如果线程池中有空闲线程它将会立即开始任务
-     *
-     * @param request DownloadRequest对象
-     *                <p/>
-     *                <strong>注意： 该DownloadRequest对象 可能被修改. 例如当DownloadRequest开始时,
-     *                {@link DownloadRequest#mDownloadStatus} 将被修改 </strong>
+     * DownloadRequest对象 可能被修改. 例如当DownloadRequest开始时
      */
     @SuppressLint("UseSparseArrays")
+    @Override
     public void enqueue(DownloadRequest request) {
         if (DownloadStatus.STATUS_NORMAL == request.getDownloadStatus())
             request.setDownloadStatus(DownloadStatus.STATUS_IDLE);
@@ -118,33 +127,28 @@ public class Downloader implements IDownloader {
 
 
     /**
-     * @param info 下载的对象
-     * @Description:下载任务
-     */
-    public void downLoad(DownloadInfo info) {
-        DownloadRequest request = getRequestDownloadInfo(info);
-        enqueue(request);
-    }
-
-    /**
      * @Description:暂停
      */
+    @Override
     public void pause(DownloadInfo info) {
         DownloadRequest request = getRequestDownloadInfo(info);
-        DownloadStatus status = request.getDownloadStatus();
-        if (status.equals(DownloadStatus.STATUS_IDLE)
-                || status.equals(DownloadStatus.STATUS_START)
-                || status.equals(DownloadStatus.STATUS_DOWNLOADING)
-                || status.equals(DownloadStatus.STATUS_PAUSE)) {
-            request.setDownloadStatus(DownloadStatus.STATUS_PAUSE);
-            mDownloadIml.update(request);
+        if (request != null) {
+            DownloadStatus status = request.getDownloadStatus();
+            if (status.equals(DownloadStatus.STATUS_IDLE)
+                    || status.equals(DownloadStatus.STATUS_START)
+                    || status.equals(DownloadStatus.STATUS_DOWNLOADING)
+                    || status.equals(DownloadStatus.STATUS_PAUSE)) {
+                request.setDownloadStatus(DownloadStatus.STATUS_PAUSE);
+                mDownloadIml.update(request);
+            }
+            mDownloadThreadPool.onDequeue(request);
         }
-        mDownloadThreadPool.onDequeue(request);
     }
 
     /**
      * @Description:暂停
      */
+    @Override
     public void pause(DownloadRequest request) {
         DownloadStatus status = request.getDownloadStatus();
         if (status.equals(DownloadStatus.STATUS_IDLE)
@@ -160,23 +164,27 @@ public class Downloader implements IDownloader {
     /**
      * @Description:恢复
      */
+    @Override
     public void resume(DownloadRequest request) {
         DownloadStatus status = request.getDownloadStatus();
         if (status.equals(DownloadStatus.STATUS_PAUSE)
                 || status.equals(DownloadStatus.STATUS_ERROR)) {
-            downLoad(request.getDownLoadItem());
+            request.setDownloadStatus(DownloadStatus.STATUS_NORMAL);
+            enqueue(request);
         }
     }
 
-    public void deleteTask(DownloadRequest request) {
-        pause(request.getDownLoadItem());
+    @Override
+    public void delTask(DownloadRequest request) {
+        pause(request);
         request.setDownloadStatus(DownloadStatus.STATUS_DELETE);
         mDownloadThreadPool.onDequeue(request);
         mDownloadIml.delete(request);
     }
 
-    public void delete(DownloadRequest request) {
-        pause(request.getDownLoadItem());
+    @Override
+    public void delTaskAndFile(DownloadRequest request) {
+        pause(request);
         request.setDownloadStatus(DownloadStatus.STATUS_DELETE);
         mDownloadThreadPool.onDequeue(request);
         mDownloadIml.delete(request);
@@ -194,6 +202,7 @@ public class Downloader implements IDownloader {
     /**
      * @Description:清除所有任务
      */
+    @Override
     public void clear() {
         ArrayList<DownloadRequest> requests = query(null, null, null);
         delete(requests);
@@ -201,7 +210,7 @@ public class Downloader implements IDownloader {
 
     public void delete(List<DownloadRequest> list) {
         for (DownloadRequest request : list) {
-            delete(request);
+            delTaskAndFile(request);
         }
     }
 
@@ -277,18 +286,6 @@ public class Downloader implements IDownloader {
         String selection = DownloadColumns.DOWNLOAD_STATUS + "='"
                 + DownloadStatus.STATUS_COMPLETE + "'";
         return query(selection, null, null);
-    }
-
-    public void updateStatus(DownloadRequest request) {
-        if (null != request) {
-            mDownloadIml.update(request);
-        }
-    }
-
-    public void insertDownloadRequest(DownloadRequest request) {
-        if (null != request) {
-            mDownloadIml.insert(request);
-        }
     }
 
     /**
