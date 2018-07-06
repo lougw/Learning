@@ -3,6 +3,7 @@ package com.lougw.downloader;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.lougw.downloader.db.DownloadColumns;
 import com.lougw.downloader.db.DownloadDataBaseIml;
@@ -18,6 +19,7 @@ public class Downloader implements IDownloader {
     private static DownloadThreadPool mDownloadThreadPool;
     private static DownloadDataBaseIml mDownloadIml;
     private static Context mContext;
+    private DownloadBuilder mDownloadBuilder;
     private ArrayList<DownloadObserver> mObservers = new ArrayList<>();
 
     private static class DownloaderHolder {
@@ -33,6 +35,7 @@ public class Downloader implements IDownloader {
 
     public void init(Context context, DownloadBuilder builder) {
         this.mContext = context;
+        this.mDownloadBuilder = builder;
         mDownloadThreadPool = new DownloadThreadPool(context, builder.poolSize);
         mDownloadIml = new DownloadDataBaseIml(context);
         mDownloadThreadPool.setDownLoadDatabase(mDownloadIml);
@@ -229,8 +232,13 @@ public class Downloader implements IDownloader {
                 request.setDownloadStatus(DownloadStatus.STATUS_NORMAL);
             }
         }
-
-        String desPath = DownloadUtils.getFileName(info.getLocalDir(), info.getFileName());
+        String localDir;
+        if (TextUtils.isEmpty(info.getLocalDir())) {
+            localDir = mDownloadBuilder.localDir;
+        } else {
+            localDir = info.getLocalDir();
+        }
+        String desPath = DownloadUtils.getFileName(localDir, info.getFileName());
         String downLoadUrl = info.getDownLoadUrl();
         if (DownloadUtils.isFileExists(desPath)) {
             request = new DownloadRequest(downLoadUrl, desPath,

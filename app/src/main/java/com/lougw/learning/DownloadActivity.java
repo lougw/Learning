@@ -40,7 +40,7 @@ public class DownloadActivity extends AppCompatActivity implements BaseRecyclerA
         };
         mBaseAdapter.setNormalItem(false);
         mRecyclerView.setAdapter(mBaseAdapter);
-        DownloadInfo info = new DownloadInfo.Builder("https://github.com/Bilibili/ijkplayer/archive/k0.8.8.zip", "k0.8.8.zip", DownloadUtils.getDownLoadFileHome()).build();
+        DownloadInfo info = new DownloadInfo.Builder("https://github.com/Bilibili/ijkplayer/archive/k0.8.8.zip", "k0.8.8.zip").build();
         urls.add(info);
         mBaseAdapter.replaceAll(urls);
         Downloader.getInstance().registerObserver(this);

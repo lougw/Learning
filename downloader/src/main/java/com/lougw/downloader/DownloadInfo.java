@@ -55,15 +55,19 @@ public class DownloadInfo {
         private long reservedField04;
         private boolean reservedField05;
 
-        public Builder(String url, String fileName, String localDir) {
+        public Builder(String url, String fileName) {
             this.downLoadUrl = url;
             this.guid = DownloadUtils.getGuid(url);
             this.fileName = fileName;
-            this.localDir = localDir;
         }
 
         public Builder Guid(String guid) {
             this.guid = guid;
+            return this;
+        }
+
+        public Builder localDir(String localDir) {
+            this.localDir = localDir;
             return this;
         }
 

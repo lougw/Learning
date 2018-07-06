@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 
 import com.lougw.downloader.DownloadBuilder;
 import com.lougw.downloader.Downloader;
+import com.lougw.downloader.utils.DownloadUtils;
 import com.lougw.learning.utils.AndFixPathManager;
 import com.lougw.learning.utils.Installation;
 
@@ -20,7 +21,7 @@ public class MyApplication extends Application {
         super.onCreate();
         Installation.id(this);
         initAndFix();
-        Downloader.getInstance().init(this, new DownloadBuilder().poolSize(3));
+        Downloader.getInstance().init(this, new DownloadBuilder().poolSize(3).localDir(DownloadUtils.getDownLoadFileHome()));
     }
 
     @Override
