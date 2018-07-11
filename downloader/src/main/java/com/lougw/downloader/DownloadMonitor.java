@@ -41,7 +41,7 @@ public class DownloadMonitor implements Runnable {
                 sleep(REFRESH_TIME);
                 status = getStatus();
                 DLogUtil.i(TAG, status.toString() + "----request name---"
-                        + mDownloadRequest.getDownLoadItem().getGuid());
+                        + mDownloadRequest.getDownloadInfo().getGuid());
                 if (DownloadStatus.STATUS_PAUSE == status
                         || DownloadStatus.STATUS_ERROR == status
                         || DownloadStatus.STATUS_COMPLETE == status
@@ -163,7 +163,7 @@ public class DownloadMonitor implements Runnable {
         if (downloadSize > mDownloadRequest.getTotalSize()) {
             Downloader.getInstance().delTaskAndFile(mDownloadRequest);
             Downloader.getInstance().download(
-                    mDownloadRequest.getDownLoadItem());
+                    mDownloadRequest.getDownloadInfo());
         }
         return false;
     }
@@ -199,8 +199,8 @@ public class DownloadMonitor implements Runnable {
     }
 
     public void setReDownload() {
-        if (null != mDownloadRequest.getDownLoadItem()) {
-            mDownloadRequest.getDownLoadItem().setRecoveryNetworkAutoDownload(true);
+        if (null != mDownloadRequest.getDownloadInfo()) {
+            mDownloadRequest.getDownloadInfo().setRecoveryNetworkAutoDownload(true);
         }
     }
 

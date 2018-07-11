@@ -59,26 +59,17 @@ public final class DownloadColumns implements BaseColumns {
      * 断网wifi恢复后是否会自动下载
      */
     public static final String RECOVERY_NETWORK_AUTO_DOWNLOAD = "recovery_network_auto_download";
-
     /**
-     * 预留字段01
+     * 异常编码
      */
-    public static final String RESERVED_FIELD_01 = "reserved_field_01";
+    public static final String ERROR_CODE = "error_code";
     /**
-     * 预留字段02
+     * 总重试次数
      */
-    public static final String RESERVED_FIELD_02 = "reserved_field_02";
+    public static final String RETRY_TOTAL = "retry_total";
     /**
-     * 预留字段03
+     * 重试了多少次
      */
-    public static final String RESERVED_FIELD_03 = "reserved_field_03";
-    /**
-     * 预留字段04
-     */
-    public static final String RESERVED_FIELD_04 = "reserved_field_04";
-    /**
-     * 预留字段05
-     */
-    public static final String RESERVED_FIELD_05 = "reserved_field_05";
+    public static final String RETRY_COUNT = "retry_count";
 
 }

@@ -23,7 +23,7 @@ public class DownloadRequest implements Serializable {
     private long mDownloadSize = 0;
     private long mSpeed = 0;
     private DownloadStatus mDownloadStatus = DownloadStatus.STATUS_IDLE;
-    private DownloadInfo downLoadItem;
+    private DownloadInfo downloadInfo;
 
 
     /**
@@ -35,7 +35,7 @@ public class DownloadRequest implements Serializable {
     public DownloadRequest(String srcUri, String destUrl, DownloadInfo info) {
         mSrcUri = srcUri;
         mDestUri = destUrl;
-        downLoadItem = info;
+        downloadInfo = info;
         mGuid = info.getGuid();
     }
 
@@ -74,19 +74,14 @@ public class DownloadRequest implements Serializable {
         boolean recoveryNetworkAutoDownload = cursor.getInt(cursor
                 .getColumnIndex(DownloadColumns.RECOVERY_NETWORK_AUTO_DOWNLOAD)) == 0 ? false
                 : true;
-        String reservedField01 = cursor.getString(cursor
-                .getColumnIndex(DownloadColumns.RESERVED_FIELD_01));
-        String reservedField02 = cursor.getString(cursor
-                .getColumnIndex(DownloadColumns.RESERVED_FIELD_02));
-        String reservedField03 = cursor.getString(cursor
-                .getColumnIndex(DownloadColumns.RESERVED_FIELD_03));
-        long reservedField04 = cursor.getLong(cursor
-                .getColumnIndex(DownloadColumns.RESERVED_FIELD_04));
-        boolean reservedField05 = cursor.getInt(cursor
-                .getColumnIndex(DownloadColumns.RESERVED_FIELD_05)) == 0 ? false
-                : true;
-        downLoadItem = new DownloadInfo.Builder(mSrcUri, fileName).localDir(localDir).Guid(mGuid).srcType(mSrcType).createTime(createTime).updateTime(updateTime).remarks(remarks).
-                recoveryNetworkAutoDownload(recoveryNetworkAutoDownload).reservedField01(reservedField01).reservedField02(reservedField02).reservedField03(reservedField03).reservedField04(reservedField04).reservedField05(reservedField05).build();
+        int errorCode = cursor.getInt(cursor
+                .getColumnIndex(DownloadColumns.ERROR_CODE));
+        int retryTotal = cursor.getInt(cursor
+                .getColumnIndex(DownloadColumns.RETRY_TOTAL));
+        int retryCount = cursor.getInt(cursor
+                .getColumnIndex(DownloadColumns.RETRY_COUNT));
+        downloadInfo = new DownloadInfo.Builder(mSrcUri, fileName).localDir(localDir).Guid(mGuid).srcType(mSrcType).createTime(createTime).updateTime(updateTime).remarks(remarks).
+                recoveryNetworkAutoDownload(recoveryNetworkAutoDownload).errorCode(errorCode).retryCount(retryCount).retryTotal(retryTotal).build();
     }
 
     /**
@@ -106,16 +101,14 @@ public class DownloadRequest implements Serializable {
         value.put(DownloadColumns.DOWNLOAD_SIZE, mDownloadSize);
         value.put(DownloadColumns.DOWNLOAD_STATUS, mDownloadStatus.toString());
         value.put(DownloadColumns.UPDATE_TIME, System.currentTimeMillis());
-        value.put(DownloadColumns.CREATE_TIME, downLoadItem.getCreateTime());
-        value.put(DownloadColumns.REMARKS, downLoadItem.getRemarks());
-        value.put(DownloadColumns.FILE_NAME, downLoadItem.getFileName());
-        value.put(DownloadColumns.LOCAL_DIR, downLoadItem.getLocalDir());
-        value.put(DownloadColumns.RECOVERY_NETWORK_AUTO_DOWNLOAD, downLoadItem.isRecoveryNetworkAutoDownload());
-        value.put(DownloadColumns.RESERVED_FIELD_01, downLoadItem.getReservedField01());
-        value.put(DownloadColumns.RESERVED_FIELD_02, downLoadItem.getReservedField02());
-        value.put(DownloadColumns.RESERVED_FIELD_03, downLoadItem.getReservedField03());
-        value.put(DownloadColumns.RESERVED_FIELD_04, downLoadItem.getReservedField04());
-        value.put(DownloadColumns.RESERVED_FIELD_05, downLoadItem.isReservedField05());
+        value.put(DownloadColumns.CREATE_TIME, downloadInfo.getCreateTime());
+        value.put(DownloadColumns.REMARKS, downloadInfo.getRemarks());
+        value.put(DownloadColumns.FILE_NAME, downloadInfo.getFileName());
+        value.put(DownloadColumns.LOCAL_DIR, downloadInfo.getLocalDir());
+        value.put(DownloadColumns.RECOVERY_NETWORK_AUTO_DOWNLOAD, downloadInfo.isRecoveryNetworkAutoDownload());
+        value.put(DownloadColumns.ERROR_CODE, downloadInfo.getErrorCode());
+        value.put(DownloadColumns.RETRY_COUNT, downloadInfo.getRetryCount());
+        value.put(DownloadColumns.RETRY_TOTAL, downloadInfo.getRetryTotal());
         return value;
     }
 
@@ -186,8 +179,8 @@ public class DownloadRequest implements Serializable {
     }
 
 
-    synchronized public DownloadInfo getDownLoadItem() {
-        return downLoadItem;
+    synchronized public DownloadInfo getDownloadInfo() {
+        return downloadInfo;
     }
 
 

@@ -56,11 +56,9 @@ public class DownloadDBHelper extends SQLiteOpenHelper {
                 .append(DownloadColumns.UPDATE_TIME).append(" Long,")
                 .append(DownloadColumns.REMARKS).append(" TEXT,")
                 .append(DownloadColumns.RECOVERY_NETWORK_AUTO_DOWNLOAD).append(" BOOL,")
-                .append(DownloadColumns.RESERVED_FIELD_01).append(" TEXT,")
-                .append(DownloadColumns.RESERVED_FIELD_02).append(" TEXT,")
-                .append(DownloadColumns.RESERVED_FIELD_03).append(" TEXT,")
-                .append(DownloadColumns.RESERVED_FIELD_04).append(" Long,")
-                .append(DownloadColumns.RESERVED_FIELD_05).append(" BOOL")
+                .append(DownloadColumns.ERROR_CODE).append(" TEXT,")
+                .append(DownloadColumns.RETRY_TOTAL).append(" TEXT,")
+                .append(DownloadColumns.RETRY_COUNT).append(" TEXT")
                 .append(");");
 
         db.execSQL(sb.toString());

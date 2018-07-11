@@ -14,12 +14,11 @@ public class DownloadInfo {
     private String fileName;
     private String localDir;
     private String remarks;
+    private int errorCode;
+    private int retryTotal;
+    private int retryCount;
     private boolean recoveryNetworkAutoDownload;
-    private String reservedField01;
-    private String reservedField02;
-    private String reservedField03;
-    private long reservedField04;
-    private boolean reservedField05;
+
 
     public DownloadInfo(Builder builder) {
         this.guid = builder.guid;
@@ -30,12 +29,11 @@ public class DownloadInfo {
         this.fileName = builder.fileName;
         this.localDir = builder.localDir;
         this.remarks = builder.remarks;
+        this.errorCode = builder.errorCode;
+        this.retryTotal = builder.retryTotal;
+        this.retryCount = builder.retryCount;
         this.recoveryNetworkAutoDownload = builder.recoveryNetworkAutoDownload;
-        this.reservedField01 = builder.reservedField01;
-        this.reservedField02 = builder.reservedField02;
-        this.reservedField03 = builder.reservedField03;
-        this.reservedField04 = builder.reservedField04;
-        this.reservedField05 = builder.reservedField05;
+
 
     }
 
@@ -47,13 +45,12 @@ public class DownloadInfo {
         private String localDir;
         private String remarks;
         private long createTime;
+        private int errorCode;
+        private int retryTotal;
+        private int retryCount;
         private long updateTime;
         private boolean recoveryNetworkAutoDownload;
-        private String reservedField01;
-        private String reservedField02;
-        private String reservedField03;
-        private long reservedField04;
-        private boolean reservedField05;
+
 
         public Builder(String url, String fileName) {
             this.downLoadUrl = url;
@@ -100,30 +97,18 @@ public class DownloadInfo {
         }
 
 
-        public Builder reservedField01(String reservedField01) {
-            this.reservedField01 = reservedField01;
+        public Builder errorCode(int errorCode) {
+            this.errorCode = errorCode;
             return this;
         }
 
-
-        public Builder reservedField02(String reservedField02) {
-            this.reservedField02 = reservedField02;
+        public Builder retryTotal(int retryTotal) {
+            this.retryTotal = retryTotal;
             return this;
         }
 
-
-        public Builder reservedField03(String reservedField03) {
-            this.reservedField03 = reservedField03;
-            return this;
-        }
-
-        public Builder reservedField04(long reservedField04) {
-            this.reservedField04 = reservedField04;
-            return this;
-        }
-
-        public Builder reservedField05(boolean reservedField05) {
-            this.reservedField05 = reservedField05;
+        public Builder retryCount(int retryCount) {
+            this.retryCount = retryCount;
             return this;
         }
 
@@ -204,45 +189,27 @@ public class DownloadInfo {
         this.recoveryNetworkAutoDownload = recoveryNetworkAutoDownload;
     }
 
-    public String getReservedField01() {
-        return reservedField01;
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    public void setReservedField01(String reservedField01) {
-        this.reservedField01 = reservedField01;
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public String getReservedField02() {
-        return reservedField02;
+    public int getRetryTotal() {
+        return retryTotal;
     }
 
-    public void setReservedField02(String reservedField02) {
-        this.reservedField02 = reservedField02;
+    public void setRetryTotal(int retryTotal) {
+        this.retryTotal = retryTotal;
     }
 
-    public String getReservedField03() {
-        return reservedField03;
+    public int getRetryCount() {
+        return retryCount;
     }
 
-    public void setReservedField03(String reservedField03) {
-        this.reservedField03 = reservedField03;
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
     }
-
-    public long getReservedField04() {
-        return reservedField04;
-    }
-
-    public void setReservedField04(long reservedField04) {
-        this.reservedField04 = reservedField04;
-    }
-
-    public boolean isReservedField05() {
-        return reservedField05;
-    }
-
-    public void setReservedField05(boolean reservedField05) {
-        this.reservedField05 = reservedField05;
-    }
-
-
 }
