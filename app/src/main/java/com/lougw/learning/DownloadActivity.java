@@ -40,8 +40,16 @@ public class DownloadActivity extends AppCompatActivity implements BaseRecyclerA
         };
         mBaseAdapter.setNormalItem(false);
         mRecyclerView.setAdapter(mBaseAdapter);
-        DownloadInfo info = new DownloadInfo.Builder("https://github.com/Bilibili/ijkplayer/archive/k0.8.8.zip", "k0.8.8.zip").build();
+        DownloadInfo info = new DownloadInfo.Builder("http://dl.cm.ksmobile.com/static/res/38/95/libmodel.zip", "libmodel.zip").build();
+        DownloadInfo info2 = new DownloadInfo.Builder("http://daohang-test.s3.amazonaws.com/live/emoji/2017-08-16_21:11:15/cat.zip", "cat.zip").build();
+        DownloadInfo info3 = new DownloadInfo.Builder("http://s.live.ksmobile.net/live/emoji/2016-12-20_18:10:02/noodle1.zip", "noodle1.zip").build();
+        DownloadInfo info4 = new DownloadInfo.Builder("http://s.live.ksmobile.net/live/emoji/2016-11-23_11:00:16/1479436319013_flowerEncodeResource.zip", "1479436319013_flowerEncodeResource.zip").build();
+        DownloadInfo info5 = new DownloadInfo.Builder("http://s.live.ksmobile.net/live/emoji/2016-11-23_11:02:28/1479436469442_sportyCarEncodeResource.zip", "1479436469442_sportyCarEncodeResource.zip").build();
         urls.add(info);
+        urls.add(info2);
+        urls.add(info3);
+        urls.add(info4);
+        urls.add(info5);
         mBaseAdapter.replaceAll(urls);
         Downloader.getInstance().registerObserver(this);
     }
