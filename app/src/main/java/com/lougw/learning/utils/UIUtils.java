@@ -4,14 +4,24 @@ package com.lougw.learning.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.support.annotation.StringRes;
 
 
 public class UIUtils {
+    private static Context mContext;
 
     public static Context getContext() {
-        return null;
+        if (mContext != null) return mContext;
+        throw new NullPointerException("UIUtils should init first");
+    }
+
+    /**
+     * 初始化工具类
+     *
+     * @param context 上下文
+     */
+    public static void init(Context context) {
+        UIUtils.mContext = context.getApplicationContext();
     }
 
     /**
@@ -30,10 +40,6 @@ public class UIUtils {
         return (int) (px / scale + 0.5f);
     }
 
-    public static View inflate(int resId) {
-        return LayoutInflater.from(getContext()).inflate(resId, null);
-    }
-
     /**
      * 获取资源
      */
@@ -49,10 +55,10 @@ public class UIUtils {
     }
 
     /**
-     * 获取文字数组
+     * 获取文字
      */
-    public static String[] getStringArray(int resId) {
-        return getResources().getStringArray(resId);
+    public static String getString(@StringRes int resId, Object... formatArgs) {
+        return getResources().getString(resId, formatArgs);
     }
 
     /**
@@ -76,5 +82,17 @@ public class UIUtils {
         return getResources().getColor(resId);
     }
 
-
+    /**
+     * 跟距id獲得字符串
+     *
+     * @param resId
+     * @return
+     */
+    public static String getResourceEntryName(int resId) {
+        try {
+            return getResources().getResourceEntryName(resId);
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }

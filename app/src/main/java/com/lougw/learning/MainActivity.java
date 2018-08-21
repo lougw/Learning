@@ -26,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Log.d("Main1111111", "onCreate");
+        findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DownloadActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download})
@@ -55,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, GUIDActivity.class);
             startActivity(intent);
         }else if (v.getId() == R.id.download) {
-            Intent intent = new Intent(this, DownloadActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, DownloadActivity.class);
+//            startActivity(intent);
         }
 
     }
