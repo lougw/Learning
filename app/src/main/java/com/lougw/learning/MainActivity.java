@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lougw.learning.net.NetActivity;
+import com.lougw.learning.utils.CheckLogin;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnNet;
 
 
+    @CheckLogin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Log.d("Main1111111", "onCreate");
     }
-
     @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download})
     public void Click(View v) {
         if (v.getId() == R.id.net) {

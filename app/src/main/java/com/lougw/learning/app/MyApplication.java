@@ -19,7 +19,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Installation.id(this);
+//        Installation.id(this);
         initAndFix();
         Downloader.getInstance().init(this, new DownloadBuilder().poolSize(3).localDir(DownloadUtils.getDownLoadFileHome()));
     }
