@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 
 @Aspect
 public class AspectjTest {
@@ -76,7 +77,14 @@ public class AspectjTest {
         long lastTime = System.currentTimeMillis();
         Log.e("654321", "around-> 333 " + joinPoint.getTarget().toString() + "#" + joinPoint.getSignature().getName());
         try {
+            MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+            String className = methodSignature.getDeclaringType().getSimpleName();
+            String methodName = methodSignature.getName();
+            final StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
             joinPoint.proceed();
+            stopWatch.stop();
+            Log.d("7654321", buildLogMessage(className, methodName, stopWatch.getTotalTimeMillis()));
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -96,4 +104,17 @@ public class AspectjTest {
         Log.d("654321", "AfterReturning  : " + joinPoint.getSignature() + "-------" + joinPoint.getTarget() + "-------returnValue:" + result);
     }
 
+    private static String buildLogMessage(String className, String methodName, long methodDuration) {
+        StringBuilder message = new StringBuilder();
+        message.append("Gintonic --> ");
+        message.append(className);
+        message.append(" --> ");
+        message.append(methodName);
+        message.append(" --> ");
+        message.append("[");
+        message.append(methodDuration);
+        message.append("ms");
+        message.append("]");
+        return message.toString();
+    }
 }
