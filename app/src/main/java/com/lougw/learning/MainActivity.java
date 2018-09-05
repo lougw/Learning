@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Log.d("Main1111111", "onCreate");
+        getName();
+        isHigh();
     }
     @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download})
     public void Click(View v) {
@@ -97,5 +99,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("Main1111111", "onDestroy");
+    }
+
+    private String getName() {
+        return "lougw";
+    }
+
+    private boolean isHigh() {
+        return true;
     }
 }

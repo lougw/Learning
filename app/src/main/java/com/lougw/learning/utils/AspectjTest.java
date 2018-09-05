@@ -1,13 +1,12 @@
 package com.lougw.learning.utils;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -75,16 +74,26 @@ public class AspectjTest {
             return;
         }
         long lastTime = System.currentTimeMillis();
-        Log.e("6543210", "around-> 333 " + joinPoint.getTarget().toString() + "#" + joinPoint.getSignature().getName());
+        Log.e("654321", "around-> 333 " + joinPoint.getTarget().toString() + "#" + joinPoint.getSignature().getName());
         try {
             joinPoint.proceed();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-        Log.e("6543210", "around-> 444 " + joinPoint.getTarget().toString() + "#" + joinPoint.getSignature().getName() + " " + (System.currentTimeMillis() - lastTime));
+        Log.e("654321", "around-> 444 " + joinPoint.getTarget().toString() + "#" + joinPoint.getSignature().getName() + " " + (System.currentTimeMillis() - lastTime));
     }
 
+    @Pointcut("execution(* com.lougw.learning.MainActivity.getName(..))")
+    public void invokeReturning() {
+    }
 
+    @Pointcut("execution(* com.lougw.learning.MainActivity.isHigh(..))")
+    public void invokeBooleanReturning() {
+    }
 
+    @AfterReturning(value = "invokeReturning() ||  invokeBooleanReturning()", returning = "result")
+    public void callMethod(JoinPoint joinPoint, Object result) {
+        Log.d("654321", "AfterReturning  : " + joinPoint.getSignature() + "-------" + joinPoint.getTarget() + "-------returnValue:" + result);
+    }
 
 }
