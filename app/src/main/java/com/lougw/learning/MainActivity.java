@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         getName();
         isHigh();
     }
-    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl})
+    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
