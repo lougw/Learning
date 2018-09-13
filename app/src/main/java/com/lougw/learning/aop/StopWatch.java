@@ -1,4 +1,4 @@
-package com.lougw.learning.utils;
+package com.lougw.learning.aop;
 
 import java.util.concurrent.TimeUnit;
 
