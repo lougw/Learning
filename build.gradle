@@ -4,10 +4,12 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
-        maven {
-            //这里是发布在本地文件夹了
-            url uri('release')
-        }
+//        maven {
+//            //这里是发布在本地文件夹了
+//            url uri('release')
+//        }
+        maven { url 'https://dl.bintray.com/gaoweilou/maven' }
+
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven {
             url 'https://maven.google.com/'
