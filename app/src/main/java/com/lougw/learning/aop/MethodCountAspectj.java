@@ -17,7 +17,7 @@ public class MethodCountAspectj {
 
     }
 
-    @Pointcut("execution(* com.lougw.learning.aop.StopWatch.*(..))")
+    @Pointcut("execution(* com.lougw.learning.aop..*(..))")
     public void invokeWatch() {
 
     }
