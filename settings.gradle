@@ -1,1 +1,1 @@
-include ':app', ':net', ':jettyserver',':downloader', ':buildplugin'
+include ':app', ':net', ':jettyserver',':downloader', ':buildplugin',':iap5helper'
