@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         isHigh();
     }
 
-    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media, R.id.samsung})
+    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media, R.id.samsung ,R.id.layout_android})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
+        } else if (v.getId() == R.id.layout_android) {
+            Intent intent = new Intent(this, AndroidViewActivity.class);
+            startActivity(intent);
         }
 
     }

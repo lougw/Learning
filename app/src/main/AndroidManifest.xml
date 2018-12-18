@@ -55,7 +55,8 @@
             android:name=".media.OpenGLActivity"
             android:label="@string/title_activity_open_gl"
             android:theme="@style/AppTheme" />
-        <activity android:name=".media.MediaActivity"></activity>
+        <activity android:name=".media.MediaActivity" />
+        <activity android:name=".AndroidViewActivity"></activity>
     </application>
 
 </manifest>
