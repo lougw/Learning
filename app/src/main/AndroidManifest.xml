@@ -56,7 +56,8 @@
             android:label="@string/title_activity_open_gl"
             android:theme="@style/AppTheme" />
         <activity android:name=".media.MediaActivity" />
-        <activity android:name=".AndroidViewActivity"></activity>
+        <activity android:name=".AndroidViewActivity" />
+        <activity android:name=".WebViewActivity"></activity>
     </application>
 
 </manifest>
