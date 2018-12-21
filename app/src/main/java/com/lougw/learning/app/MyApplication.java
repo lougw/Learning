@@ -11,6 +11,7 @@ import com.lougw.downloader.utils.DownloadUtils;
 import com.lougw.learning.BuildConfig;
 import com.lougw.learning.utils.AndFixPathManager;
 import com.lougw.learning.utils.Installation;
+import com.lougw.learning.utils.UIUtils;
 
 /**
  * Created by lougw on 18-3-16.
@@ -21,6 +22,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        UIUtils.init(this);
 //        Installation.id(this);
         enabledStrictMode();
         initAndFix();

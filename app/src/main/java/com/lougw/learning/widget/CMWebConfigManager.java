@@ -3,6 +3,8 @@ package com.lougw.learning.widget;
 import android.text.TextUtils;
 import android.webkit.WebSettings;
 
+import com.lougw.learning.utils.UIUtils;
+
 import java.net.URI;
 import java.util.List;
 
@@ -173,6 +175,7 @@ public class CMWebConfigManager {
             settings.setAppCachePath(config.mAppCachePath);
             //缓存模式(默认为LOAD_DEFAULT)
             settings.setCacheMode(config.mCacheMode);
+            settings.setDomStorageEnabled(true);
         }
 
 
@@ -242,9 +245,9 @@ public class CMWebConfigManager {
         public boolean mJavaScriptCanOpenWindowsAutomatically = false;
 
         //是否开启缓存(默认值false)
-        public boolean mAppCacheEnabled = false;
+        public boolean mAppCacheEnabled = true;
         //本地缓存路径(该方法只会执行一次)
-        public String mAppCachePath = null;
+        public String mAppCachePath = UIUtils.getContext().getCacheDir().getAbsolutePath();
         //缓存模式(默认为LOAD_DEFAULT)
         public int mCacheMode = LOAD_DEFAULT;
         //----------------------------------------------------------------------

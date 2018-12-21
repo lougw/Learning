@@ -1,5 +1,6 @@
 package com.lougw.learning.widget;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,9 +9,12 @@ import android.net.http.SslCertificate;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.webkit.ClientCertRequest;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -151,6 +155,20 @@ public class CMWebView extends WebView {
 
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                Log.d("LgwTag","url : "+url);
+                return super.shouldInterceptRequest(view, url);
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                Log.d("LgwTag","request.getUrl : "+request.getUrl());
+                return super.shouldInterceptRequest(view, request);
             }
 
             @Override
@@ -441,5 +459,26 @@ public class CMWebView extends WebView {
          * @param newProgress
          */
         void onProgressChanged(WebView view, int newProgress);
+    }
+
+
+    @Override
+    public void destroy() {
+        getSettings().setJavaScriptEnabled(false);
+        this.clearFormData();
+        this.clearHistory();
+        this.destoryWebView();
+        super.destroy();
+    }
+
+    private void destoryWebView() {
+        this.stopLoading();
+        this.removeAllViews();
+        if (this.getParent() != null) {
+            //处理webview无法释放造成的内存泄漏，必须在destroy之前调用
+            ViewGroup parent = (ViewGroup) this.getParent();
+            parent.removeView(this);
+        }
+
     }
 }

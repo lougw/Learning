@@ -1,7 +1,9 @@
 package com.lougw.learning;
 
+import android.content.MutableContextWrapper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.lougw.learning.widget.CMWebView;
@@ -17,5 +19,14 @@ public class WebViewActivity extends AppCompatActivity {
         CMWebView webView = new CMWebView(getApplication());
         webContainer.addView(webView);
         webView.loadUrl("https://www.baidu.com");
+//        MutableContextWrapper contextWrapper = new MutableContextWrapper(BaseApplicationImpl.sApplication);
+//        mPool[0] = new WebView(contextWrapper);
+//
+//
+//        ct =(MutableContextWrapper)webview.getContext();
+//        ct.setBaseContext(getApplication());
+//
+//        //reuse WebView
+//        ((MutableContextWrapper)webview.getContext()).setBaseContext(activityContext);
     }
 }
