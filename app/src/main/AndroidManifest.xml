@@ -57,7 +57,11 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".media.MediaActivity" />
         <activity android:name=".AndroidViewActivity" />
-        <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".WebViewActivity" />
+        <activity
+            android:name=".media.DrawBitmapActivity"
+            android:label="@string/title_activity_draw_bitmap"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
