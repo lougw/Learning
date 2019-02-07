@@ -11,11 +11,6 @@ import com.lougw.learning.media.MediaActivity;
 import com.lougw.learning.media.OpenGLActivity;
 import com.lougw.learning.net.NetActivity;
 import com.lougw.learning.utils.CheckLogin;
-import com.samsung.android.sdk.iap.lib.helper.HelperDefine;
-import com.samsung.android.sdk.iap.lib.helper.IapHelper;
-import com.samsung.android.sdk.iap.lib.listener.OnPaymentListener;
-import com.samsung.android.sdk.iap.lib.vo.ErrorVo;
-import com.samsung.android.sdk.iap.lib.vo.PurchaseVo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,13 +19,6 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.net)
     Button btnNet;
-    /**
-     * 支付
-     */
-    private IapHelper mIapHelper = null;
-    private static HelperDefine.OperationMode IAP_MODE = HelperDefine.OperationMode.OPERATION_MODE_PRODUCTION;
-    public static final String ITEM_ID_SUBSCRIPTION = "ARS";
-    public static final String PASS_THROUGH_PARAM = "000003742525";
 
     @CheckLogin
     @Override
@@ -43,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         isHigh();
     }
 
-    @OnClick({R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media, R.id.samsung ,R.id.layout_android,R.id.webview})
+    @OnClick({R.id.animal,R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media, R.id.samsung ,R.id.layout_android,R.id.webview})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
@@ -78,20 +66,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (v.getId() == R.id.media) {
             Intent intent = new Intent(this, MediaActivity.class);
             startActivity(intent);
-        } else if (v.getId() == R.id.samsung) {
-            mIapHelper = IapHelper.getInstance(this.getApplicationContext());
-            mIapHelper.setOperationMode(IAP_MODE);
-            mIapHelper.startPayment(ITEM_ID_SUBSCRIPTION,
-                    PASS_THROUGH_PARAM,
-                    false,
-                    new OnPaymentListener() {
-                        @Override
-                        public void onPayment(ErrorVo _errorVO, PurchaseVo _purchaseVO) {
-                            Log.d("LgwTag", "" + _errorVO.getErrorString());
-                        }
-                    });
-
-        } else if (v.getId() == R.id.layout_android) {
+        }  else if (v.getId() == R.id.layout_android) {
             Intent intent = new Intent(this, AndroidViewActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.webview) {

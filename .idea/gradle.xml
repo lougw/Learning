@@ -11,7 +11,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildplugin" />
             <option value="$PROJECT_DIR$/downloader" />
-            <option value="$PROJECT_DIR$/iap5helper" />
             <option value="$PROJECT_DIR$/jettyserver" />
             <option value="$PROJECT_DIR$/net" />
           </set>

@@ -12,6 +12,12 @@
         android:paddingTop="20dp">
 
         <Button
+            android:id="@+id/animal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="animal" />
+
+        <Button
             android:id="@+id/net"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,12 +85,6 @@
             android:text="Media" />
 
         <Button
-            android:id="@+id/samsung"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="samsung" />
-
-        <Button
             android:id="@+id/layout_android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,11 +96,7 @@
             android:layout_height="wrap_content"
             android:text="webView" />
 
-        <Button
-            android:id="@+id/animal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="animal" />
+
     </LinearLayout>
 
 

@@ -75,7 +75,6 @@ dependencies {
         force = true;
     }
     compile project(':downloader')
-    compile project(':iap5helper')
 
 
 }
