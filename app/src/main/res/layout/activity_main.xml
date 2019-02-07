@@ -7,8 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
 
         <Button
             android:id="@+id/net"
@@ -27,26 +28,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="全屏测试" />
+
         <Button
             android:id="@+id/web_server"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="jettyServer" />
+
         <Button
             android:id="@+id/rxjava"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="rxjava" />
+
         <Button
             android:id="@+id/andfix"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="AndFix" />
+
         <Button
             android:id="@+id/network"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="network" />
+
         <Button
             android:id="@+id/guid"
             android:layout_width="wrap_content"
@@ -77,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="samsung" />
+
         <Button
             android:id="@+id/layout_android"
             android:layout_width="wrap_content"
@@ -88,6 +95,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="webView" />
+
+        <Button
+            android:id="@+id/animal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="animal" />
     </LinearLayout>
 
 

@@ -61,6 +61,10 @@
         <activity
             android:name=".media.DrawBitmapActivity"
             android:label="@string/title_activity_draw_bitmap"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AnimalActivity"
+            android:label="@string/title_activity_animal"
             android:theme="@style/AppTheme"></activity>
     </application>
 

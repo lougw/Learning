@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (v.getId() == R.id.webview) {
             Intent intent = new Intent(this, WebViewActivity.class);
             startActivity(intent);
+        }else if (v.getId() == R.id.animal) {
+            Intent intent = new Intent(this, AnimalActivity.class);
+            startActivity(intent);
         }
 
     }
