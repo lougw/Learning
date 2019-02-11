@@ -1,31 +1,46 @@
 package com.lougw.learning;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.lougw.learning.R;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AnimalActivity extends AppCompatActivity {
+    @BindView(R.id.indicator)
+    View indicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+    }
+
+    @OnClick({R.id.btn_animal, R.id.btn_animal_clear})
+    public void Click(View v) {
+        if (v.getId() == R.id.btn_animal) {
+            indicator.setPivotX(100f);
+            AnimatorSet set = new AnimatorSet();
+            ObjectAnimator animator = ObjectAnimator.ofFloat(indicator, "scaleX", 1.0f, 2.0f, 1.0f);
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(indicator, "translationX", 200);
+            set.playTogether(animator, animator2);
+            set.setDuration(400);
+            set.start();
+        } else if (v.getId() == R.id.btn_animal_clear) {
+            indicator.setPivotX(0f);
+            AnimatorSet set = new AnimatorSet();
+            ObjectAnimator animator = ObjectAnimator.ofFloat(indicator, "scaleX", 1.0f, 2.0f, 1.0f);
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(indicator, "translationX", 0);
+            set.playTogether(animator, animator2);
+            set.setDuration(400);
+            set.start();
+        }
     }
 
 }

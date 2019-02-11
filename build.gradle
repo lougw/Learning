@@ -8,7 +8,7 @@ buildscript {
 //            //这里是发布在本地文件夹了
 //            url uri('release')
 //        }
-        maven { url 'https://dl.bintray.com/gaoweilou/maven' }
+//        maven { url 'https://dl.bintray.com/gaoweilou/maven' }
 
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven {
@@ -21,7 +21,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
         //引入buildplugin
-        classpath 'com.lougw.buildplugin:buildplugin:1.0'
+//        classpath 'com.lougw.buildplugin:buildplugin:1.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

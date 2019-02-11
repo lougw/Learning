@@ -6,4 +6,6 @@
     <string name="title_activity_open_gl">OpenGLActivity</string>
     <string name="title_activity_draw_bitmap">DrawBitmapActivity</string>
     <string name="title_activity_animal">AnimalActivity</string>
+    <string name="title_activity_recycle_view">RecycleViewActivity</string>
+    <string name="title_activity_screen_brightness">ScreenBrightnessActivity</string>
 </resources>

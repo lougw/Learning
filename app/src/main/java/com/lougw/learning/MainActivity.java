@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         isHigh();
     }
 
-    @OnClick({R.id.animal,R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media, R.id.samsung ,R.id.layout_android,R.id.webview})
+    @OnClick({R.id.brightness,R.id.recycle,R.id.animal,R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media,R.id.layout_android,R.id.webview})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
@@ -74,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }else if (v.getId() == R.id.animal) {
             Intent intent = new Intent(this, AnimalActivity.class);
+            startActivity(intent);
+        }else if (v.getId() == R.id.recycle) {
+            Intent intent = new Intent(this, RecycleViewActivity.class);
+            startActivity(intent);
+        }else if (v.getId() == R.id.brightness) {
+            Intent intent = new Intent(this, ScreenBrightnessActivity.class);
             startActivity(intent);
         }
 
