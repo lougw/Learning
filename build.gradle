@@ -18,6 +18,8 @@ buildscript {
 
     }
     dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+
         classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
         //引入buildplugin

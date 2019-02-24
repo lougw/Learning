@@ -52,43 +52,43 @@ public class RecycleViewActivity extends AppCompatActivity {
             }
         });
 
-//        recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int state) {
-//                super.onScrollStateChanged(recyclerView, state);
-//                switch (state) {
-//                    case RecyclerView.SCROLL_STATE_IDLE:
-//                        //滑动停止
-////                        recycler_view.offsetChildrenVertical(-20);
-//                        break;
-//                    case RecyclerView.SCROLL_STATE_DRAGGING:
-//                    case RecyclerView.SCROLL_STATE_SETTLING:
-//                        //正在滚动
-//
-//                        break;
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                float TranslationY = head.getTranslationY();
-//                float ScrollY = TranslationY - dy;
-//                if (ScrollY >= 0) {
-//                    ScrollY = 0;
-//                }
-//                if (ScrollY <= -200) {
-//                    ScrollY = -200;
-//                }
-//                Log.d("LgwTag", "  ScrollY : " + ScrollY);
-//
-//                head.setTranslationY(ScrollY);
-//
-//            }
-//        });
+        recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int state) {
+                super.onScrollStateChanged(recyclerView, state);
+                switch (state) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        //滑动停止
+//                        recycler_view.offsetChildrenVertical(-20);
+                        break;
+                    case RecyclerView.SCROLL_STATE_DRAGGING:
+                    case RecyclerView.SCROLL_STATE_SETTLING:
+                        //正在滚动
 
-        linearLayoutManager.scrollToPositionWithOffset(0, 0);
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                float TranslationY = head.getTranslationY();
+                float ScrollY = TranslationY - dy;
+                if (ScrollY >= 0) {
+                    ScrollY = 0;
+                }
+                if (ScrollY <= -200) {
+                    ScrollY = -200;
+                }
+                Log.d("LgwTag", "  ScrollY : " + ScrollY);
+
+                head.setTranslationY(ScrollY);
+
+            }
+        });
+
+        linearLayoutManager.scrollToPositionWithOffset(99, 0);
 
     }
 
