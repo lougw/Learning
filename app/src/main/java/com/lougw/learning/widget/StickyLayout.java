@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.lougw.learning.R;
+import com.lougw.learning.utils.UIUtils;
 
 public class StickyLayout extends FrameLayout implements NestedScrollingParent {
     private static final int MAX_WIDTH = 200;
@@ -58,10 +59,15 @@ public class StickyLayout extends FrameLayout implements NestedScrollingParent {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        LayoutParams params = (LayoutParams) mChildView.getLayoutParams();
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);   //获取宽的尺寸
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec); //获取高的尺寸
+        setMeasuredDimension(widthSize, heightSize);
+        LayoutParams params = (LayoutParams) recyclerView.getLayoutParams();
+        params.height=getMeasuredHeight();//+ UIUtils.dip2px(200);
+        recyclerView.setLayoutParams(params);
 //        params.width = getMeasuredWidth();
-        measureChildren(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight() + getChildAt(0).getMeasuredHeight() + getChildAt(1).getMeasuredHeight()+500);
+//        measureChildren(wid;thMeasureSpec, heightMeasureSpec);
+//        setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight() +500);
     }
 
     @Override
@@ -70,7 +76,7 @@ public class StickyLayout extends FrameLayout implements NestedScrollingParent {
         if (target instanceof android.support.v7.widget.RecyclerView) {
             return true;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -87,31 +93,31 @@ public class StickyLayout extends FrameLayout implements NestedScrollingParent {
     @Override
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
         Log.d("LgwTag","onNestedPreFling : velocityY "+velocityY);
-//        // 当RecyclerView在界面之内交给它自己惯性滑动
-//        if (getScrollX() == MAX_WIDTH) {
-//            return false;
-//        }
+        // 当RecyclerView在界面之内交给它自己惯性滑动
+        if (getScrollX() == MAX_WIDTH) {
+            return false;
+        }
         return false;
     }
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
-        Log.d("LgwTag","onNestedPreScroll : dy "+dy);
-//        Log.d("LgwTag", "dx : " + dx);
-        // 如果在自定义ViewGroup之上还有父View交给我来处理
-        getParent().requestDisallowInterceptTouchEvent(true);
-        boolean hiddenTop=dy>0 && getScrollY()<50;
-//        LogUtil.i("scrolly="+getScrollY()+"=="+topHeight);
-        boolean showTop=dy<0 && getScrollY()>=0 && !ViewCompat.canScrollVertically(target,-1);
-        Log.d("LgwTag","hiddenTop : "+hiddenTop+" showTop : "+showTop);
-
-        boolean showImg=showImg(dy);
-        boolean  hideImg=hideImg(dy);
-        Log.d("LgwTag","showImg : "+showImg+" hideImg : "+hideImg+" dy "+dy+" getScrollY() : "+getScrollY()+" recyclerView.getScrollY() : "+recyclerView.getScrollY());
-        if ( showImg|| hideImg) {//如果需要显示或隐藏图片，即需要自己(parent)滚动
-            scrollBy(0, dy);//滚动
-            consumed[1] = 0;//告诉child我消费了多少
-        }
+//        Log.d("LgwTag","onNestedPreScroll : dy "+dy);
+////        Log.d("LgwTag", "dx : " + dx);
+//        // 如果在自定义ViewGroup之上还有父View交给我来处理
+//        getParent().requestDisallowInterceptTouchEvent(true);
+//        boolean hiddenTop=dy>0 && getScrollY()<200;
+////        LogUtil.i("scrolly="+getScrollY()+"=="+topHeight);
+//        boolean showTop=dy<0 && getScrollY()>=0 && !ViewCompat.canScrollVertically(target,-1);
+//        Log.d("LgwTag","hiddenTop : "+hiddenTop+" showTop : "+showTop);
+//
+//        boolean showImg=showImg(dy);
+//        boolean  hideImg=hideImg(dy);
+//        Log.d("LgwTag","showImg : "+showImg+" hideImg : "+hideImg+" dy "+dy+" getScrollY() : "+getScrollY()+" recyclerView.getScrollY() : "+recyclerView.getScrollY());
+//        if ( showImg|| hideImg) {//如果需要显示或隐藏图片，即需要自己(parent)滚动
+//            scrollBy(0, dy);//滚动
+//            consumed[1] = 0;//告诉child我消费了多少
+//        }
 
     }
 
@@ -161,18 +167,18 @@ public class StickyLayout extends FrameLayout implements NestedScrollingParent {
         Log.d("LgwTag","onStopNestedScroll : ");
 //        startAnimation(new ProgressAnimation());
     }
-    @Override
-    public void scrollTo(int x, int y) {
-        if (y < 0) {
-            y = 0;
-        }
-        if (y > 50) {
-            y = 50;
-        }
-        Log.d("LgwTag","y : "+y);
-
-        super.scrollTo(x, y);
-    }
+//    @Override
+//    public void scrollTo(int x, int y) {
+//        if (y < 0) {
+//            y = 0;
+//        }
+//        if (y > 200) {
+//            y = 200;
+//        }
+//        Log.d("LgwTag","y : "+y);
+//
+//        super.scrollTo(x, y);
+//    }
 //---------------------
 //    作者：三杯两盏
 //    来源：CSDN
