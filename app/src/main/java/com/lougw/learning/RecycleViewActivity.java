@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.TextViewCompat;
@@ -33,8 +34,8 @@ public class RecycleViewActivity extends AppCompatActivity {
     RecyclerView recycler_view;
     @BindView(R.id.head)
     ImageView head;
-    @BindView(R.id.root)
-    ExtendHeadLayout root;
+    @BindView(R.id.appbar_layout_view)
+    AppBarLayout mAppBarLayout;
     ArrayList<Integer> datas = new ArrayList<>();
     RecyclerView.Adapter mAdapter;
 
@@ -111,17 +112,18 @@ public class RecycleViewActivity extends AppCompatActivity {
     @OnClick({R.id.up, R.id.down})
     public void Click(View v) {
         if (v.getId() == R.id.up) {
+            mAppBarLayout.setExpanded(true);
 //            recycler_view.fling(0,UIUtils.dip2px(30));
 //            root.scrollBy(0,UIUtils.dip2px(30));
-            datas.clear();
-            mAdapter.notifyDataSetChanged();
-//            root.setExtendHead(false);
-            for (int i=0;i<100;i++){
-                datas.add(i);
-            }
-            mAdapter.notifyDataSetChanged();
-            recycler_view.setPadding(0,0,0,UIUtils.dip2px(200));
-            recycler_view.scrollToPosition(99);
+//            datas.clear();
+//            mAdapter.notifyDataSetChanged();
+////            root.setExtendHead(false);
+//            for (int i=0;i<100;i++){
+//                datas.add(i);
+//            }
+//            mAdapter.notifyDataSetChanged();
+//            recycler_view.setPadding(0,0,0,UIUtils.dip2px(200));
+//            recycler_view.scrollToPosition(99);
 
 //            recycler_view.setClipToPadding(false);
 //            recycler_view.setClipChildren(false);
@@ -147,17 +149,17 @@ public class RecycleViewActivity extends AppCompatActivity {
 
 
         } else if (v.getId() == R.id.down) {
-
+            mAppBarLayout.setExpanded(false);
 //            root.scrollBy(0,UIUtils.dip2px(-30));
 //            recycler_view.fling(0,UIUtils.dip2px(-30));
-
-            datas.clear();
-            mAdapter.notifyDataSetChanged();
-//            root.setExtendHead(false);
-            for (int i=0;i<1;i++){
-                datas.add(i);
-            }
-            mAdapter.notifyDataSetChanged();
+//
+//            datas.clear();
+//            mAdapter.notifyDataSetChanged();
+////            root.setExtendHead(false);
+//            for (int i=0;i<1;i++){
+//                datas.add(i);
+//            }
+//            mAdapter.notifyDataSetChanged();
 ////            root.setExtendHead(true);
 //            recycler_view.offsetChildrenVertical(UIUtils.dip2px(-200));
 //            ViewGroup.LayoutParams params = recycler_view.getLayoutParams();

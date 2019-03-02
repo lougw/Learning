@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutDisabledMessage="@string/app_name"
+        android:shortcutId="static1"
+        android:shortcutLongLabel="@string/title_activity_net"
+        android:shortcutShortLabel="@string/title_activity_net">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.lougw.learning.RecycleViewActivity"
+            android:targetPackage="com.lougw.learning" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutDisabledMessage="@string/app_name"
+        android:shortcutId="static2"
+        android:shortcutLongLabel="@string/title_activity_net"
+        android:shortcutShortLabel="@string/title_activity_net">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.lougw.learning.RecycleViewActivity"
+            android:targetPackage="com.lougw.learning" />
+    </shortcut>
+</shortcuts>
