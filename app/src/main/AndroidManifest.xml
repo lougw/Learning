@@ -21,6 +21,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
@@ -76,7 +77,16 @@
         <activity
             android:name=".ScreenBrightnessActivity"
             android:label="@string/title_activity_screen_brightness"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ServiceActivity"
+            android:label="@string/title_activity_service"
+            android:theme="@style/AppTheme" />
+
+        <service
+            android:name=".TestService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

@@ -16,9 +16,9 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
         webContainer = (FrameLayout) findViewById(R.id.web_container);
-        CMWebView webView = new CMWebView(getApplication());
+        WebView webView = new WebView(getApplication());
         webContainer.addView(webView);
-        webView.loadUrl("https://www.baidu.com");
+        webView.loadUrl("http://chls.pro/ssl");
 //        MutableContextWrapper contextWrapper = new MutableContextWrapper(BaseApplicationImpl.sApplication);
 //        mPool[0] = new WebView(contextWrapper);
 //
