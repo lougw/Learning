@@ -6,4 +6,14 @@
     <color name="progressbar_bg_color">#33000000</color>
     <color name="progressbar_bg_color2">#eaeaea</color>
     <color name="progressbar_progress_color">#00BFA5</color>
+    <color name="common_selected_1">#4DAD4A</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_5">#0DFFFFFF</color>
+    <color name="white_10">#1AFFFFFF</color>
+    <color name="white_20">#33FFFFFF</color>
+    <color name="white_40">#66FFFFFF</color>
+    <color name="white_50">#80FFFFFF</color>
+    <color name="white_60">#99FFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
+
 </resources>

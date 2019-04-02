@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
+import com.alibaba.android.arouter.routes.ARouter$$Group$$test;
 import com.lougw.downloader.DownloadBuilder;
 import com.lougw.downloader.Downloader;
 import com.lougw.downloader.utils.DownloadUtils;

@@ -1,62 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lougw.learning.widget.StickyLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<android.support.v4.widget.SwipeRefreshLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></android.support.v4.widget.SwipeRefreshLayout>
 
-
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar_layout_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@android:color/holo_red_light"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <ImageView
-                android:id="@+id/head"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@android:color/holo_red_light"
-                app:layout_scrollFlags="scroll|enterAlways" />
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_light" />
 
 
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/holo_blue_light"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-    </android.support.design.widget.CoordinatorLayout>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="up" />
-
-
-        <Button
-            android:id="@+id/down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="down" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</com.lougw.learning.widget.StickyLayout>

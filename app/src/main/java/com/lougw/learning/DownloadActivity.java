@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lougw.downloader.DownloadInfo;
 import com.lougw.downloader.DownloadObserver;
 import com.lougw.downloader.DownloadRequest;
@@ -17,7 +18,7 @@ import com.lougw.learning.utils.adapter.BaseRecyclerAdapter;
 import com.lougw.learning.utils.adapter.BaseRecyclerViewHolder;
 
 import java.util.ArrayList;
-
+@Route(path = "/test/activity")
 public class DownloadActivity extends AppCompatActivity implements BaseRecyclerAdapter.OnItemClickListener<DownloadInfo>, DownloadObserver {
     RecyclerView mRecyclerView;
     BaseRecyclerAdapter mBaseAdapter;

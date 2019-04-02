@@ -32,9 +32,9 @@ import butterknife.OnClick;
 public class RecycleViewActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView recycler_view;
-    @BindView(R.id.head)
-    ImageView head;
-    @BindView(R.id.appbar_layout_view)
+//    @BindView(R.id.head)
+//    ImageView head;
+//    @BindView(R.id.appbar_layout_view)
     AppBarLayout mAppBarLayout;
     ArrayList<Integer> datas = new ArrayList<>();
     RecyclerView.Adapter mAdapter;
@@ -48,7 +48,7 @@ public class RecycleViewActivity extends AppCompatActivity {
             datas.add(i);
         }
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler_view.setLayoutManager(linearLayoutManager);
         mAdapter = new RecyclerView.Adapter() {
             @Override
@@ -105,77 +105,11 @@ public class RecycleViewActivity extends AppCompatActivity {
 //            }
 //        });
 
-        linearLayoutManager.scrollToPositionWithOffset(99, 0);
+//        linearLayoutManager.scrollToPositionWithOffset(99, 0);
 
     }
 
-    @OnClick({R.id.up, R.id.down})
-    public void Click(View v) {
-        if (v.getId() == R.id.up) {
-            mAppBarLayout.setExpanded(true);
-//            recycler_view.fling(0,UIUtils.dip2px(30));
-//            root.scrollBy(0,UIUtils.dip2px(30));
-//            datas.clear();
-//            mAdapter.notifyDataSetChanged();
-////            root.setExtendHead(false);
-//            for (int i=0;i<100;i++){
-//                datas.add(i);
-//            }
-//            mAdapter.notifyDataSetChanged();
-//            recycler_view.setPadding(0,0,0,UIUtils.dip2px(200));
-//            recycler_view.scrollToPosition(99);
 
-//            recycler_view.setClipToPadding(false);
-//            recycler_view.setClipChildren(false);
-//            mAdapter.notifyDataSetChanged();
-//            recycler_view.scrollTo(0,UIUtils.dip2px(-200));
-
-//            root.setExtendHead(true);
-//            recycler_view.offsetChildrenVertical(UIUtils.dip2px(200));
-//            recycler_view.offsetChildrenVertical(30);
-//            ((View)root.getParent()).scrollBy(0,30);
-//            ViewGroup.LayoutParams params = recycler_view.getLayoutParams();
-//            int height=recycler_view.getHeight();
-//            params.height = height + 30;
-//            recycler_view.setLayoutParams(params);
-//            recycler_view.requestLayout();
-//            Log.d("LgwTag","height : "+height);
-
-
-//            int newHeight = (int) (recycler_view.getMeasuredHeight());
-//            ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(recycler_view), "height", newHeight,
-//                    newHeight + 30);
-//            scaleYAnimator.start();
-
-
-        } else if (v.getId() == R.id.down) {
-            mAppBarLayout.setExpanded(false);
-//            root.scrollBy(0,UIUtils.dip2px(-30));
-//            recycler_view.fling(0,UIUtils.dip2px(-30));
-//
-//            datas.clear();
-//            mAdapter.notifyDataSetChanged();
-////            root.setExtendHead(false);
-//            for (int i=0;i<1;i++){
-//                datas.add(i);
-//            }
-//            mAdapter.notifyDataSetChanged();
-////            root.setExtendHead(true);
-//            recycler_view.offsetChildrenVertical(UIUtils.dip2px(-200));
-//            ViewGroup.LayoutParams params = recycler_view.getLayoutParams();
-//            int height=recycler_view.getHeight();
-//            params.height = height - 30;
-//            recycler_view.setLayoutParams(params);
-//            recycler_view.requestLayout();
-//            ((View)root.getParent()).scrollBy(0,-30);
-//            int newHeight = (int) (recycler_view.getMeasuredHeight());
-//            ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(recycler_view), "height", newHeight,
-//                    newHeight - 30);
-//            scaleYAnimator.start();
-//            Log.d("LgwTag","height : "+height);
-        }
-//        recycler_view.invalidate();
-    }
     public static class ScaleView {
         private View view;
         private int width;
@@ -207,7 +141,7 @@ public class RecycleViewActivity extends AppCompatActivity {
     }
     private float mScrolledX = 0;
 
-    public class CViewHolder extends RecyclerView.ViewHolder {
+    public static class CViewHolder extends RecyclerView.ViewHolder {
         AppCompatTextView textViewCompat;
 
         public CViewHolder(View itemView) {

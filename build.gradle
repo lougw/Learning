@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        google()
         mavenCentral()
 //        maven {
 //            //这里是发布在本地文件夹了
@@ -20,7 +21,8 @@ buildscript {
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
 
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:3.1.2'
+
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.8.1'
         //引入buildplugin
 //        classpath 'com.lougw.buildplugin:buildplugin:1.0'
@@ -33,6 +35,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
+
         mavenCentral()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven {

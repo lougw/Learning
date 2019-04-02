@@ -86,7 +86,13 @@
         <service
             android:name=".TestService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".StationActivity" />
+        <activity
+            android:name=".TabActivity"
+            android:label="@string/title_activity_tab"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
