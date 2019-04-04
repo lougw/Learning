@@ -54,6 +54,32 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        int count = getChildCount();
+        int top = 0;
+        int left = 0;
+        int lineHeight = 0;
+        int lineWidth = 0;
+        for (int i = 0; i < count; i++) {
+            View child = getChildAt(i);
+            MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+            int childHeight = child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin;
+            int childWidth = child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
+            if (lineWidth + childWidth > getMeasuredWidth()) {
+                top += childHeight;
+                left = 0;
+                lineWidth = childWidth;
+                lineHeight = childHeight;
+            } else {
+                lineHeight = Math.max(lineHeight, childHeight);
+                lineWidth += childWidth;
+            }
+            int lc = left + lp.leftMargin;
+            int tc = top + lp.topMargin;
+            int rc = lc + child.getMeasuredWidth();
+            int bc = tc + child.getMeasuredHeight();
+            child.layout(lc, tc, rc, bc);
+            left += childWidth;
+        }
 
     }
 
