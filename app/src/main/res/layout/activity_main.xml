@@ -10,91 +10,117 @@
         android:orientation="vertical"
         android:paddingBottom="20dp"
         android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/flowLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="flowLayout" />
+
         <Button
             android:id="@+id/tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="tab" />
+
         <Button
             android:id="@+id/service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="service" />
+
         <Button
             android:id="@+id/brightness"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="brightness" />
+
         <Button
             android:id="@+id/recycle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="recycle" />
 
         <Button
             android:id="@+id/animal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="animal" />
 
         <Button
             android:id="@+id/net"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="网络" />
 
         <Button
             android:id="@+id/shimmer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="闪光" />
 
         <Button
             android:id="@+id/full_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="全屏测试" />
 
         <Button
             android:id="@+id/web_server"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="jettyServer" />
 
         <Button
             android:id="@+id/rxjava"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="rxjava" />
 
         <Button
             android:id="@+id/andfix"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="AndFix" />
 
         <Button
             android:id="@+id/network"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="network" />
 
         <Button
             android:id="@+id/guid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="GUID" />
 
         <Button
             android:id="@+id/download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="Download" />
 
         <Button
             android:id="@+id/opengl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="OpenGL" />
 
 
@@ -102,18 +128,21 @@
             android:id="@+id/media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="Media" />
 
         <Button
             android:id="@+id/layout_android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="LayoutAndroid" />
 
         <Button
             android:id="@+id/webview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:text="webView" />
 
 

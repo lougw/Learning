@@ -1,13 +1,7 @@
 package com.lougw.learning;
 
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.pm.ShortcutInfo;
-import android.content.pm.ShortcutManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.pm.ShortcutInfoCompat;
-import android.support.v4.content.pm.ShortcutManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -37,15 +31,18 @@ public class MainActivity extends AppCompatActivity {
         isHigh();
     }
 
-    @OnClick({R.id.tab,R.id.service,R.id.brightness,R.id.recycle,R.id.animal,R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media,R.id.layout_android,R.id.webview})
+    @OnClick({R.id.flowLayout, R.id.tab, R.id.service, R.id.brightness, R.id.recycle, R.id.animal, R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media, R.id.layout_android, R.id.webview})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
             startActivity(intent);
+        } else if (v.getId() == R.id.flowLayout) {
+            Intent intent = new Intent(this, CustomViewActivity.class);
+            startActivity(intent);
         } else if (v.getId() == R.id.tab) {
             Intent intent = new Intent(this, TabActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.shimmer) {
+        } else if (v.getId() == R.id.shimmer) {
             Intent intent = new Intent(this, ShimmerActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.full_screen) {
@@ -75,22 +72,22 @@ public class MainActivity extends AppCompatActivity {
         } else if (v.getId() == R.id.media) {
             Intent intent = new Intent(this, MediaActivity.class);
             startActivity(intent);
-        }  else if (v.getId() == R.id.layout_android) {
+        } else if (v.getId() == R.id.layout_android) {
             Intent intent = new Intent(this, AndroidViewActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.webview) {
             Intent intent = new Intent(this, WebViewActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.animal) {
+        } else if (v.getId() == R.id.animal) {
             Intent intent = new Intent(this, AnimalActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.recycle) {
+        } else if (v.getId() == R.id.recycle) {
             Intent intent = new Intent(this, RecycleViewActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.brightness) {
+        } else if (v.getId() == R.id.brightness) {
             Intent intent = new Intent(this, ScreenBrightnessActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.service) {
+        } else if (v.getId() == R.id.service) {
             Intent intent = new Intent(this, ServiceActivity.class);
             startActivity(intent);
         }

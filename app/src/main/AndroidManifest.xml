@@ -92,6 +92,10 @@
         <activity
             android:name=".TabActivity"
             android:label="@string/title_activity_tab"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CustomViewActivity"
+            android:label="@string/title_activity_custom_view"
             android:theme="@style/AppTheme"></activity>
     </application>
 
