@@ -10,7 +10,12 @@
         android:orientation="vertical"
         android:paddingBottom="20dp"
         android:paddingTop="20dp">
-
+        <Button
+            android:id="@+id/wheel_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="wheel_view" />
         <Button
             android:id="@+id/flowLayout"
             android:layout_width="wrap_content"

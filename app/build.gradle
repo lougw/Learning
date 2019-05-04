@@ -55,35 +55,37 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:28.0.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:28.0.0'
-    debugCompile 'junit:junit:4.12'
-    debugCompile 'com.android.support.test:runner:0.5'
-    debugCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:28.0.0'
+    debugImplementation 'junit:junit:4.12'
+    debugImplementation 'com.android.support.test:runner:0.5'
+    debugImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.github.bumptech.glide:glide:4.4.0@aar'
+    implementation 'com.github.bumptech.glide:glide:4.4.0@aar'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:4.4.0@aar'
-    compile 'com.squareup.okhttp3:okhttp:3.4.2'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.2'
-    compile project(path: ':net')
-    compile project(':jettyserver')
-    compile 'com.android.support:multidex:1.0.0'
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
-    compile 'com.alipay.euler:andfix:0.5.0@aar'
-    compile 'com.android.support:support-v4:28.0.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.4.0@aar'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.2'
+    implementation project(path: ':net')
+    implementation project(':jettyserver')
+    implementation 'com.android.support:multidex:1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.alipay.euler:andfix:0.5.0@aar'
+    implementation 'com.android.support:support-v4:28.0.0'
 
     implementation 'com.alibaba:arouter-api:1.4.0'
 
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
-    compile('com.google.android.gms:play-services-gcm:10.0.1') {
+    implementation('com.google.android.gms:play-services-gcm:10.0.1') {
         force = true;
     }
-    compile project(':downloader')
+    implementation project(':downloader')
+    implementation project(':wheelview')
+
 
 }
