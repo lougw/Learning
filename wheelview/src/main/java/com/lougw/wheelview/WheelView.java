@@ -47,6 +47,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
     private OverScroller mScroller;
     private float mMaxOverScrollDistance;
     private float mLeftAndRightSpacing = 521;
+    private float mTopAndBottomSpacing = 160;
     private RectF mContentRectF;
     private boolean mFling = false;
     private float mCenterTextSize, mNormalTextSize;
@@ -85,8 +86,8 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
         mHighlightColor = 0xFFF74C39;
         mMarkTextColor = 0xFF666666;
         mMarkColor = 0xFFEEEEEE;
-        mCenterTextSize = density * 40;
-        mNormalTextSize = density * 18;
+        mCenterTextSize = 80;
+        mNormalTextSize = 48;
 
         TypedArray ta = attrs == null ? null : getContext().obtainStyledAttributes(attrs, R.styleable.WheelView);
         if (ta != null) {
@@ -173,7 +174,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
     }
 
     public void fling(int velocityX, int velocityY) {
-        mScroller.fling(getScrollX(), getScrollY(), velocityX, velocityY, (int) -mMaxOverScrollDistance, (int) (mContentRectF.width() - mMaxOverScrollDistance), 0, 0, (int) mMaxOverScrollDistance, 0);
+        mScroller.fling(getScrollX(), getScrollY(), velocityX, velocityY, (int) -mMaxOverScrollDistance, (int) (mContentRectF.width() - mMaxOverScrollDistance), 0, 0, 0, 0);
         ViewCompat.postInvalidateOnAnimation(this);
     }
 
@@ -195,13 +196,16 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-//        int centerY = getMeasuredHeight() / 2;
-//        int frameRight = mFrameLeft + mFrameWidth;
-//        canvas.drawRoundRect(mFrameLeft, mFrameTop, frameRight, mFrameTop + mFrameHeight, 30, 30, mBgPaint);
-//
-//        canvas.drawLine(mFrameLeft + 80, centerY, mFrameLeft + mLineWidth + 80, centerY, mLinePaint);
-//
-//        canvas.drawLine(frameRight - mLineWidth - 80, centerY, frameRight - 80, centerY, mLinePaint);
+        Log.d("LgwTag", "onDraw --> : "+getScrollX());
+
+        mFrameLeft =getScrollX()+316;
+        int centerY = getMeasuredHeight() / 2;
+        int frameRight = mFrameLeft + mFrameWidth;
+        canvas.drawRoundRect(mFrameLeft, mFrameTop, frameRight, mFrameTop + mFrameHeight, 30, 30, mBgPaint);
+
+        canvas.drawLine(mFrameLeft + 80, centerY, mFrameLeft + mLineWidth + 80, centerY, mLinePaint);
+
+        canvas.drawLine(frameRight - mLineWidth - 80, centerY, frameRight - 80, centerY, mLinePaint);
 
 
 
@@ -218,7 +222,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
             start -= mViewScopeSize;
         }
 
-        float x = start * mIntervalDis + mLeftAndRightSpacing;
+        float x = start * mIntervalDis + mLeftAndRightSpacing-34;
 
 //        Log.d("LgwTag", "start : " + start + " end : " + end + " mCenterIndex : " + mCenterIndex + " mMarkCount : " + mMarkCount);
 
@@ -231,7 +235,9 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
                     mMarkTextPaint.setColor(mHighlightColor);
                     mMarkTextPaint.setTextSize(mCenterTextSize);
                     float baseLine = getBaseLine(mMarkTextPaint, getHeight() / 2);
+                    x += 34;
                     canvas.drawText(temp, 0, temp.length(), x, baseLine, mMarkTextPaint);
+                    x += 34;
                 } else {
                     mMarkTextPaint.setColor(mMarkTextColor);
                     mMarkTextPaint.setTextSize(mNormalTextSize);
@@ -251,6 +257,18 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
         }
         if (!isInCenterArea(event.getX(), event.getY())) {
             Log.d("LgwTag", "onTouchEvent -->event.getY() : "+event.getY());
+            if (getScrollX() < -mMaxOverScrollDistance) {
+                Log.d("LgwTag", "onTouchEvent -->111");
+                mScroller.startScroll(getScrollX(), 0, (int) -mMaxOverScrollDistance - getScrollX(), 0);
+                invalidate();
+            } else if (getScrollX() > mContentRectF.width() - mMaxOverScrollDistance) {
+                Log.d("LgwTag", "onTouchEvent -->222");
+                mScroller.startScroll(getScrollX(), 0, (int) (mContentRectF.width() - mMaxOverScrollDistance) - getScrollX(), 0);
+                invalidate();
+            } else {
+                Log.d("LgwTag", "onTouchEvent -->333");
+                autoSettle();
+            }
             return false;
         }
         boolean ret = mGestureDetectorCompat.onTouchEvent(event);
@@ -275,7 +293,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
     }
 
     private boolean isInCenterArea(float x, float y) {
-        return x > mLeftAndRightSpacing && x < mWidth - mLeftAndRightSpacing && y > 160 && y < mHeight - 160;    //常量值跟 drawLine()相关.
+        return x > mLeftAndRightSpacing && x < mWidth - mLeftAndRightSpacing && y > mTopAndBottomSpacing && y < mHeight - mTopAndBottomSpacing;    //常量值跟 drawLine()相关.
     }
 
     @Override
