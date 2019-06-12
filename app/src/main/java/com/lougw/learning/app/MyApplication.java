@@ -25,7 +25,7 @@ public class MyApplication extends Application {
         super.onCreate();
         UIUtils.init(this);
 //        Installation.id(this);
-        enabledStrictMode();
+//        enabledStrictMode();
         initAndFix();
         Downloader.getInstance().init(this, new DownloadBuilder().poolSize(3).localDir(DownloadUtils.getDownLoadFileHome()));
     }

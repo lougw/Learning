@@ -12,4 +12,6 @@
     <string name="title_activity_tab">TabActivity</string>
     <string name="title_activity_custom_view">CustomViewActivity</string>
     <string name="title_activity_wheel_view">WheelViewActivity</string>
+    <string name="title_activity_button">ButtonActivity</string>
+    <string name="title_activity_text_switcher">TextSwitcherActivity</string>
 </resources>

@@ -25,9 +25,7 @@ public class WheelView extends View {
     private int mFrameLeft = 400;
 
     private int mLineWidth = 80;
-    private int mLineHeight = 4;
 
-    private int mMarkCount;
 
     private final OverScroller mScroller;
 
