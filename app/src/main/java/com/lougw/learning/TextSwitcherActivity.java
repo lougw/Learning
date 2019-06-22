@@ -31,9 +31,9 @@ public class TextSwitcherActivity extends AppCompatActivity {
          * provided by the framework.
          */
         Animation in = AnimationUtils.loadAnimation(this,
-                android.R.anim.fade_in);
+                R.anim.fade_in);
         Animation out = AnimationUtils.loadAnimation(this,
-                android.R.anim.fade_out);
+                R.anim.fade_out);
         mSwitcher.setInAnimation(in);
         mSwitcher.setOutAnimation(out);
 
@@ -67,6 +67,7 @@ public class TextSwitcherActivity extends AppCompatActivity {
             // Create a new TextView
             TextView t = new TextView(TextSwitcherActivity.this);
             t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+            t.setTextSize(60);
             t.setTextAppearance(TextSwitcherActivity.this, android.R.style.TextAppearance_Large);
             return t;
         }
