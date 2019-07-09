@@ -1,10 +1,13 @@
 package com.lougw.learning;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -17,6 +20,7 @@ import android.widget.ViewSwitcher;
 public class TextSwitcherActivity extends AppCompatActivity {
     private TextSwitcher mSwitcher;
     private int mCounter = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +61,26 @@ public class TextSwitcherActivity extends AppCompatActivity {
 
         // Set the initial text without an animation
         mSwitcher.setCurrentText(String.valueOf(mCounter));
+        MyHandler.postDelayed(sRunnable, 1000);
 
     }
+
+    private Handler MyHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+        }
+    };
+
+    private  final Runnable sRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Log.d("LgwTag","1111111");
+            MyHandler.postDelayed(sRunnable, 1000);
+        }
+        };
+
     private ViewSwitcher.ViewFactory mFactory = new ViewSwitcher.ViewFactory() {
 
         @Override
