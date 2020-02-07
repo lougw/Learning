@@ -52,14 +52,14 @@ public class StickyLayout extends LinearLayout implements NestedScrollingParent 
         LayoutParams params = (LayoutParams) mRecyclerView.getLayoutParams();
         params.leftMargin = MAX_WIDTH;
         params.rightMargin = MAX_WIDTH;
-        scrollBy(MAX_WIDTH, 0);
+//        scrollBy(MAX_WIDTH, 0);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         LayoutParams params = (LayoutParams) mRecyclerView.getLayoutParams();
-        params.width = getMeasuredWidth();
+        params.width = getMeasuredWidth()+MAX_WIDTH*2;
 
     }
 

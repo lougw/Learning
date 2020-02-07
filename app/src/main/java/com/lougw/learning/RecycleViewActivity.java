@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 
 import com.lougw.learning.utils.ExtendHeadLayout;
 import com.lougw.learning.utils.UIUtils;
+import com.lougw.learning.widget.RefreshLayout;
 
 import java.util.ArrayList;
 
@@ -38,17 +40,32 @@ public class RecycleViewActivity extends AppCompatActivity {
     AppBarLayout mAppBarLayout;
     ArrayList<Integer> datas = new ArrayList<>();
     RecyclerView.Adapter mAdapter;
+    @BindView(R.id.btn)
+    AppCompatButton btn;
+
+    @BindView(R.id.refresh_layout)
+    RefreshLayout mRefreshLayout;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycle_view);
         ButterKnife.bind(this);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+//                mRefreshLayout.onOpHeader(true);
+            }
+        });
         for (int i = 0; i < 100; i++) {
             datas.add(i);
         }
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler_view.setLayoutManager(linearLayoutManager);
         mAdapter = new RecyclerView.Adapter() {
             @Override
