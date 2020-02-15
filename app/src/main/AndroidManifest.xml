@@ -15,9 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CalculateActivity"
+            android:label="@string/title_activity_calculate"
+            android:theme="@style/AppTheme.NoActionBar">
+
+
+        </activity>
+        <activity
             android:name=".TextActivity"
             android:label="@string/title_activity_text"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TextSwitcherActivity"
             android:label="@string/title_activity_text_switcher"

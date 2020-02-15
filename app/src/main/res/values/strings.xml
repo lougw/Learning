@@ -15,4 +15,5 @@
     <string name="title_activity_button">ButtonActivity</string>
     <string name="title_activity_text_switcher">TextSwitcherActivity</string>
     <string name="title_activity_text">TextActivity</string>
+    <string name="title_activity_calculate">CalculateActivity</string>
 </resources>

@@ -15,7 +15,7 @@
             android:layout_height="200dp"
             android:background="@color/colorAccent" />
 
-        <android.support.v7.widget.RecyclerView
+        <com.lougw.learning.widget.BaseRecycleView
             android:id="@+id/recycler_view"
             android:splitMotionEvents="false"
             android:layout_width="match_parent"
