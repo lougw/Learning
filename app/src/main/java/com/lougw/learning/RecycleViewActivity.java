@@ -40,8 +40,7 @@ public class RecycleViewActivity extends AppCompatActivity {
     AppBarLayout mAppBarLayout;
     ArrayList<Integer> datas = new ArrayList<>();
     RecyclerView.Adapter mAdapter;
-    @BindView(R.id.btn)
-    AppCompatButton btn;
+
 
     @BindView(R.id.refresh_layout)
     RefreshLayout mRefreshLayout;
@@ -53,14 +52,7 @@ public class RecycleViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycle_view);
         ButterKnife.bind(this);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-
-//                mRefreshLayout.onOpHeader(true);
-            }
-        });
         for (int i = 0; i < 100; i++) {
             datas.add(i);
         }

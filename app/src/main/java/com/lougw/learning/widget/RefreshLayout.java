@@ -1,28 +1,19 @@
 package com.lougw.learning.widget;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v4.view.NestedScrollingParent2;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.lougw.learning.R;
 
 public class RefreshLayout extends ViewGroup implements NestedScrollingParent2 {
     private static final String TAG = "RefreshLayout";
-
-    ImageView imageView;
-    RecyclerView recyclerView;
-    int headerHeight = 0;
-    LinearLayoutManager linearLayoutManager;
+    private View mHeader;
+    private int mHeaderHeight = 0;
 
     public RefreshLayout(Context context) {
         super(context);
@@ -56,83 +47,37 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent2 {
 
     }
 
-    int[] position = new int[2];
-    Rect viewRect = new Rect();
-
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
-        //if (type == ViewCompat.TYPE_TOUCH) {//手指触发的滑动
         // dy>0向下scroll dy<0向上scroll
-        boolean hiddenTop = dy > 0 && getScrollY() < headerHeight && !target.canScrollVertically(-1);
+        boolean hiddenTop = dy > 0 && getScrollY() < mHeaderHeight && !target.canScrollVertically(-1);
         boolean showTop = dy < 0 && !target.canScrollVertically(-1);
         if (hiddenTop || showTop) {
             scrollBy(0, dy);
             consumed[1] = dy;
         }
-        if (type == ViewCompat.TYPE_TOUCH) {
-            imageView.getLocationInWindow(position);
-            if (position[1] > 0) {
-               // onOpHeader(false);
-            }
-            Log.d(TAG, "onMeasure: getScrollY() : " + getScrollY() + "  " + position[1] + " type : " + type + " " + viewRect + " " + showTop);
-
-        }
-
-        //}
     }
 
     @Override
     public void scrollTo(int x, int y) {
         if (y <= 0) {
             y = 0;
-        } else if (y > headerHeight) {
-            y = headerHeight;
+        } else if (y > mHeaderHeight) {
+            y = mHeaderHeight;
         }
         super.scrollTo(x, y);
-    }
-
-    public void onOpHeader(boolean show) {
-        Log.d(TAG, "onOpHeader: "+getScrollY() );
-        if (show && getScrollY() == 0) {
-            return;
-        }
-        scrollTo(0, show ? -headerHeight : headerHeight);
-        recyclerView.scrollBy(0, headerHeight);
-        //recyclerView.scrollBy(0, -headerHeight);
-//        if (linearLayoutManager.findFirstVisibleItemPosition() == 0) {
-//            recyclerView.scrollToPosition(0);
-//        }
-
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        imageView = findViewById(R.id.header);
-        recyclerView = findViewById(R.id.recycler_view);
-//        recyclerView.setOnTouchListener(new OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                if (getScrollY() == 0) {
-////            imageView.getLocationInWindow(position);
-//                    imageView.getGlobalVisibleRect(viewRect);
-//                    if(viewRect.top>0){
-//                        onOpHeader(false);
-//                    }
-//
-//                }
-//                return false;
-//            }
-//        });
-
+        mHeader = findViewById(R.id.header);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        headerHeight = imageView.getMeasuredHeight();
-        linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        mHeaderHeight = mHeader.getMeasuredHeight();
 
     }
 
@@ -158,7 +103,6 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent2 {
             Log.d(TAG, "onMeasure: childHeight : " + childHeight);
 
         }
-
         Log.d(TAG, "onMeasure: height : " + height + " measureHeight : " + measureHeight);
         setMeasuredDimension((measureWidthMode == MeasureSpec.EXACTLY) ? measureWidth : width,
                 (measureHeightMode == MeasureSpec.EXACTLY) ? measureHeight : height);
