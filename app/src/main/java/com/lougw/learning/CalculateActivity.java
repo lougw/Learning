@@ -24,12 +24,17 @@ import com.lougw.learning.utils.UIUtils;
 import com.lougw.learning.utils.adapter.BaseRecyclerAdapter;
 import com.lougw.learning.utils.adapter.BaseRecyclerViewHolder;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 
 public class CalculateActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private static final String TAG = "CalculateActivity";
+    private static final Pattern NUMBER_PATTERN_INT = Pattern.compile("^-?[1-9]\\d*$");
+    private static final Pattern NUMBER_PATTERN_FLOAT = Pattern.compile("^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$");
 
     private RadioGroup algorithm_rg;
     private RadioButton plus_rb;
@@ -155,12 +160,13 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
             } else if (divide_rb.isChecked()) {
                 bean.setAlgorithm(Algorithm.DIVIDE);
                 int first = new Random().nextInt(progress);
-                int second = new Random().nextInt(progress);
+                int second = new Random().nextInt(progress) + 1;
                 if (first < second) {
                     int temp = first;
                     first = second;
                     second = temp;
                 }
+                second = second == 0 ? second + 1 : second;
                 bean.setFirstNum(first);
                 bean.setSecondNum(second);
             }
@@ -200,15 +206,19 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
                     if (TextUtils.isEmpty(str)) {
                         CalculateBean bean = getData();
                         if (bean != null) {
-                            bean.setResult(-999);
+                            bean.setResult(0);
                         }
                     } else {
                         CalculateBean bean = getData();
                         if (bean != null) {
-                            if (str.contains(".")) {
-                                bean.setResult(Integer.parseInt(str));
+                            if (isNumber(str)) {
+                                if (str.contains(".")) {
+                                    bean.setResult(Float.parseFloat(str));
+                                } else {
+                                    bean.setResult(Integer.parseInt(str));
+                                }
                             } else {
-                                bean.setResult(Integer.parseInt(str));
+                                bean.setResult(0);
                             }
                             Log.d(TAG, "refreshView: " + bean.getResult());
                         }
@@ -235,7 +245,9 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
             }
             first_num.setText(String.valueOf(bean.getFirstNum()));
             second_num.setText(String.valueOf(bean.getSecondNum()));
-            result_tv.setText((bean.getResult() == -999 ? "" : bean.getResult()) + "");
+            NumberFormat nf = new DecimalFormat("#.#");
+
+            result_tv.setText(String.valueOf(bean.getState() == AnswerState.NOT_ANSWERED ? "" : nf.format(bean.getResult())));
             if (bean.getState() == AnswerState.ERROR_ANSWERED) {
                 result_state.setVisibility(View.VISIBLE);
             } else {
@@ -347,4 +359,10 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
         mBaseRecyclerAdapter.notifyItemRangeChanged(0, size);
     }
 
+    public static boolean isNumber(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return false;
+        }
+        return NUMBER_PATTERN_INT.matcher(str).find() || NUMBER_PATTERN_FLOAT.matcher(str).find();
+    }
 }

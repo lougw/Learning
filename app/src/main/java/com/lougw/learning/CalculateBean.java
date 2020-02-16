@@ -3,7 +3,7 @@ package com.lougw.learning;
 public class CalculateBean {
     private int firstNum;
     private int secondNum;
-    private int result = -999;
+    private float result;
     private Algorithm algorithm = Algorithm.PLUS;
     private AnswerState state = AnswerState.NOT_ANSWERED;
 
@@ -31,11 +31,11 @@ public class CalculateBean {
         this.state = state;
     }
 
-    public int getResult() {
+    public float getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(float result) {
         this.result = result;
     }
 
