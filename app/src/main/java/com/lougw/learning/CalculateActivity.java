@@ -148,7 +148,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
             } else if (divide_rb.isChecked()) {
                 doPackBeanDivide(bean, progress);
             } else if (mix_rb.isChecked()) {
-                int algorithmic = new Random().nextInt(progress);
+                int algorithmic = new Random().nextInt(4);
                 if (algorithmic == 0) {
                     doPackBeanPlus(bean, progress);
                 } else if (algorithmic == 1) {
