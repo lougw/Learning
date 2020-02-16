@@ -17,6 +17,7 @@
         <activity
             android:name=".CalculateActivity"
             android:label="@string/title_activity_calculate"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
 
 

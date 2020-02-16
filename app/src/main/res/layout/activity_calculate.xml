@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text=" + "
+                android:text="+"
                 android:textSize="20sp" />
 
             <RadioButton
@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=" — "
+                android:text="—"
                 android:textSize="20sp" />
 
             <RadioButton
@@ -40,7 +40,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=" * "
+                android:text="*"
                 android:textSize="20sp" />
 
             <RadioButton
@@ -48,7 +48,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=" / "
+                android:text="/"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/mix_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="+—*/"
                 android:textSize="20sp" />
         </RadioGroup>
 

@@ -35,12 +35,14 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
     private static final String TAG = "CalculateActivity";
     private static final Pattern NUMBER_PATTERN_INT = Pattern.compile("^-?[1-9]\\d*$");
     private static final Pattern NUMBER_PATTERN_FLOAT = Pattern.compile("^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$");
+    private static final NumberFormat DECIMAL_FORMAT = new DecimalFormat("#.#");
 
     private RadioGroup algorithm_rg;
     private RadioButton plus_rb;
     private RadioButton minus_rb;
     private RadioButton multiply_rb;
     private RadioButton divide_rb;
+    private RadioButton mix_rb;
     private Button exam;
     private Button confirm;
     private RecyclerView mRecyclerView;
@@ -63,6 +65,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
         minus_rb = findViewById(R.id.minus_rb);
         multiply_rb = findViewById(R.id.multiply_rb);
         divide_rb = findViewById(R.id.divide_rb);
+        mix_rb = findViewById(R.id.mix_rb);
         range = findViewById(R.id.range);
         num = findViewById(R.id.num);
         num_sb = findViewById(R.id.num_sb);
@@ -137,42 +140,69 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
         for (int i = 0; i < num; i++) {
             CalculateBean bean = new CalculateBean();
             if (plus_rb.isChecked()) {
-                bean.setAlgorithm(Algorithm.PLUS);
-                bean.setFirstNum(new Random().nextInt(progress));
-                bean.setSecondNum(new Random().nextInt(progress));
-
+                doPackBeanPlus(bean, progress);
             } else if (minus_rb.isChecked()) {
-                bean.setAlgorithm(Algorithm.MINUS);
-                int first = new Random().nextInt(progress);
-                int second = new Random().nextInt(progress);
-                if (first < second) {
-                    int temp = first;
-                    first = second;
-                    second = temp;
-                }
-                bean.setFirstNum(first);
-                bean.setSecondNum(second);
-
+                doPackBeanMinus(bean, progress);
             } else if (multiply_rb.isChecked()) {
-                bean.setAlgorithm(Algorithm.MULTIPLY);
-                bean.setFirstNum(new Random().nextInt(progress));
-                bean.setSecondNum(new Random().nextInt(progress));
+                doPackBeanMultiply(bean, progress);
             } else if (divide_rb.isChecked()) {
-                bean.setAlgorithm(Algorithm.DIVIDE);
-                int first = new Random().nextInt(progress);
-                int second = new Random().nextInt(progress) + 1;
-                if (first < second) {
-                    int temp = first;
-                    first = second;
-                    second = temp;
+                doPackBeanDivide(bean, progress);
+            } else if (mix_rb.isChecked()) {
+                int algorithmic = new Random().nextInt(progress);
+                if (algorithmic == 0) {
+                    doPackBeanPlus(bean, progress);
+                } else if (algorithmic == 1) {
+                    doPackBeanMinus(bean, progress);
+                } else if (algorithmic == 2) {
+                    doPackBeanMultiply(bean, progress);
+                } else if (algorithmic == 3) {
+                    doPackBeanDivide(bean, progress);
                 }
-                second = second == 0 ? second + 1 : second;
-                bean.setFirstNum(first);
-                bean.setSecondNum(second);
+
             }
             data.add(bean);
         }
         mBaseRecyclerAdapter.replaceAll(data);
+    }
+
+    private void doPackBeanPlus(CalculateBean bean, int progress) {
+        bean.setAlgorithm(Algorithm.PLUS);
+        bean.setFirstNum(new Random().nextInt(progress));
+        bean.setSecondNum(new Random().nextInt(progress));
+
+    }
+
+    private void doPackBeanMinus(CalculateBean bean, int progress) {
+        bean.setAlgorithm(Algorithm.MINUS);
+        int first = new Random().nextInt(progress);
+        int second = new Random().nextInt(progress);
+        if (first < second) {
+            int temp = first;
+            first = second;
+            second = temp;
+        }
+        bean.setFirstNum(first);
+        bean.setSecondNum(second);
+    }
+
+    private void doPackBeanMultiply(CalculateBean bean, int progress) {
+        bean.setAlgorithm(Algorithm.MULTIPLY);
+        bean.setFirstNum(new Random().nextInt(progress));
+        bean.setSecondNum(new Random().nextInt(progress));
+    }
+
+    private void doPackBeanDivide(CalculateBean bean, int progress) {
+        bean.setAlgorithm(Algorithm.DIVIDE);
+        int first = new Random().nextInt(progress);
+        int second = new Random().nextInt(progress) + 1;
+        if (first < second) {
+            int temp = first;
+            first = second;
+            second = temp;
+        }
+        second = second == 0 ? second + 1 : second;
+        bean.setFirstNum(first);
+        bean.setSecondNum(second);
     }
 
     static class CalculateViewHolder extends BaseRecyclerViewHolder<CalculateBean> {
@@ -206,7 +236,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
                     if (TextUtils.isEmpty(str)) {
                         CalculateBean bean = getData();
                         if (bean != null) {
-                            bean.setResult(0);
+                            bean.setResult(-999);
                         }
                     } else {
                         CalculateBean bean = getData();
@@ -245,9 +275,8 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
             }
             first_num.setText(String.valueOf(bean.getFirstNum()));
             second_num.setText(String.valueOf(bean.getSecondNum()));
-            NumberFormat nf = new DecimalFormat("#.#");
 
-            result_tv.setText(String.valueOf(bean.getState() == AnswerState.NOT_ANSWERED ? "" : nf.format(bean.getResult())));
+            result_tv.setText(String.valueOf(bean.getResult() == -999 ? "" : DECIMAL_FORMAT.format(bean.getResult())));
             if (bean.getState() == AnswerState.ERROR_ANSWERED) {
                 result_state.setVisibility(View.VISIBLE);
             } else {
@@ -306,7 +335,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
         int size = data.size();
         for (int i = 0; i < size; i++) {
             CalculateBean bean = data.get(i);
-            if (plus_rb.isChecked()) {
+            if (bean.getAlgorithm() == Algorithm.PLUS) {
                 if (bean.getFirstNum() + bean.getSecondNum() == bean.getResult()) {
                     bean.setState(AnswerState.SUCCESS_ANSWERED);
                 } else {
@@ -316,7 +345,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
                     }
                     hasError = true;
                 }
-            } else if (minus_rb.isChecked()) {
+            } else if (bean.getAlgorithm() == Algorithm.MINUS) {
                 if (bean.getFirstNum() - bean.getSecondNum() == bean.getResult()) {
                     bean.setState(AnswerState.SUCCESS_ANSWERED);
                 } else {
@@ -327,7 +356,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
                     hasError = true;
                 }
 
-            } else if (multiply_rb.isChecked()) {
+            } else if (bean.getAlgorithm() == Algorithm.MULTIPLY) {
                 if (bean.getFirstNum() * bean.getSecondNum() == bean.getResult()) {
                     bean.setState(AnswerState.SUCCESS_ANSWERED);
                 } else {
@@ -337,8 +366,9 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
                     }
                     hasError = true;
                 }
-            } else if (divide_rb.isChecked()) {
-                if (bean.getFirstNum() / bean.getSecondNum() == bean.getResult()) {
+            } else if (bean.getAlgorithm() == Algorithm.DIVIDE) {
+                Log.d(TAG, "confirm: " + Float.parseFloat(DECIMAL_FORMAT.format(bean.getFirstNum() * 1.0 / bean.getSecondNum())) + " " + bean.getResult());
+                if (Float.parseFloat(DECIMAL_FORMAT.format(bean.getFirstNum() * 1.0 / bean.getSecondNum())) == bean.getResult()) {
                     bean.setState(AnswerState.SUCCESS_ANSWERED);
                 } else {
                     bean.setState(AnswerState.ERROR_ANSWERED);
