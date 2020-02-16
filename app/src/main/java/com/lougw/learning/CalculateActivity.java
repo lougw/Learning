@@ -73,7 +73,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                range.setText("数字范围(" + setRangeSeekBar(seekBar) + ")");
+                range.setText("数字范围(" + setRangeSeekBar(seekBar, false) + ")");
 
             }
         });
@@ -89,7 +89,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                num.setText("出题个数(" + setRangeSeekBar(seekBar) + ")");
+                num.setText("出题个数(" + setRangeSeekBar(seekBar, true) + ")");
 
             }
         });
@@ -112,7 +112,7 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-
+        mBaseRecyclerAdapter.clear();
     }
 
     @Override
@@ -250,11 +250,17 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private int setRangeSeekBar(SeekBar seekBar) {
+    private int setRangeSeekBar(SeekBar seekBar, boolean num) {
         int progress = seekBar.getProgress();
         int tempProgress = progress;
         if (progress < 10) {
-            tempProgress = 10;
+            if (progress < 2) {
+                tempProgress = 1;
+            } else if (progress >= 2 && progress < 6) {
+                tempProgress = 5;
+            } else if (progress >= 6) {
+                tempProgress = 10;
+            }
         } else if (progress >= 10 && progress < 15) {
             tempProgress = 10;
         } else if (progress >= 15 && progress < 25) {
@@ -334,9 +340,9 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
         }
         if (hasError) {
             mRecyclerView.scrollToPosition(firstErrorPosition);
-            Toast.makeText(getApplicationContext(),"答题有错误，请修改后再提交",Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getApplicationContext(),"恭喜你答了100分",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "答题有错误，请修改后再提交", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "恭喜你答了100分", Toast.LENGTH_LONG).show();
         }
         mBaseRecyclerAdapter.notifyItemRangeChanged(0, size);
     }

@@ -16,9 +16,9 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="❎"
-        android:visibility="invisible"
         android:textColor="@color/red"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:visibility="invisible" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/first_num"
@@ -65,6 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        android:drawableBottom="@drawable/line"
         android:digits="-.1234567890"
         android:focusable="true"
         android:focusableInTouchMode="true"
