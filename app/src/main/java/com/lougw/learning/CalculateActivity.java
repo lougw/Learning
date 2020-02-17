@@ -195,14 +195,11 @@ public class CalculateActivity extends AppCompatActivity implements View.OnClick
         bean.setAlgorithm(Algorithm.DIVIDE);
         int first = new Random().nextInt(progress);
         int second = new Random().nextInt(progress) + 1;
-        if (first < second) {
-            int temp = first;
-            first = second;
-            second = temp;
-        }
-        second = second == 0 ? second + 1 : second;
-        bean.setFirstNum(first);
-        bean.setSecondNum(second);
+        first = (first == 0) ? 1 : first;
+        second = (second == 0) ? 1 : second;
+        int temp = first * second;
+        bean.setFirstNum(temp);
+        bean.setSecondNum(first);
     }
 
     static class CalculateViewHolder extends BaseRecyclerViewHolder<CalculateBean> {
