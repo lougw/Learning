@@ -5,13 +5,9 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
-import com.lougw.downloader.DownloadBuilder;
-import com.lougw.downloader.Downloader;
-import com.lougw.downloader.utils.DownloadUtils;
 import com.lougw.learning.BuildConfig;
 import com.lougw.learning.utils.AndFixPathManager;
 import com.lougw.learning.utils.UIUtils;
-import com.squareup.leakcanary.LLeakCanary;
 
 /**
  * Created by lougw on 18-3-16.
@@ -22,18 +18,11 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LLeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LLeakCanary.install(this);
-        LLeakCanary.enableDisplayLeakActivity(this);
         UIUtils.init(this);
 //        Installation.id(this);
 //        enabledStrictMode();
         initAndFix();
-        Downloader.getInstance().init(this, new DownloadBuilder().poolSize(3).localDir(DownloadUtils.getDownLoadFileHome()));
+       // Downloader.getInstance().init(this, new DownloadBuilder().poolSize(3).localDir(DownloadUtils.getDownLoadFileHome()));
     }
 
     /**
