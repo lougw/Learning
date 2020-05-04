@@ -6,11 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".TextActivity">
 
-    <com.lougw.learning.widget.SRTextView
-        android:background="@android:color/holo_blue_dark"
-        android:id="@+id/tv"
-        android:layout_gravity="center"
+    <ImageView
+        android:id="@+id/iv"
         android:layout_width="350dp"
-        android:layout_height="350dp" />
+        android:layout_height="350dp"
+        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/btn"
+        android:text="btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>

@@ -2,26 +2,27 @@ package com.lougw.learning;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import com.lougw.learning.utils.ImageTextUtils;
 
 public class TextActivity extends AppCompatActivity {
-//    TextView tv;
-
+    ImageView iv;
+    Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
-//        tv = findViewById(R.id.tv);
-//        SpannableStringBuilder mStringBuilder = new SpannableStringBuilder();
-//        mStringBuilder.append("ssssssssssssssssssssssssssssssssssssssssssssssssss" +
-//                "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
-//                "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
-//                "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
-//                "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-//        mStringBuilder.append("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//        tv.setText(mStringBuilder);
+        iv = findViewById(R.id.iv);
+        btn= findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iv.setImageBitmap(ImageTextUtils.drawTextToImage(getApplicationContext(),R.mipmap.img_fm,"18.3"));
+            }
+        });
 
     }
 

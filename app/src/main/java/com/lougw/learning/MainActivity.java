@@ -1,10 +1,15 @@
 package com.lougw.learning;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.lougw.learning.media.MediaActivity;
@@ -29,20 +34,32 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Main1111111", "onCreate");
         getName();
         isHigh();
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
+        // 设置window type
+        wmParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
+        wmParams.format = PixelFormat.RGBA_8888; // 设置图片格式，效果为背景透明
+        wmParams.gravity = Gravity.LEFT | Gravity.BOTTOM;
+        // 设置Window flag
+        wmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        wmParams.width = 50;
+        wmParams.height = 50;
+        View mContainer = LayoutInflater.from(this).inflate(R.layout.music_app_float_btn, null);
+        wm.addView(mContainer, wmParams);
     }
 
-    @OnClick({R.id.calculate_view,R.id.text_view,R.id.switcher_view,R.id.wheel_view,R.id.flowLayout, R.id.tab, R.id.service, R.id.brightness, R.id.recycle, R.id.animal, R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media, R.id.layout_android, R.id.webview})
+    @OnClick({R.id.calculate_view, R.id.text_view, R.id.switcher_view, R.id.wheel_view, R.id.flowLayout, R.id.tab, R.id.service, R.id.brightness, R.id.recycle, R.id.animal, R.id.net, R.id.shimmer, R.id.full_screen, R.id.web_server, R.id.rxjava, R.id.andfix, R.id.network, R.id.guid, R.id.download, R.id.opengl, R.id.media, R.id.layout_android, R.id.webview})
     public void Click(View v) {
         if (v.getId() == R.id.net) {
             Intent intent = new Intent(this, NetActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.calculate_view) {
+        } else if (v.getId() == R.id.calculate_view) {
             Intent intent = new Intent(this, CalculateActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.text_view) {
+        } else if (v.getId() == R.id.text_view) {
             Intent intent = new Intent(this, TextActivity.class);
             startActivity(intent);
-        }else if (v.getId() == R.id.switcher_view) {
+        } else if (v.getId() == R.id.switcher_view) {
             Intent intent = new Intent(this, TextSwitcherActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.wheel_view) {
